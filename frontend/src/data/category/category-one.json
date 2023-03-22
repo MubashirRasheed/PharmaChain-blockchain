@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "image": "/assets/img/product/hm9-cagi-1.jpg",
+    "subtitle": "4 Products",
+    "title": "Injection",
+    "link": "/shop-list-full-width"
+  },
+  {
+    "id": "2",
+    "image": "/assets/img/product/hm9-cagi-2.jpg",
+    "subtitle": "8 Products",
+    "title": "Injection",
+    "link": "/shop-list-full-width"
+  },
+  {
+    "id": "3",
+    "image": "/assets/img/product/hm9-cagi-3.jpg",
+    "subtitle": "9 Products",
+    "title": "Injection",
+    "link": "/shop-list-full-width"
+  },
+  {
+    "id": "4",
+    "image": "/assets/img/product/hm9-cagi-2.jpg",
+    "subtitle": "4 Products",
+    "title": "Injection",
+    "link": "/shop-list-full-width"
+  }
+]
