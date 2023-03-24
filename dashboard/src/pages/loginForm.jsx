@@ -16,13 +16,13 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { Formik } from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Form, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import SelectInput from '@mui/material/Select/SelectInput';
 import Web3 from 'web3';
-// import { usePostLoginMutation, usePostSignUpMutation } from '../state/api';
+import { usePostLoginMutation, usePostSignUpMutation } from '../state/api';
 import { setLogin } from '../state/index';
 import Admin from '../abis/Admin.json';
 
@@ -103,8 +103,8 @@ const forms = () => {
   const themeMode = localStorage.getItem('themeMode');
   const placeholderColor = themeMode === 'Dark' ? '#fff' : undefined;
   const inputTextColor = themeMode === 'Dark' ? '#fff' : undefined;
-  // const [triggerLogin, setTriggerLogin] = usePostLoginMutation();
-  // const [triggerSignup] = usePostSignUpMutation();
+  const [triggerLogin, setTriggerLogin] = usePostLoginMutation();
+  const [triggerSignup] = usePostSignUpMutation();
   // const placeholderColor = themeMode === 'Dark' ? '#fff' : '#000';
 
   const [open, setOpen] = useState(false);
@@ -200,10 +200,11 @@ const forms = () => {
   };
 
   const Registerx = async (values, onSubmitProps) => {
-    const { fullname, location, ethAddress, email, password, role, chatId } = values;
-    const registerValues = {
-      fullname, location, ethAddress, email, password, role,
-    };
+    console.log('valuest at registerx function to check 500 bad', values);
+    // const { fullname, location, ethAddress, email, password, role, chatId } = values;
+    // const registerValues = {
+    //   fullname, location, ethAddress, email, password, role,
+    // };
     const response = await axios.post(
       'http://localhost:9002/auth/register',
       JSON.stringify(values),
@@ -252,7 +253,11 @@ const forms = () => {
     }
 
     const loggedInUser = await response.data;
-    console.log(loggedInUser.user.chatId);
+    console.log('User chat ID AT REGISTERX', loggedInUser.user.chatId);
+    const { fullname } = loggedInUser.user;
+    const { chatId } = loggedInUser.user;
+    triggerLogin({ fullname, chatId });
+    // triggerLogin(loggedInUser);
 
     onSubmitProps.resetForm();
     if (loggedInUser) {
@@ -289,36 +294,74 @@ const forms = () => {
   };
 
   // const handleChatLogin = async (values, onSubmitProps) => {
-  //   console.log('at login above', values.fullname, values.chatId);
-  //   const { fullname } = values;
-  //   const { chatId } = values;
+  //   const { fullname, chatId } = values;
+  //   console.log('at login above', fullname, chatId);
+  //   // const { fullname } = values;
+  //   // const { chatId } = values;
   //   console.log('at login', fullname, chatId);
   //   triggerLogin({ fullname, chatId });
   // };
 
-  // const handleChatRegister = async (values, onSubmitProps) => {
-  //   console.log(values.fullname, values.chatId);
-  //   const { fullname } = values;
-  //   const { chatId } = values;
+  const handleChatRegister = async (values, onSubmitProps) => {
+    console.log('at handle chat register', values);
+    console.log('at handle chat register', onSubmitProps);
+    console.log(values.fullname, values.chatId);
+    const { fullname } = values;
+    const { chatId } = values;
 
-  //   triggerSignup({ fullname, chatId });
-  // };
-
-  const handlefunc = () => {
-    // handleChatRegister();
-    Registerx();
-    Register();
+    triggerSignup({ fullname, chatId });
   };
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
-    if (isLogin) {
-      await Login(values, onSubmitProps);
-      // await handleChatLogin(values, onSubmitProps);
-    }
-    if (isRegister) {
-      // await handleChatRegister(values, onSubmitProps);
+  const handlefunc = async (values, onSubmitProps) => {
+    // handleChatRegister();
+    // Registerx();
+    // handleChatRegister();
+    // Register();
+    // console.log('both functons run at handle func');
+
+    try {
+      Registerx(values, onSubmitProps);
+      handleChatRegister(values, onSubmitProps);
       await Register(values, onSubmitProps);
-      await Registerx(values, onSubmitProps);
+      console.log('all functions run at handle func');
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  // const handlefuncLogin = async (values, onSubmitProps) => {
+  //   // handleChatRegister();
+  //   // Registerx();
+  //   // handleChatRegister();
+  //   // Register();
+  //   // console.log('both functons run at handle func');
+
+  //   try {
+  //     Login(values, onSubmitProps);
+  //     handleChatLogin(values, onSubmitProps);
+  //     console.log('all functions run at handle funcLogin');
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    console.log('values at handle form dubmit', values, values.chatId);
+    try {
+      if (isLogin) {
+        // await Login(values, onSubmitProps);
+        await Login(values, onSubmitProps);
+        console.log('login run at handle form submit');
+      } else if (isRegister) {
+      // await handleChatRegister(values, onSubmitProps);
+        await handlefunc(values, onSubmitProps);
+        // commented for chat below 2 lines and remove handle func
+        // await Register(values, onSubmitProps);
+        // await Registerx(values, onSubmitProps);
+        console.log('both functons run at handle form submit');
+      }
+    } catch (error) {
+      console.log(error);
+      alert(error);
     }
     // if (isLogin) await Login(values, onSubmitProps);
     // if (isRegister) await Register(values, onSubmitProps);
@@ -359,13 +402,13 @@ const forms = () => {
 
   return (
     <Formik
-      onSubmit={handleFormSubmit}
       initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
       validationSchema={isLogin ? loginSchema : registerSchema}
+      onSubmit={handleFormSubmit}
     >
       {
-           ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue, resetForm }) => (
-             <form onSubmit={handleSubmit}>
+           ({ values, errors, touched, handleChange, handleBlur, isSubmitting, setFieldValue, resetForm }) => (
+             <Form>
 
                <Box
                  display="grid"
@@ -581,7 +624,8 @@ const forms = () => {
                    variant="contained"
                    type="submit"
                    sx={{ m: '2rem 0', p: '1rem', width: '50%' }}
-                   onClick={isLogin ? () => {} : handlefunc}
+                  //  onClick={isLogin ? () => {} : handlefunc}
+                  //  onClick={handleFormSubmit}
                  >
                    {isLogin ? 'LOGIN' : 'REGISTER'}
                  </Button>
@@ -597,7 +641,7 @@ const forms = () => {
                  </Typography>
 
                </Box>
-             </form>
+             </Form>
            )
 }
 
@@ -607,3 +651,4 @@ const forms = () => {
 };
 
 export default forms;
+

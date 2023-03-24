@@ -113,7 +113,7 @@ import User from '../Models/UserModel.js';
 
 export const register = async (req, res) => {
   try {
-    const { fullname, location, ethAddress, email, password, picturePath, role } = req.body;
+    const { fullname, location, ethAddress, email, password,chatId, picturePath, role } = req.body;
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -124,6 +124,7 @@ export const register = async (req, res) => {
       ethAddress,
       email,
       password: passwordHash,
+      chatId,
       picturePath,
       role,
     });

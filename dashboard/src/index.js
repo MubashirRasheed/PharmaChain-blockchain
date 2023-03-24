@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-
+import './index.scss';
 
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
@@ -20,17 +20,17 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 const store = configureStore({ reducer: persistedReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: { ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER] } }) });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ContextProvider>
-        <PersistGate loading={null} persistor={persistStore(store)}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </PersistGate>
-      </ContextProvider>
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Provider store={store}>
+    <ContextProvider>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </ContextProvider>
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById('root'),
 );
 

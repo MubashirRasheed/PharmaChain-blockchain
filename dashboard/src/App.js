@@ -12,6 +12,7 @@ import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Ka
 import LoginPage from './pages/login';
 import SupplierDashbaord from './pages/supplier/SupplierDashbaord.jsx';
 import AdminDashboard from './pages/admin/AdminDashbaord';
+import Chat from './components/chat/Chat.jsx';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
@@ -159,6 +160,7 @@ const App = () => {
                       <Route path="/suppliereditor" element={<Editor />} />
                       <Route path="/suppliercalendar" element={<Calendar />} />
                       <Route path="/suppliercolor-picker" element={<ColorPicker />} />
+                      <Route path="/chat" element={<Chat />} />
 
                       {/* charts  */}
                       <Route path="/supplierline" element={<Line />} />
@@ -193,6 +195,7 @@ const App = () => {
                       <Route path="manufacturereditor" element={<Editor />} />
                       <Route path="manufacturercalendar" element={<Calendar />} />
                       <Route path="manufacturercolor-picker" element={<ColorPicker />} />
+                      <Route path="/chat" element={<Chat />} />
 
                       {/* charts  */}
                       <Route path="manufacturerline" element={<Line />} />
@@ -226,6 +229,7 @@ const App = () => {
                       <Route path="/admineditor" element={<Editor />} />
                       <Route path="/admincalendar" element={<Calendar />} />
                       <Route path="/admincolor-picker" element={<ColorPicker />} />
+                      <Route path="/chat" element={<Chat />} />
 
                       {/* charts  */}
                       <Route path="/adminline" element={<AdminLine />} />
@@ -264,6 +268,7 @@ const App = () => {
                       <Route path="distributoreditor" element={<Editor />} />
                       <Route path="distributorcalendar" element={<Calendar />} />
                       <Route path="distributorcolor-picker" element={<ColorPicker />} />
+                      <Route path="/chat" element={<Chat />} />
 
                       {/* charts  */}
                       <Route path="distributorline" element={<Line />} />
@@ -308,6 +313,7 @@ const App = () => {
                       <Route path="pharmacisteditor" element={<Editor />} />
                       <Route path="pharmacistcalendar" element={<Calendar />} />
                       <Route path="pharmacistcolor-picker" element={<ColorPicker />} />
+                      <Route path="/chat" element={<Chat />} />
 
                       {/* charts  */}
                       <Route path="pharmacistline" element={<Line />} />
@@ -318,7 +324,7 @@ const App = () => {
                       <Route path="pharmacistcolor-mapping" element={<ColorMapping />} />
                       <Route path="pharmacistpyramid" element={<Pyramid />} />
                       <Route path="pharmaciststacked" element={<Stacked />} />
-                      <Route path="*"  />
+                      <Route path="*" />
                     </>
 
                   )

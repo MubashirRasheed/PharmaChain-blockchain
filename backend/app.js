@@ -25,6 +25,8 @@ import KanbanRouter from './routes/KanbanRouter.js';
 import EmployeeRouter from './routes/EmployeeRouter.js';
 import CustomerRouter from './routes/CustomerRouter.js';
 import ContractsRouter from './routes/ContractsRouter.js';
+import chatRoutes from './routes/chatRoutes.js';
+
 // var app = express();
 
 // CONFIGURATIONS / MIDDLEWARE
@@ -59,6 +61,7 @@ app.use("/employee", EmployeeRouter);
 app.use("/customer", CustomerRouter);
 app.use("/contracts", ContractsRouter);
 app.use('/auth', authRoutes);
+app.use('/chat', chatRoutes) 
 
 
 app.get("/", (req, res, next) => {

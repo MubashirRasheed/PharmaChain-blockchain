@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    chatId:{
+      type: String,
+    },
     role: {
       type: String,
       enum: ['admin', 'rawMaterialSupplier', 'manufacturer', 'transporter', 'distributor', 'pharmacist'],
@@ -55,7 +58,8 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("Users", userSchema);
+// const User = mongoose.model("Users", userSchema);
+const User = mongoose.model("userfyps", userSchema);
 
 // module.exports = User;
 export default User;

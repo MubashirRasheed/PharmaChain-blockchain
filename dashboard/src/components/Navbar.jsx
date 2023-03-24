@@ -6,13 +6,12 @@ import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
-import avatar from '../data/avatar.jpg';
-import { Cart, Chat, Notification, UserProfile } from '.';
-import { useStateContext } from '../contexts/ContextProvider';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import avatar from '../data/avatar.jpg';
+import { Cart, Notification, UserProfile } from '.';
+import { useStateContext } from '../contexts/ContextProvider';
 import { setLogout } from '../state/index';
-
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent content={title} position="BottomCenter">
@@ -64,6 +63,9 @@ const Navbar = () => {
 
     // persistor.flush(); // flush the persisted token
   };
+  const handleChat = () => {
+    navigate('/chat');
+  };
 
   return (
     <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
@@ -73,9 +75,9 @@ const Navbar = () => {
         {/* <NavButton title="Cart" customFunc={() => handleClick('cart')} color={currentColor} icon={<FiShoppingCart />} /> */}
         <NavButton title="logout" customFunc={handleLogout} color={currentColor} icon={<FiLogOut />} />
 
-        <NavButton title="Chat" dotColor="#03C9D7" color={currentColor} icon={<BsChatLeft />} />
+        <NavButton title="Chat" dotColor="#03C9D7" customFunc={handleChat} color={currentColor} icon={<BsChatLeft />} />
         {/* customFunc={() => handleClick('chat')}  */}
-        <NavButton title="Notification" dotColor="rgb(254, 201, 15)"  color={currentColor} icon={<RiNotification3Line />} />
+        <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={currentColor} icon={<RiNotification3Line />} />
         {/* customFunc={() => handleClick('notification')} */}
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
