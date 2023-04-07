@@ -113,7 +113,12 @@ import User from '../Models/UserModel.js';
 
 export const register = async (req, res) => {
   try {
+
     const { fullname, location, ethAddress, email, password,chatId, picturePath, role } = req.body;
+    const user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ msg: 'User already exists' });
+    }
 
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
@@ -158,3 +163,38 @@ export const login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+export const updateProfile = async (req, res) => {
+  try {
+    const { fullname, location, ethAddress, picturePath, password,email } = req.body;
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    user.fullname = fullname;
+    user.location = location;
+    user.ethAddress = ethAddress;
+    user.picturePath = picturePath;
+    user.email = email;
+    user.password = passwordHash;
+    user.chatId = password;
+
+    await user.save();
+
+    // make sure to not send the password back to the user in frontend
+    delete user.password;
+    const {  ...updatedUser } = user.toObject();
+
+    res.json(updatedUser);
+
+    res.status(200);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}

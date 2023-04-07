@@ -4,7 +4,7 @@ import express from "express";
 // imoprt AdminModel from "../Models/AdminModel";
 // const UserController = require("../Controllers/UserController");
 // import UserController from "../Controllers/UserController";
-import {register, login} from "../Controllers/UserController.js";
+import {register, login, updateProfile} from "../Controllers/UserController.js";
 
 
 let UserRouter = express.Router();
@@ -12,6 +12,10 @@ let UserRouter = express.Router();
 UserRouter.post("/register", register);
 
 UserRouter.post("/login", login);
+
+UserRouter.post("/updateProfile/:id", updateProfile);
+
+
 
 // UserRouter.delete("/delete/:id", UserController.DeleteUser);
 

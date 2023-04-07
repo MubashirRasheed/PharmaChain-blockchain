@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema(
     chatId:{
       type: String,
     },
+    picturePath:{
+      type: String,
+      default: "https://res.cloudinary.com/daz0bajhs/image/upload/v1679767972/profpic/evagqgxxm1qk1xuhsliv.png"
+    },
     role: {
       type: String,
       enum: ['admin', 'rawMaterialSupplier', 'manufacturer', 'transporter', 'distributor', 'pharmacist'],
