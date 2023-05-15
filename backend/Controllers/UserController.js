@@ -107,7 +107,7 @@
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../Models/UserModel.js';
+import {User, Job} from '../Models/UserModel.js';
 
 // REGISTER USER
 

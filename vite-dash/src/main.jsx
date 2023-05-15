@@ -11,6 +11,8 @@ import { persistStore, persistReducer,
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import authReducer from './state';
 import { ContextProvider } from './contexts/ContextProvider';
 import App from './App';
@@ -37,9 +39,11 @@ ReactDOM.render(
   <Provider store={store}>
     <ContextProvider>
       <PersistGate loading={null} persistor={persistStore(store)}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </LocalizationProvider>
       </PersistGate>
     </ContextProvider>
   </Provider>,

@@ -281,7 +281,7 @@ const forms = () => {
     console.log('valuest at registerx function to check 500 bad', values);
     const { fullname, location, ethAddress, email, password, role, chatId } = values;
     const user = {
-      fullname, location, ethAddress, email, password, picturePath: profileImage || 'https://res.cloudinary.com/daz0bajhs/image/upload/v1679767972/profpic/evagqgxxm1qk1xuhsliv.png', role, chatId,
+      fullname, location, ethAddress, email, password, picturePath: profileImage || 'https://res.cloudinary.com/daz0bajhs/image/upload/v1681034983/profpic/default-user-profile-picture_hvoncb_uho4qw.png', role, chatId,
     };
     // const registerValues = {
     //   fullname, location, ethAddress, email, password, role,
@@ -333,6 +333,7 @@ const forms = () => {
     console.log('User chat ID AT REGISTERX', loggedInUser.user.chatId);
     const { fullname } = loggedInUser.user;
     const { chatId } = loggedInUser.user;
+    // chat login disabled temporarily subscribition expired
     const chk = await triggerLogin({ fullname, chatId });
     // console.log('chk', chk.data.response.id);
     console.log('chk', chk.data.response);
@@ -341,7 +342,7 @@ const forms = () => {
     onSubmitProps.resetForm();
     if (loggedInUser) {
       dispatch(setLogin({ user: loggedInUser.user, token: loggedInUser.token }));
-      dispatch(setChatID({ chatID: chk.data.response }));
+      // dispatch(setChatID({ chatID: chk.data.response }));
 
       // navigate('/home');
 

@@ -44,6 +44,9 @@ import PharmaReceiveMedicine from './pages/pharmacist/PharmaReceiveMedicine';
 import UpdateStatus from './pages/pharmacist/UpdateStatus';
 import AllMedicines from './pages/pharmacist/AllMedicines';
 import EditProfile from './pages/EditProfile';
+import PostJob from './pages/PostJob';
+import GetJobs from './pages/GetJobs';
+import AllPostedJobs from './pages/manufacturer/AllPostedJobs';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -175,6 +178,7 @@ const App = () => {
                       <Route path="/suppliercolor-picker" element={<ColorPicker />} />
                       <Route path="/chat" element={<Chat />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
+                      <Route path="/supplierGetJobs" element={<GetJobs />} />
 
                       {/* charts  */}
                       <Route path="/supplierline" element={<Line />} />
@@ -204,6 +208,9 @@ const App = () => {
                       <Route path="/manufacturermedicines" element={<Medicines />} />
                       <Route path="/manufacturercontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
+                      <Route path="/manufacturerPostJob" element={<PostJob />} />
+                      <Route path="/manufacturerPostedJobs" element={<AllPostedJobs />} />
+                      <Route path="/manufacturerGetJobs" element={<GetJobs />} />
 
                       {/* apps  */}
                       <Route path="manufacturerkanban" element={<Kanban />} />
@@ -277,6 +284,9 @@ const App = () => {
                       <Route path="/distributormedicines" element={<Medicines />} />
                       <Route path="/distributorcontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
+                      <Route path="/distributorPostJob" element={<PostJob />} />
+                      <Route path="/distributorPostedJobs" element={<AllPostedJobs />} />
+                      <Route path="/distributorGetJobs" element={<GetJobs />} />
 
                       {/* <Route path="distributorNewMedicines" element={<NewMedicines />} /> */}
 
@@ -324,6 +334,9 @@ const App = () => {
                       <Route path="/pharmacistmedicines" element={<Medicines />} />
                       <Route path="/pharmacistcontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
+                      <Route path="/pharmacistPostJob" element={<PostJob />} />
+                      <Route path="/pharmacistPostedJobs" element={<AllPostedJobs />} />
+                      <Route path="/pharmacistGetJobs" element={<GetJobs />} />
 
                       {/* <Route path="distributorNewMedicines" element={<NewMedicines />} /> */}
 

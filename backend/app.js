@@ -26,6 +26,9 @@ import EmployeeRouter from './routes/EmployeeRouter.js';
 import CustomerRouter from './routes/CustomerRouter.js';
 import ContractsRouter from './routes/ContractsRouter.js';
 import chatRoutes from './routes/chatRoutes.js';
+import jobPostRouter from './routes/jobPostRouter.js';
+import bidRouter from './routes/bidRouter.js';
+import conRouter from './routes/contractroute.js';
 
 
 // var app = express();
@@ -63,7 +66,10 @@ app.use("/customer", CustomerRouter);
 app.use("/contracts", ContractsRouter);
 app.use('/auth', authRoutes);
 app.use('/chat', chatRoutes);
+app.use('/job-post', jobPostRouter);
+app.use('/bids', bidRouter);
 
+app.use('/contract', conRouter)
 
 app.get("/", (req, res, next) => {
   res.send("Connected to server");
