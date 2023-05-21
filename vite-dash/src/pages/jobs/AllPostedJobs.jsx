@@ -99,9 +99,9 @@ const AllPostedJobs = () => {
 
     const chatMessage = {
       text: `
-      ╔═══════════════════════════════════════════════════════════════════════╗ 
-      ║ 📝 Job Details:                                                       ║
-      ╠═══════════════════════════════╣
+      ╔══════════════════════════════════════════════════════════════════════╗ 
+      ║ 📝 Job Details:                                                     
+      ╠══════════════════════════════════════════════════════════════════════╣
       ║ 💬 Title: *${response.data.job.title}*                     ║
       ║ 📋 Description: ${response.data.job.description} ║
       ║ 💵 Price: $${response.data.job.price}                              ║
@@ -214,7 +214,7 @@ const AllPostedJobs = () => {
 
               <div className="flex items-center justify-between mt-4 flex-row">
 
-                <p className="w-24 px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500">Price:{job.price}</p>
+                <p className="w-30 px-3 py-1 text-sm font-bold text-gray-100 transition-colors duration-300 transform bg-gray-600 rounded cursor-pointer hover:bg-gray-500">Price: ${job.price}</p>
                 <p className="mt-2 text-gray-600 dark:text-gray-300">Delivery Time: {new Date(job.deliveryTime).toLocaleString('en-US', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' })}</p>
 
               </div>
@@ -296,7 +296,6 @@ const AllPostedJobs = () => {
       <Button variant="contained" color="primary" sx={{ top: '50%', left: '50%', transform: 'translate(-40%, -13%)', marginBottom: '1rem' }} onClick={() => setJobCount(jobCount + 10)}>
         Load More
       </Button>
-
     </Box>
   );
 };

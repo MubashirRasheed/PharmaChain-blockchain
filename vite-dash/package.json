@@ -12,6 +12,8 @@
     "@mui/x-data-grid": "^6.0.1",
     "@mui/x-date-pickers": "^6.0.4",
     "@reduxjs/toolkit": "^1.9.3",
+    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/stripe-js": "^1.53.0",
     "@syncfusion/ej2": "^19.4.48",
     "@syncfusion/ej2-react-calendars": "^19.4.48",
     "@syncfusion/ej2-react-charts": "^19.4.50",

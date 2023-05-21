@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Box, Button, Snackbar, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import axios from 'axios';
 import { json } from 'react-router-dom';
@@ -24,6 +24,8 @@ const PostJob = () => {
   const [currentAccount, setcurrentAccount] = useState('');
   const themeMode = localStorage.getItem('themeMode');
   const isNonMobile = useMediaQuery('(min-width: 1000px)');
+  const [postSuccessSnack, setPostSuccessSnack] = useState(false);
+  const [postFailedSnack, setPostFailedSnack] = useState(false);
   const theme = useTheme();
   const textColor = themeMode === 'Dark' ? 'white' : 'black';
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
@@ -62,14 +64,25 @@ const PostJob = () => {
         },
       });
       console.log(response);
+      setPostSuccessSnack(true);
 
       console.log(dvalue.$d.toISOString());
     } catch (error) {
       setErrors({ submit: error.message });
+      setPostFailedSnack(true);
       console.log(error);
     }
 
     setSubmitting(false);
+  };
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setPostSuccessSnack(false);
+    setPostFailedSnack(false);
   };
 
   return (
@@ -195,6 +208,16 @@ const PostJob = () => {
           </Formik>
         </Box>
       </Box>
+      <Snackbar open={postSuccessSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          Job Posted Successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={postFailedSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+          Job not posted Something went wrong!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

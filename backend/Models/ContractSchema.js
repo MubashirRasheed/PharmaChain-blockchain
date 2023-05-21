@@ -18,7 +18,7 @@ const contractSchema = new mongoose.Schema(
     },
     contractCreatedFor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Job',
+        ref: 'Userjob',
         required: true,
         },
     bidderName: {
@@ -47,7 +47,7 @@ const contractSchema = new mongoose.Schema(
     },
     paymentStatus: {
       type: String,
-      enum: ['paid', 'failed', 'pending', 'closed'],
+      // enum: ['paid', 'failed', 'pending', 'closed', 'Succeeded', ],
     },
   },
   { timestamps: true }

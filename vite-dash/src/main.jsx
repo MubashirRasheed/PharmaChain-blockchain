@@ -13,14 +13,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import authReducer from './state';
 import { ContextProvider } from './contexts/ContextProvider';
 import App from './App';
 import { api } from './state/api';
-
-const persistConfig = { key: 'root', storage, version: 1 };
-const persistedReducer = persistReducer(persistConfig, authReducer);
-const store = configureStore({ reducer: persistedReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: { ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER] } }) });
 
 // const store = configureStore({
 //   reducer: {
@@ -34,6 +32,14 @@ const store = configureStore({ reducer: persistedReducer, middleware: (getDefaul
 //   }).concat(api.middleware),
 // });
 
+const persistConfig = { key: 'root', storage, version: 1 };
+const persistedReducer = persistReducer(persistConfig, authReducer);
+const store = configureStore({ reducer: persistedReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: { ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER] } }) });
+
+// Make sure to call `loadStripe` outside of a component’s render to avoid
+// recreating the `Stripe` object on every render.
+const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY}`);
+
 ReactDOM.render(
   // <React.StrictMode>
   <Provider store={store}>
@@ -41,7 +47,9 @@ ReactDOM.render(
       <PersistGate loading={null} persistor={persistStore(store)}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <BrowserRouter>
-            <App />
+            <Elements stripe={stripePromise}>
+              <App />
+            </Elements>
           </BrowserRouter>
         </LocalizationProvider>
       </PersistGate>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade } from '@mui/material';
+import { Skeleton, Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { DatePicker } from '@mui/x-date-pickers';
 // import LocationOn from '@mui/icons-material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SkeletonLoading from '../components/SkeletonLoading';
+import SkeletonLoading from '../../components/SkeletonLoading';
 
 const GetJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -14,6 +14,8 @@ const GetJobs = () => {
   const now = new Date();
   const localtime = now.toLocaleString();
   const [bidDeliveryTime, setBidDeliveryTime] = useState('');
+  const [bidSucessSnack, setBidSucessSnack] = useState(false);
+  const [bidFailedSnack, setBidFailedSnack] = useState(false);
   const [selectedJobId, setSelectedJobId] = useState(null); // new state variable
   const [jobCount, setJobCount] = useState(10); // start with 10 jobs
   const token = useSelector((state) => state.token);
@@ -66,17 +68,24 @@ const GetJobs = () => {
     // if (hasSubmittedBid) {
     //   alert('You have already submitted a bid for this job.');
     // } else {
-    const response = await axios.post('http://localhost:9002/bids/post', data, {
-      headers: { 'x-auth-token': token },
-    });
-    console.log(response.data);
-    setOpen(false);
+    try {
+      const response = await axios.post('http://localhost:9002/bids/post', data, {
+        headers: { 'x-auth-token': token },
+      });
+      console.log(response.data);
+      setOpen(false);
+      setBidSucessSnack(true);
     // }
     // const response = await axios.post('http://localhost:9002/bids/post', data, {
     //   headers: { 'x-auth-token': token },
     // });
     // console.log(response.data);
     // setOpen(false);
+    } catch (error) {
+      console.log(error);
+      setOpen(false);
+      setBidFailedSnack(true);
+    }
   };
   const handleDateChange = (newValue) => {
     setBidDeliveryTime(newValue);
@@ -100,6 +109,15 @@ const GetJobs = () => {
   }
 
   // const defaultDate = bidDeliveryTime.trim() === '' ? new Date() : new Date(bidDeliveryTime);
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setBidSucessSnack(false);
+    setBidFailedSnack(false);
+  };
   return (
     <Box>
 
@@ -294,7 +312,16 @@ const GetJobs = () => {
           </Button> */}
         </Box>
       </Container>
-
+      <Snackbar open={bidSucessSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          Bid placed successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={bidFailedSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+          Bid not placed Something went wrong!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
