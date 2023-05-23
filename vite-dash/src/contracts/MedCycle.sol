@@ -135,6 +135,19 @@ contract MedCycle{
         return MedicineDistributorToRtailer[_distributor].length;
     }
 
+///////Following function is yet to be tested
+
+
+
+    // function getReceivedMedicine(
+    //     address _batchId,
+    //     address _distributor)
+    //     public view returns(address){
+    //         require(roles(Admin(admin).getRole(_distributor))==roles.distributor,
+    //         "Only Distributor is allowed to call this"
+    //         );
+    //         return MedicineDistributorToRtailerxContract[_batchId];
+    //     }
      function getBatchesIdByIndexDistributorToRetailer(uint index,address _distributor) public view returns(address){
           require(roles(Admin(admin).getRole(_distributor))==roles.distributor,
             "Only Distributor is allowed to call this"

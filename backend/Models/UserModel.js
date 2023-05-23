@@ -117,6 +117,9 @@ const jobSchema = new mongoose.Schema(
           ref: 'Userjob',
           required: true,
         },
+        proposal: {
+          type: String,
+        },
       },
     ],
   },
@@ -163,6 +166,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    license: {
+      type: String,
+      // required: true,
+      // unique: true,
+    },
     ethAddress: {
       type: String,
       required: true,
@@ -189,8 +197,15 @@ const userSchema = new mongoose.Schema(
           type: Date,
           required: true,
         },
+        proposal: {
+          type: String,
+        },
       },
     ],
+    contracts: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Contract'
+    }],
     appliedJobs: [
       {
         job: {
@@ -211,6 +226,9 @@ const userSchema = new mongoose.Schema(
           type: Date,
           required: true,
         },
+        proposal: {
+          type: String,
+        },
       },
     ],
   },
@@ -218,7 +236,7 @@ const userSchema = new mongoose.Schema(
 );
 
 export const Job = mongoose.model('Job', jobSchema);
-export const User = mongoose.model('Userjob', userSchema);
-// export const User = mongoose.model('userfyps', userSchema);
+export const User = mongoose.model('Userjob', userSchema); // for bidding
+// export const User = mongoose.model('userfyps', userSchema); // for blockchaain temporary
 
 // module.exports = { Job, User };

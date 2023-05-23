@@ -44,13 +44,14 @@ import PharmaReceiveMedicine from './pages/pharmacist/PharmaReceiveMedicine';
 import UpdateStatus from './pages/pharmacist/UpdateStatus';
 import AllMedicines from './pages/pharmacist/AllMedicines';
 import PharmacistInventory from './pages/pharmacist/PharmacistInventory';
-import EditProfile from './pages/EditProfile';
-import PostJob from './pages/PostJob';
-import GetJobs from './pages/GetJobs';
-import AllPostedJobs from './pages/manufacturer/AllPostedJobs';
 import DistributorInventory from './pages/distributor/DistributorInventory';
 import SupplierInventory from './pages/supplier/SupplierInventory';
 import ManufacturerInventory from './pages/manufacturer/ManufacturerInventory';
+import EditProfile from './pages/EditProfile';
+import PostJob from './pages/jobs/PostJob';
+import GetJobs from './pages/jobs/GetJobs';
+import AllPostedJobs from './pages/jobs/AllPostedJobs';
+import Payment from './pages/Payment';
 
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
@@ -310,6 +311,7 @@ const App = () => {
                       <Route path="distributorcolor-mapping" element={<ColorMapping />} />
                       <Route path="distributorpyramid" element={<Pyramid />} />
                       <Route path="distributorstacked" element={<Stacked />} />
+                      <Route path="Payment" element={<Payment />} />
                       <Route path="*" />
                     </>
 

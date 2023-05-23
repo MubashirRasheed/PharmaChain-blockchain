@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Box, Button, Snackbar, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { ErrorMessage, Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
@@ -11,11 +11,15 @@ const ReceiveMedicine = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentAccount, setcurrentAccount] = useState('');
+  const [receiveSuccessSnack, setReceiveSuccessSnack] = useState(false);
+  const [receiveFailSnack, setReceiveFailSnack] = useState(false);
   const themeMode = localStorage.getItem('themeMode');
   const isNonMobile = useMediaQuery('(min-width: 1000px)');
   const theme = useTheme();
   const textColor = themeMode === 'Dark' ? 'white' : 'black';
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
+  const placeholderColor = themeMode === 'Dark' ? '#fff' : undefined;
+  const inputTextColor = themeMode === 'Dark' ? '#fff' : undefined;
 
   const validationSchema = Yup.object().shape({
     batchId: Yup.string().required('Required'),
@@ -60,8 +64,10 @@ const ReceiveMedicine = () => {
         .receivePackageDistributor(values.retailer)
         .send({ from: currentAccount });
       console.log('Received Package Successfully!!!!');
+      setReceiveSuccessSnack(true);
     } catch (err) {
       setErrors({ errorMessage: err.message });
+      setReceiveFailSnack(true);
       console.log('Error in receiving package:', err.message);
     }
     setSubmitting(false);
@@ -112,6 +118,14 @@ const ReceiveMedicine = () => {
     // setSubmitting(false);
   };
 
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setReceiveSuccessSnack(false);
+    setReceiveFailSnack(false);
+  };
+
   return (
     <Box display="flex" justifyContent="center" alignItems="center" height="50vh" marginTop="10%" marginBottom="10%">
       <Box width="50%" p="2rem" borderRadius="1.5rem" boxShadow={theme.shadows[4]} sx={{ backgroundColor }}>
@@ -144,6 +158,16 @@ const ReceiveMedicine = () => {
                     onChange={handleChange}
                     error={touched.batchId && Boolean(errors.batchId)}
                     helperText={touched.batchId && errors.batchId}
+                    InputProps={{
+                      style: {
+                        color: inputTextColor,
+                      },
+                    }}
+                    InputLabelProps={{
+                      style: {
+                        color: placeholderColor,
+                      },
+                    }}
                   />
                   <TextField
                     fullWidth
@@ -154,6 +178,16 @@ const ReceiveMedicine = () => {
                     onChange={handleChange}
                     error={touched.retailer && Boolean(errors.retailer)}
                     helperText={touched.retailer && errors.retailer}
+                    InputProps={{
+                      style: {
+                        color: inputTextColor,
+                      },
+                    }}
+                    InputLabelProps={{
+                      style: {
+                        color: placeholderColor,
+                      },
+                    }}
                   />
                   <Box display="flex" justifyContent="center" alignItems="center" marginTop="2rem">
                     <Button
@@ -172,6 +206,17 @@ const ReceiveMedicine = () => {
             )}
           </Formik>
         </Box>
+
+        <Snackbar open={receiveSuccessSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+            Medicine received successfully!
+          </Alert>
+        </Snackbar>
+        <Snackbar open={receiveFailSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+            Medicine not received! Something went wrong.
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );

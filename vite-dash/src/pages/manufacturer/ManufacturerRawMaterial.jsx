@@ -5,7 +5,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState, useEffect } from 'react';
 
-import { Grid, Card, TextField, Button, Table, CardContent, Typography, Collapse, CardActions, Box, useTheme } from '@mui/material';
+import { Grid, Card, TextField, Button, Table, CardContent, Typography, Collapse, CardActions, Box, useTheme, Snackbar, Alert } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import { toast } from 'react-toastify';
@@ -23,8 +23,11 @@ const validationSchema = Yup.object({
 
 const ManufacturerRawMaterial = () => {
   const [errorMessage, setErrorMessage] = useState('');
+  const [rawSuccessSnack, setRawSuccessSnack] = useState(false);
+  const [rawFailedSnack, setRawFailedSnack] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rawMaterialsInfo, setRawMaterialsInfo] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const [currentAccount, setcurrentAccount] = useState('');
   const themeMode = localStorage.getItem('themeMode');
   const theme = useTheme();
@@ -77,7 +80,7 @@ const ManufacturerRawMaterial = () => {
   useEffect(() => {
     // eslint-disable-next-line no-use-before-define
     fetchData();
-  }, [currentAccount, location]);
+  }, [currentAccount, location, refresh]);
 
   const fetchData = async () => {
     try {
@@ -186,12 +189,15 @@ const ManufacturerRawMaterial = () => {
           .rawPackageReceived(values.rawMaterialAdress)
           .send({ from: currentAccount });
         console.log('Package received successfully!!');
+        setRawSuccessSnack(true);
+        setRefresh(!refresh);
         // window.location.reload(false);
       } else {
         console.log('The MedCycle Contract does not exist on this network!');
       }
     } catch (err) {
       setErrorMessage(err.message);
+      setRawFailedSnack(true);
     }
     setSubmitting(false);
     setLoading(false);
@@ -208,6 +214,14 @@ const ManufacturerRawMaterial = () => {
     { field: 'supplier', headerName: 'Supplier', width: 150 },
     { field: 'rawPackageAddress', headerName: 'Raw Package Address', width: 150 },
   ];
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setRawFailedSnack(false);
+    setRawSuccessSnack(false);
+  };
 
   return (
     <Box sx={{ padding: '2em' }}>
@@ -312,7 +326,16 @@ const ManufacturerRawMaterial = () => {
             />
           </Box>
         </Box>
-
+        <Snackbar open={rawSuccessSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+            Raw Material Received Successfully!
+          </Alert>
+        </Snackbar>
+        <Snackbar open={rawFailedSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+          <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+            Raw Material Receiving Failed! Transporter not yet picked up the raw material!
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );

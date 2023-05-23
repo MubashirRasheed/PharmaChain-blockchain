@@ -42,6 +42,7 @@ console.log(AdminAddress);
 const registerSchema = Yup.object().shape({
   fullname: Yup.string().required('FullName is required'),
   location: Yup.string().required('Location is required'),
+  license: Yup.string().required('License is required'),
   ethAddress: Yup.string().required('ETH wallet address is required'),
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().required('Password is required'),
@@ -57,6 +58,7 @@ const loginSchema = Yup.object().shape({
 const initialValuesRegister = {
   fullname: '',
   location: '',
+  license: '',
   ethAddress: '',
   email: '',
   password: '',
@@ -238,10 +240,10 @@ const forms = () => {
           roleNumber = 1;
           break;
         case 'manufacturer':
-          roleNumber = 2;
+          roleNumber = 3;
           break;
         case 'transporter':
-          roleNumber = 3;
+          roleNumber = 2;
           break;
         case 'distributor':
           roleNumber = 4;
@@ -279,9 +281,9 @@ const forms = () => {
 
   const Registerx = async (values, onSubmitProps) => {
     console.log('valuest at registerx function to check 500 bad', values);
-    const { fullname, location, ethAddress, email, password, role, chatId } = values;
+    const { fullname, location, license, ethAddress, email, password, role, chatId } = values;
     const user = {
-      fullname, location, ethAddress, email, password, picturePath: profileImage || 'https://res.cloudinary.com/daz0bajhs/image/upload/v1681034983/profpic/default-user-profile-picture_hvoncb_uho4qw.png', role, chatId,
+      fullname, location, license, ethAddress, email, password, picturePath: profileImage || 'https://res.cloudinary.com/daz0bajhs/image/upload/v1681034983/profpic/default-user-profile-picture_hvoncb_uho4qw.png', role, chatId,
     };
     // const registerValues = {
     //   fullname, location, ethAddress, email, password, role,
@@ -561,6 +563,26 @@ const forms = () => {
                      name="location"
                      error={Boolean(touched.location) && Boolean(errors.location)}
                      helperText={touched.location && errors.location}
+                     InputProps={{
+                       style: {
+                         color: inputTextColor,
+                       },
+                     }}
+                     InputLabelProps={{
+                       style: {
+                         color: placeholderColor,
+                       },
+                     }}
+                     sx={{ gridColumn: 'span 2' }}
+                   />
+                   <TextField
+                     label="License Number"
+                     onBlur={handleBlur}
+                     onChange={handleChange}
+                     value={values.license}
+                     name="license"
+                     error={Boolean(touched.license) && Boolean(errors.license)}
+                     helperText={touched.license && errors.license}
                      InputProps={{
                        style: {
                          color: inputTextColor,

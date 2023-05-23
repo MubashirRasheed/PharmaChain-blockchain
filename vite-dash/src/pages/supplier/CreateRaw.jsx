@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 
-import { Box, Button, Container, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Box, Button, Container, Snackbar, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Web3 from 'web3';
@@ -21,6 +21,8 @@ const validationSchema = Yup.object().shape({
 
 const CreateRaw = () => {
   const [currentAccount, setcurrentAccount] = useState('');
+  const [rawSuccessSnack, setRawSuccessSnack] = useState(false);
+  const [rawFailSnack, setRawFailSnack] = useState(false);
   const themeMode = localStorage.getItem('themeMode');
   const isNonMobile = useMediaQuery('(min-width: 1000px)');
   const theme = useTheme();
@@ -85,11 +87,21 @@ const CreateRaw = () => {
           )
           .send({ from: currentAccount });
         console.log('Successfully created a new package!!');
+        setRawSuccessSnack(true);
       }
     } catch (err) {
       setErrors({ errorMessage: err.message });
+      setRawFailSnack(true);
     }
     setSubmitting(false);
+  };
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setRawSuccessSnack(false);
+    setRawFailSnack(false);
   };
 
   return (
@@ -266,6 +278,16 @@ const CreateRaw = () => {
           </Box>
         </Box>
       </Box>
+      <Snackbar open={rawSuccessSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          Raw Material Package Created Successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={rawFailSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+          Raw Material Package Creation Failed!
+        </Alert>
+      </Snackbar>
     </Box>
 
   );

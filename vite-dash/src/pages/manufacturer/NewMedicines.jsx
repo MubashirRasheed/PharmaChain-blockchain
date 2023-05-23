@@ -1,10 +1,12 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 
-import { Backdrop, Badge, Box, Button, Modal, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Backdrop, Badge, Box, Button, IconButton, Modal, Snackbar, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Web3 from 'web3';
 import { useLocation } from 'react-router-dom';
 
@@ -13,6 +15,7 @@ import QRCode from 'qrcode';
 import MedCycle from '../../abis/MedCycle.json';
 import Medicine from '../../abis/Medicine.json';
 import RawMaterial from '../../abis/RawMaterial.json';
+import { shortenAddress } from '../../utils/shortenAddress';
 
 const NewMedicines = () => {
   const [allManuMedicineInfo, setAllManuMedicineInfo] = useState([]);
@@ -24,6 +27,7 @@ const NewMedicines = () => {
   const themeMode = localStorage.getItem('themeMode');
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState(null);
   const [qrCodeData, setQRCodeData] = useState('');
+  const [copySncak, setCopySnack] = useState(false);
 
   const textColor = themeMode === 'Dark' ? 'white' : 'black';
 
@@ -173,6 +177,13 @@ const NewMedicines = () => {
     document.body.removeChild(a);
   };
 
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setCopySnack(false);
+  };
+
   return (
     <>
       {allManuMedicineInfo.length > 0 ? (
@@ -211,6 +222,18 @@ Manufacturer:         ${medicine.rawmaterialManufacturer}
 Supplier:             ${medicine.rawmaterialSupplier}
 `;
 
+          const badgeText = medicine.medicineStatus === '0' ? 'At Manufacturer'
+            : medicine.medicineStatus === '1' ? 'Picked for Distributor'
+              : medicine.medicineStatus === '2' ? 'Delivered to Distributor'
+                : medicine.medicineStatus === '3' ? 'Picked for Pharmacist'
+                  : medicine.medicineStatus === '4' ? 'Delivered to Pharmacist' : '';
+
+          const badgeColor = medicine.medicineStatus === '0' ? 'primary'
+            : medicine.medicineStatus === '1' ? 'warning'
+              : medicine.medicineStatus === '2' ? 'success'
+                : medicine.medicineStatus === '3' ? 'warning'
+                  : medicine.medicineStatus === '4' ? 'success' : '';
+          console.log('badge color ', badgeColor, badgeText);
           return (
 
             <div key={medicine.medicineAddress} style={{ marginTop: '2%' }}>
@@ -224,25 +247,35 @@ Supplier:             ${medicine.rawmaterialSupplier}
                   // alignItems: 'center',
                   margin: 2,
                   p: 2,
-                  borderRadius: 1,
+                  borderRadius: '20px',
                   border: 1,
-                  borderColor: 'primary.main',
+                  borderColor: themeMode === 'Dark' ? '#515054' : '#cac9cf',
                   cursor: 'pointer',
                   '&:hover': {
-                    backgroundColor: 'primary.light',
+                    backgroundColor: themeMode === 'Dark' ? '#2d3940' : '#f1f1f1',
                   },
                   background: themeMode === 'Dark' ? '#1c2d38' : '#FFFFFF',
                   width: '90%',
                 }}
                 onClick={handleOpen}
               >
+
                 <Badge
-                  badgeContent="delivered"
-                  color={medicine.medicineStatus === 'Approved' ? 'success' : 'error'}
-                  sx={{ position: 'relative', marginRight: 2, float: 'right' }}
+                  key={medicine.medicineAddress}
+                  badgeContent={badgeText}
+                  color={badgeColor}
+                  sx={{ position: 'relative',
+                    marginRight: 2,
+                    float: 'right',
+                    '& .css-106c1u2-MuiBadge-badge': {
+                      marginRight: '30px',
+                    } }}
                 />
-                <Typography variant="h5" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black' }}>{medicine.description}</Typography>
-                <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#718096' : 'black' }}>{medicine.medicineAddress}</Typography>
+
+                <Typography variant="h5" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', textTransform: 'capitalize' }}>{medicine.description}</Typography>
+                <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#718096' : 'black' }}>{medicine.rawmaterialDescription}</Typography>
+                <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#718096' : 'black' }}>{shortenAddress(medicine.medicineAddress)}</Typography>
+
               </Box>
               <Modal
                 open={open}
@@ -282,10 +315,24 @@ Supplier:             ${medicine.rawmaterialSupplier}
                   <Typography variant="h4" textAlign="center" margin="5px" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black' }}>Medicine Details</Typography>
 
                   <br />
-                  <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', display: 'flex' }}>
-                    <Box component="h6" fontWeight="bold" marginBottom="3px" marginRight="10px">Medicine Address: </Box>
-                    {medicine.medicineAddress}
-                  </Typography>
+                  <Box className="flex flex-row" marginBottom="2px">
+                    <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', display: 'flex' }}>
+                      <Box component="h6" fontWeight="bold" marginBottom="3px" marginRight="10px">Medicine Address: </Box>
+                      {medicine.medicineAddress}
+                    </Typography>
+                    <Tooltip title="Copy" placement="top" arrow>
+                      <IconButton
+                        onClick={() => {
+                          navigator.clipboard.writeText(medicine.medicineAddress);
+                          setCopySnack(true);
+                          // You can also set a state variable or show a toast message to indicate successful copy
+                        }}
+                      >
+                        <ContentCopyIcon sx={{ color: themeMode === 'Dark' ? 'white' : 'black', padding: '0px', marginLeft: '5px' }} />
+                      </IconButton>
+                    </Tooltip>
+
+                  </Box>
                   <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', display: 'flex' }}>
                     <Box component="h5" fontWeight="bold" marginBottom="3px" marginRight="10px">Medicine Description: </Box>
                     {medicine.description}
@@ -331,6 +378,12 @@ Supplier:             ${medicine.rawmaterialSupplier}
 
                 </Box>
               </Modal>
+              <Snackbar open={copySncak} autoHideDuration={5000} onClose={handleSnackClose}>
+                <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+                  Medicine Address copied to clipboard!
+                </Alert>
+              </Snackbar>
+
             </div>
           );
         })
