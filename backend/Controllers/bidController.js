@@ -4,7 +4,7 @@ import {Job} from '../Models/UserModel.js';
 
 export const bidPost = async (req, res) => {
     try {
-        const { jobId, bidPrice, bidDeliveryTime } = req.body;
+        const { jobId, bidPrice, bidDeliveryTime, proposal } = req.body;
         const  userId  = req.user.id; // assuming user is authenticated
 
 console.log('inside bidpost userid', userId)
@@ -27,6 +27,7 @@ console.log('inside bidpost userid', userId)
           bidPrice,
           bidDeliveryTime,
           bidder: userId,
+          proposal
         };
     
         job.bids.push(bid);
@@ -46,6 +47,7 @@ console.log('inside bidpost userd', job.id)
           bidPrice,
           bidDeliveryTime,
           status: 'applied', 
+          proposal
         });
         await userd.save();
     

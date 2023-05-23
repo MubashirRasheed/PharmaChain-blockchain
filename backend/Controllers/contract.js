@@ -35,6 +35,17 @@ const stripe = new Stripe('sk_test_51N8RKnDCzgmS78jlJ4i3BgvQs3yebMnTajwncCbkmAzf
       });
   
       const savedContract = await contract.save();
+
+       // Save contract to the user who created the contract
+    const userCreatedContract = await User.findByIdAndUpdate(req.user.id, {
+      $push: { contracts: savedContract._id }
+    });
+
+    // Save contract to the user for whom the contract is created
+    const userForCreatedContract = await User.findByIdAndUpdate(
+      bidder._id.toString(),
+      { $push: { contracts: savedContract._id } }
+    );
       res.status(201).json(savedContract);
       res.status(201);
   
@@ -62,7 +73,7 @@ const stripe = new Stripe('sk_test_51N8RKnDCzgmS78jlJ4i3BgvQs3yebMnTajwncCbkmAzf
   }
 
   export const updateContract = async (req, res) => {
-    const { contractId, paymentStatus } = req.body;
+    const { contractId, paymentStatus, revenue } = req.body;
   
     try {
       const contract = await ContractSchema.findById(contractId);
@@ -72,6 +83,7 @@ const stripe = new Stripe('sk_test_51N8RKnDCzgmS78jlJ4i3BgvQs3yebMnTajwncCbkmAzf
       }
   
       contract.paymentStatus = paymentStatus;
+      contract.revenue = revenue;
       await contract.save();
   
       res.json({ message: 'Contract updated successfully' });

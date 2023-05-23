@@ -2,7 +2,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Typography, FormControl, InputLabel, Select, MenuItem, TextField, Button, Snackbar, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Container, Typography, FormControl, InputLabel, Select, MenuItem, TextField, Button, Snackbar, useMediaQuery, useTheme, Alert } from '@mui/material';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -123,8 +123,12 @@ const TransporterDashboard = () => {
     setDestination(event.target.value);
   };
 
-  const handleCloseSnackbar = () => {
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
     setErrorMessage('');
+    setPickSuccessSnack(false);
   };
 
   return (
@@ -211,15 +215,17 @@ const TransporterDashboard = () => {
           open={errorMessage !== ''}
           autoHideDuration={6000}
           onClose={handleCloseSnackbar}
-          message={errorMessage}
-        />
-        <Snackbar
-          open={pickSuccessSnack !== ''}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          message="Package picked successfully!!"
-        />
-
+          // message={errorMessage}
+        >
+          <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
+        <Snackbar open={pickSuccessSnack} autoHideDuration={5000} onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+            Package picked successfully!
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
 

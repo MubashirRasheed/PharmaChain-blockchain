@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, CardContent, Card, CardActions, Avatar, CircularProgress } from '@mui/material';
+import { Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, CardContent, Card, CardActions, Avatar, CircularProgress, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -14,9 +14,13 @@ const AllPostedJobs = () => {
   const [jobCount, setJobCount] = useState(10); // start with 10 jobs
   const token = useSelector((state) => state.token);
   const [loading, setLoading] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const userRole = useSelector((state) => state.user.role);
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const themeMode = localStorage.getItem('themeMode');
+  const inputTextColor = themeMode === 'Dark' ? '#fff' : undefined;
+  const textColor = themeMode === 'Dark' ? 'white' : 'black';
   useEffect(() => {
     const fetchData = async () => {
       let url;
@@ -177,8 +181,27 @@ const AllPostedJobs = () => {
     return { bidderName: '', price: '', deliveryTime: '' };
   };
 
-  const SelectedtoApply = getBidderInfo(selectedJobBid, selectedBid);
+  const getProposal = (jobId, bidId) => {
+    const selectedJobd = jobs.find((job) => job._id === jobId);
 
+    const selectedBidd = selectedJobd && selectedJobd.bids.find((bid) => bid._id === bidId);
+
+    console.log('🚀 ~ file: AllPostedJobs.jsx:188 ~ getProposal ~ selectedBidd:', selectedBidd);
+
+    if (selectedBidd) {
+      const { proposal } = selectedBidd;
+      const bidderName = selectedBidd.bidder && selectedBidd.bidder.fullname;
+      return { proposal };
+    }
+    return { bidderName: '', price: '', deliveryTime: '' };
+  };
+  const SelectedtoApply = getBidderInfo(selectedJobBid, selectedBid);
+  const SelectedForProposal = getProposal(selectedJobBid, selectedBid);
+  console.log('🚀 ~ file: AllPostedJobs.jsx:201 ~ AllPostedJobs ~ SelectedForProposal:', SelectedForProposal?.proposal);
+
+  const handleViewProposal = () => {
+    setOpenDialog(!openDialog);
+  };
   return (
     <Box>
 
@@ -233,10 +256,55 @@ const AllPostedJobs = () => {
                           <div className="ml-3">
                             <h3 className="text-gray-800 dark:text-gray-200 font-bold">{bid.bidder.fullname}</h3> {/* Heading for bidder name */}
                             <p className="text-gray-600 dark:text-gray-500">Delivery Time: {new Date(bid.bidDeliveryTime).toLocaleString('en-US', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' })} </p> {/* Heading for delivery time */}
+                            {openDialog && (
+                            <div className="fixed z-10 inset-0 overflow-y-auto">
+                              <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                                {/* Background overlay */}
+                                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+                                  <div className="absolute inset-0 bg-gray-500 opacity-10" />
+                                </div>
+
+                                {/* Modal content */}
+                                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                                <div className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                                  <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                    <div className="sm:flex sm:items-start">
+                                      <div className="mt-3 text-center sm:mt-0 sm:text-left">
+                                        <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-gray-200 mb-2">Proposal</h3>
+                                        <div className="bg-gray-100 rounded-lg p-4 mt-4 dark:bg-gray-900">
+                                          <p className="text-sm text-gray-500 dark:text-gray-400">{SelectedForProposal.proposal}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                    <Button
+                                      className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                      onClick={handleViewProposal}
+                                    >
+                                      Close
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            )}
                           </div>
                         </div>
                         <div>
                           <h3 className="text-gray-800 font-bold dark:text-gray-200">${bid.bidPrice}</h3> {/* Heading for price */}
+
+                          <Button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => {
+                              setSelectedBid(bid._id);
+                              setSelectedJobBid(job._id);
+                              handleViewProposal();
+                            }}
+                            // onClick={handleBidClick(job._id, bid._id)}
+                          >
+                            open Proposal
+                          </Button>
                           <Button
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => {

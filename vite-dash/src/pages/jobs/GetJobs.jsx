@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Skeleton, Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, Snackbar, Alert } from '@mui/material';
+import { Skeleton, Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, Snackbar, Alert, Dialog, DialogTitle, DialogContent, TextareaAutosize } from '@mui/material';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -16,6 +16,7 @@ const GetJobs = () => {
   const [bidDeliveryTime, setBidDeliveryTime] = useState('');
   const [bidSucessSnack, setBidSucessSnack] = useState(false);
   const [bidFailedSnack, setBidFailedSnack] = useState(false);
+  const [proposal, setProposal] = useState('');
   const [selectedJobId, setSelectedJobId] = useState(null); // new state variable
   const [jobCount, setJobCount] = useState(10); // start with 10 jobs
   const token = useSelector((state) => state.token);
@@ -58,6 +59,7 @@ const GetJobs = () => {
       jobId: selectedJobId, // use the selectedJobId state variable to get the selected job ID
       bidPrice,
       bidDeliveryTime,
+      proposal,
     };
     console.log(data);
 
@@ -170,82 +172,7 @@ const GetJobs = () => {
               Load More
             </Button>
           </Grid>
-
           {/* <Modal
-            open={open}
-            onClose={handleClose}
-          >
-            {/* <Box
-                  sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 700,
-                    bgcolor: themeMode === 'Dark' ? '#1c2d38' : '#FFFFFF',
-                    border: '2px solid #000',
-                    boxShadow: 24,
-                    p: 4,
-                    overflow: 'scroll',
-                  }}
-                >
-            <Box
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 700,
-                bgcolor: themeMode === 'Dark' ? '#1c2d38' : '#FFFFFF',
-                border: '2px solid #000',
-                boxShadow: 24,
-                p: 4,
-                maxHeight: 500, // set a fixed height for the Box component
-                overflow: 'auto !important', // add !important rule to the overflow property
-              }}
-            >
-              <Typography variant="h5" component="h2" id="transition-modal-title">
-                Apply for Job
-              </Typography>
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  id="bidPrice"
-                  label="Bid Price"
-                  type="number"
-                  required
-                  value={bidPrice}
-                  onChange={(e) => setBidPrice(e.target.value)}
-                  fullWidth
-                  margin="normal"
-                />
-                {/* <TextField
-                    id="bidDeliveryTime"
-                    label="Bid Delivery Time"
-                    // placeholder="YYYY-MM-DDTHH:MM"
-                    type="datetime-local"
-                    required
-                    value={bidDeliveryTime}
-                    onChange={(e) => setBidDeliveryTime(e.target.value)}
-                    fullWidth
-                    margin="normal"
-                  />
-                <DatePicker
-                  fullWidth
-                  id="deliveryTime"
-                  name="deliveryTime"
-                  label="Delivery Time"
-                  value={bidDeliveryTime}
-                  onChange={handleDateChange}
-                  sx={{ '& .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root': { color: inputTextColor } }}
-                />
-                <Button variant="contained" color="primary" type="submit">
-                  Submit Bid
-                </Button>
-              </form>
-            </Box>
-          </Modal>
-          */}
-          <Modal
             open={open}
             onClose={handleClose}
             className="flex items-center justify-center"
@@ -305,7 +232,102 @@ const GetJobs = () => {
                 </button>
               </form>
             </div>
-          </Modal>
+          </Modal> */}
+          <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+            <DialogTitle
+              sx={{ backgroundColor: themeMode === 'Dark' ? 'rgb(31 41 55)' : '#FFFFFF', color: themeMode === 'Dark' ? 'white' : 'rgb(31 41 55)' }}
+            >
+              Apply for Job
+            </DialogTitle>
+            <DialogContent
+              sx={{
+                backgroundColor: themeMode === 'Dark' ? 'rgb(31 41 55)' : '#FFFFFF',
+                color: themeMode === 'Dark' ? 'white' : 'rgb(31 41 55)',
+                '& .MuiTextField-root, & textarea': {
+                  backgroundColor: themeMode === 'Dark' ? 'rgb(31 41 55)' : '#FFFFFF',
+                  color: themeMode === 'Dark' ? 'white' : 'rgb(31 41 55)',
+                  '& .MuiInputBase-input': {
+                    color: inputTextColor,
+                  },
+                  '& .MuiFormLabel-root': {
+                    color: inputTextColor,
+                  },
+                },
+              }}
+            >
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  id="bidPrice"
+                  label="Bid Price"
+                  type="number"
+                  required
+                  value={bidPrice}
+                  onChange={(e) => setBidPrice(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    style: { color: inputTextColor },
+                  }}
+                  InputProps={{
+                    style: { color: inputTextColor },
+                  }}
+                  className="w-full mb-4 p-2 border rounded dark:bg-white dark:text-white"
+                />
+                <DatePicker
+                  fullWidth
+                  id="deliveryTime"
+                  name="deliveryTime"
+                  label="Delivery Time"
+                  placeholder="2"
+                  value={bidDeliveryTime || null}
+                  onChange={handleDateChange}
+                  className="w-full mb-4 p-2 border rounded"
+                  disablePast
+                  InputLabelProps={{
+                    style: { color: inputTextColor },
+                  }}
+                  InputProps={{
+                    style: { color: themeMode ? '#FFFFFF' : 'inherit' },
+                  }}
+                  sx={{ '& .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root': { color: inputTextColor }, marginBottom: '1rem' }}
+                />
+                <TextareaAutosize
+                  minRows={5}
+                  placeholder="Enter your propsal..."
+                  className="w-full mb-4 p-2 border rounded"
+                  onChange={(e) => setProposal(e.target.value)}
+                  InputLabelProps={{
+                    style: { color: inputTextColor },
+                  }}
+                  InputProps={{
+                    style: { color: themeMode ? '#FFFFFF' : 'inherit' },
+                  }}
+                  sx={{
+                    backgroundColor: themeMode === 'Dark' ? 'rgb(31 41 55)' : '#d3d3d3',
+                    color: themeMode === 'Dark' ? 'white' : 'rgb(31 41 55)',
+
+                    '& textarea': {
+                      color: inputTextColor,
+
+                    },
+                    '& .css-1xnpxhj-MuiDialogContent-root .MuiTextField-root, .css-1xnpxhj-MuiDialogContent-root textarea': {
+                      borderColor: themeMode === 'Dark' ? 'orange' : '#FFFFFF',
+                    },
+
+                  }}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 4, py: 2, bgcolor: 'blue.500', '&:hover': { bgcolor: 'blue.600' } }}
+                  onClick={handleSubmit}
+                >
+                  Submit Bid
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
 
           {/* <Button variant="contained" color="primary" onClick={handleOpen}>
             Apply

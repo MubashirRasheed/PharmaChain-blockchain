@@ -114,7 +114,7 @@ import {User, Job} from '../Models/UserModel.js';
 export const register = async (req, res) => {
   try {
 
-    const { fullname, location, ethAddress, email, password,chatId, picturePath, role } = req.body;
+    const { fullname, location, license, ethAddress, email, password,chatId, picturePath, role } = req.body;
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
@@ -126,6 +126,7 @@ export const register = async (req, res) => {
     const newUser = new User({
       fullname,
       location,
+      license,
       ethAddress,
       email,
       password: passwordHash,

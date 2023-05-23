@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, ErrorMessage, Form } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Box, Button, Snackbar, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import Web3 from 'web3';
 import MedCycle from '../../abis/MedCycle.json';
 
@@ -18,6 +18,8 @@ const validationSchema = Yup.object().shape({
 const CreateMedicine = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [medicineSuccessSnack, setMedicineSuccessSnack] = useState(false);
+  const [medicineFailSnack, setMedicineFailSnack] = useState(false);
   const [currentAccount, setcurrentAccount] = useState('');
   const themeMode = localStorage.getItem('themeMode');
   const isNonMobile = useMediaQuery('(min-width: 1000px)');
@@ -95,9 +97,11 @@ const CreateMedicine = () => {
             .send({ from: currentAccount });
           setErrorMessage('');
           setLoading(false);
+          setMedicineSuccessSnack(true);
         } catch (err) {
           setErrorMessage(err.message);
           setLoading(false);
+          setMedicineFailSnack(true);
         }
       } else {
         setErrorMessage('The Supplier Contract does not exist on this network!');
@@ -108,6 +112,13 @@ const CreateMedicine = () => {
       setLoading(false);
     }
     setSubmitting(false);
+  };
+  const handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setMedicineSuccessSnack(false);
+    setMedicineFailSnack(false);
   };
 
   return (
@@ -254,6 +265,17 @@ const CreateMedicine = () => {
           </Formik>
         </Box>
       </Box>
+
+      <Snackbar open={medicineSuccessSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="success" sx={{ width: '100%' }}>
+          Medicine Created Successfully!
+        </Alert>
+      </Snackbar>
+      <Snackbar open={medicineFailSnack} autoHideDuration={5000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity="error" sx={{ width: '100%' }}>
+          Medicine Creation Failed! Make sure Raw material address is correct.
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

@@ -38,6 +38,10 @@ const contractSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    revenue: {
+        type: Number,
+        default: 0,
+        },
     location: {
         type: String,
         required: true,

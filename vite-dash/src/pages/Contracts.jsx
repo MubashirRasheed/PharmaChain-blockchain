@@ -70,9 +70,13 @@ const Contracts = () => {
         case 'succeeded':
           console.log('selectedContractId', localStorage.getItem('selectContractId'));
           console.log('Payment succeeded!');
+          const { amount } = contractData.find((contract) => contract._id === localStorage.getItem('selectContractId'));
+          console.log('revenue', amount);
           const update = await axios.put('http://localhost:9002/contract/update', {
             contractId: localStorage.getItem('selectContractId'),
             paymentStatus: 'Paid',
+            revenue: amount,
+
           }, {
             headers: { 'x-auth-token': token },
           });
@@ -304,6 +308,15 @@ const Contracts = () => {
         boxShadow={theme.shadows[4]}
       >
         <DataGrid
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+              // Hide columns status and traderName, the other columns will remain visible
+                contractCreatedFor: false,
+                contractCreatedBy: false,
+              },
+            },
+          }}
           columns={columns}
           rows={rows}
           pageSize={10}
