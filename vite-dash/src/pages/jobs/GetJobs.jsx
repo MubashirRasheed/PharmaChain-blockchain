@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Skeleton, Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, Snackbar, Alert, Dialog, DialogTitle, DialogContent, TextareaAutosize } from '@mui/material';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Skeleton, Container, Typography, Box, Grid, Button, TextField, Modal, Backdrop, Fade, Snackbar, Alert, Dialog, DialogTitle, DialogContent, TextareaAutosize, CircularProgress } from '@mui/material';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { DatePicker } from '@mui/x-date-pickers';
 // import LocationOn from '@mui/icons-material';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useDropzone } from 'react-dropzone';
 import SkeletonLoading from '../../components/SkeletonLoading';
 
 const GetJobs = () => {
@@ -19,9 +21,13 @@ const GetJobs = () => {
   const [proposal, setProposal] = useState('');
   const [selectedJobId, setSelectedJobId] = useState(null); // new state variable
   const [jobCount, setJobCount] = useState(10); // start with 10 jobs
+  const [URLs, setUrls] = useState([]);
   const token = useSelector((state) => state.token);
   const user = useSelector((state) => state.user);
   const userId = useSelector((state) => state.user._id);
+  const [uploadedUrls, setUploadedUrls] = useState([]);
+  const [fileUrl, setFileUrl] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
   //   const theme = useTheme();
   const themeMode = localStorage.getItem('themeMode');
   const inputTextColor = themeMode === 'Dark' ? '#fff' : undefined;
@@ -50,6 +56,8 @@ const GetJobs = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setFileUrl(null);
+    setUploadedUrls([]);
   };
   //   console.log(selectedJobId);
 
@@ -60,6 +68,7 @@ const GetJobs = () => {
       bidPrice,
       bidDeliveryTime,
       proposal,
+      uploadedUrls,
     };
     console.log(data);
 
@@ -120,6 +129,104 @@ const GetJobs = () => {
     setBidSucessSnack(false);
     setBidFailedSnack(false);
   };
+
+  const handleFileUrlClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      setFileUrl(null);
+      return;
+    }
+    setFileUrl(null);
+  };
+
+  const Dropzone = () => {
+    const onDrop = useCallback(async (acceptedFiles) => {
+      setIsUploading(true);
+      const URLs = [];
+
+      for (let i = 0; i < acceptedFiles.length; i++) {
+        const formData = new FormData();
+        const file = acceptedFiles[i];
+        formData.append('file', file);
+        formData.append('upload_preset', 'yjmnnmje');
+
+        const response = await axios.post('https://api.cloudinary.com/v1_1/daz0bajhs/auto/upload', formData);
+
+        URLs.push(response.data.secure_url);
+      }
+      setIsUploading(false);
+      setUploadedUrls(URLs);
+      setFileUrl(`${acceptedFiles.length} files uploaded`);
+    }, []);
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+    return (
+      <div {...getRootProps()} sx={{ gridColumn: 'span 1', display: 'flex', flexDirection: 'row' }}>
+        <input {...getInputProps()} />
+
+        <Button
+          sx={{
+            backgroundColor: '#ffffff',
+            color: '#1976d2',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            padding: '10px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            mb: '1rem',
+          }}
+        >
+          {isUploading ? (
+            <CircularProgress sx={{ color: '#1976d2', mr: '0.5rem' }} size={20} />
+          ) : (
+            <AttachFileIcon sx={{ fontSize: '1.5rem', mr: '0.5rem' }} />
+          )}
+          {fileUrl ? (
+            <Typography variant="body2" sx={{ textAlign: 'center' }}>
+              {fileUrl}
+            </Typography>
+          ) : (
+            <Typography variant="body2" sx={{ textAlign: 'center' }}>
+              Upload Documents
+            </Typography>
+          )}
+        </Button>
+
+        {/* <Button
+          sx={{
+            backgroundColor: '#ffffff',
+            color: '#1976d2',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            padding: '10px 20px',
+            display: 'flex',
+            alignItems: 'center',
+            mb: '1rem',
+          }}
+        >
+          <AttachFileIcon sx={{ fontSize: '1.5rem', mr: '0.5rem' }} />
+          Upload Documents
+        </Button>
+
+        {uploadedUrls.length > 0 && (
+          <div>
+            <Typography variant="body2" sx={{ mb: '0.5rem' }}>
+              Uploaded Files:
+            </Typography>
+            {uploadedUrls.map((url, index) => (
+              <Typography variant="body2" key={index} sx={{ textAlign: 'center' }}>
+                {url}
+              </Typography>
+            ))}
+          </div>
+        )} */}
+      </div>
+    );
+  };
+
+  console.log('fileUrl', fileUrl);
+  console.log('uploadedUrls', uploadedUrls);
+
   return (
     <Box>
 
@@ -316,6 +423,7 @@ const GetJobs = () => {
 
                   }}
                 />
+                <Dropzone />
                 <Button
                   type="submit"
                   fullWidth

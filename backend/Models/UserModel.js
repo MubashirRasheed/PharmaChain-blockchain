@@ -120,6 +120,11 @@ const jobSchema = new mongoose.Schema(
         proposal: {
           type: String,
         },
+        uploadedUrls: [
+          {
+            type: String,
+          },
+        ],
       },
     ],
   },
@@ -200,6 +205,11 @@ const userSchema = new mongoose.Schema(
         proposal: {
           type: String,
         },
+        uploadedUrls: [
+          {
+            type: String,
+          },
+        ],
       },
     ],
     contracts: [{
@@ -229,6 +239,11 @@ const userSchema = new mongoose.Schema(
         proposal: {
           type: String,
         },
+        uploadedUrls: [
+          {
+            type: String,
+          },
+        ],
       },
     ],
   },

@@ -265,7 +265,7 @@ Supplier:             ${medicine.rawmaterialSupplier}
                   badgeContent={badgeText}
                   color={badgeColor}
                   sx={{ position: 'relative',
-                    marginRight: 2,
+                    marginRight: 6,
                     float: 'right',
                     '& .css-106c1u2-MuiBadge-badge': {
                       marginRight: '30px',
@@ -304,6 +304,7 @@ Supplier:             ${medicine.rawmaterialSupplier}
                     width: 700,
                     bgcolor: themeMode === 'Dark' ? '#1c2d38' : '#FFFFFF',
                     border: '2px solid #000',
+                    borderRadius: '20px',
                     boxShadow: 24,
                     p: 4,
                     maxHeight: 500, // set a fixed height for the Box component

@@ -263,10 +263,10 @@ Supplier:             ${medicine.rawmaterialSupplier}
                   badgeContent={badgeText}
                   color={badgeColor}
                   sx={{ position: 'relative',
-                    marginRight: 2,
+                    marginRight: 6,
                     float: 'right',
                     '& .css-106c1u2-MuiBadge-badge': {
-                      marginRight: '30px',
+                      marginRight: '50px',
                     } }}
                 />
 
