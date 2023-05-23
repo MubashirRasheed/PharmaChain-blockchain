@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import ProductModel from "../Models/ProductModel.js";
 
 // Crud Operations
@@ -41,16 +42,23 @@ export const GetAllProducts = async (req, res, next) => {
 export const AddNewProduct = async (req, res) => {
   try {
     const newProduct = new ProductModel({
-      ProductID: req.body.ProductID,
-      ProductName: req.body.ProductName,
-      CustomerEmail: req.body.CustomerEmail,
-      ProductImageUrl: req.body.ProductImageUrl,
-      ProjectName: req.body.ProjectName,
-      Status: req.body.Status,
-      StatusBg: req.body.StatusBg,
-      Quantity: req.body.Quantity,
-      Price: req.body.Price,
-      Location: req.body.Location,
+
+      id : req.body.id,
+      sku: req.body.sku,
+      name : req.body.name,
+      price: req.body.price,
+      discount: req.body.discount,
+      offerEnd: req.body.offerEnd,
+      new: req.body.new,
+      rating: req.body.rating,
+      saleCount: req.body.saleCount,
+      stock: req.body.stock,
+      category: req.body.category,
+      tag: req.body.tag,
+      image: req.body.image,
+      shortDescription: req.body.shortDescription,
+      fullDescription: req.body.fullDescription,
+
     });
 
     const savedProduct = await newProduct.save(); // Save the new product to the database
@@ -65,19 +73,31 @@ export const AddNewProduct = async (req, res) => {
 export const UpdateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const { ProductID, ProductName, CustomerEmail, ProductImageUrl, ProjectName, Status, StatusBg, Quantity, Price, Location } = req.body;
+    // const { ProductID, ProductName, CustomerEmail, ProductImageUrl, ProjectName, Status, StatusBg, Quantity, Price, Location } = req.body;
 
-    const product = await ProductModel.findByIdAndUpdate(id, { 
-      ProductID, 
-      ProductName, 
-      CustomerEmail, 
-      ProductImageUrl, 
-      ProjectName, 
-      Status, 
-      StatusBg, 
-      Quantity, 
-      Price, 
-      Location 
+
+    // if (!mongoose.Types.ObjectId.isValid(id)) {
+    //   console.log(id, 'Invalid ID');
+    //   return res.status(400).send({ message: 'Invalid ID', id });
+    // }
+
+    console.log(id, 'mongooseID');
+    const product = await ProductModel.findOneAndUpdate({id:id}, {
+      id : req.body.id,
+      sku: req.body.sku,
+      name : req.body.name,
+      price: req.body.price,
+      discount: req.body.discount,
+      offerEnd: req.body.offerEnd,
+      new: req.body.new,
+      rating: req.body.rating,
+      saleCount: req.body.saleCount,
+      stock: req.body.stock,
+      category: req.body.category,
+      tag: req.body.tag,
+      image: req.body.image,
+      shortDescription: req.body.shortDescription,
+      fullDescription: req.body.fullDescription,
     }, { new: true });
 
     if (!product) {
@@ -95,8 +115,8 @@ export const UpdateProduct = async (req, res) => {
 // Async function to delete a product by its ProductID
 export const DeleteProduct = async (req, res) => {
   try {
-    const { ProductID } = req.params;
-    const deletedProduct = await ProductModel.findOneAndDelete({ ProductID });
+    const { id } = req.params;
+    const deletedProduct = await ProductModel.findOneAndDelete({ id });
     if (!deletedProduct) {
       return res.status(404).send({ message: 'Product not found' });
     }

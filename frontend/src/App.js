@@ -23,6 +23,7 @@ const MyAccount = lazy(() => import("./pages/other/MyAccount"));
 const LoginRegister = lazy(() => import("./pages/other/LoginRegister"));
 
 const Cart = lazy(() => import("./pages/other/Cart"));
+const CheckoutSuccess = lazy(() => import("./pages/other/CheckoutSuccess"));
 const Wishlist = lazy(() => import("./pages/other/Wishlist"));
 const Checkout = lazy(() => import("./pages/other/Checkout"));
 
@@ -162,6 +163,10 @@ const App = () => {
               <Route
                 path={process.env.PUBLIC_URL + "/cart"}
                 element={<Cart/>}
+              />
+              <Route
+                path={process.env.PUBLIC_URL + "/checkout-success"}
+                element={<CheckoutSuccess/>}
               />
               <Route
                 path={process.env.PUBLIC_URL + "/wishlist"}

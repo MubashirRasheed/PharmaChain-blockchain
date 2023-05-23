@@ -30,6 +30,14 @@ import jobPostRouter from './routes/jobPostRouter.js';
 import bidRouter from './routes/bidRouter.js';
 import conRouter from './routes/contractroute.js';
 
+import stripeRouter from './routes/stripeRouter.js';
+import PharmacyProductRouter from './routes/PharmacyProductRouter.js';
+import emailRouter from './routes/EmailRouter.js';
+import PaymentLogRouter from './routes/PaymentLogRouter.js';
+import DistributorRouter from './routes/DistributorRouter.js';
+import SupplierRouter from './routes/SupplierRouter.js';
+import ManufacturerRouter from './routes/ManufacturerRouter.js';
+
 
 // var app = express();
 
@@ -68,6 +76,23 @@ app.use('/auth', authRoutes);
 app.use('/chat', chatRoutes);
 app.use('/job-post', jobPostRouter);
 app.use('/bids', bidRouter);
+
+//Payment routes
+app.use('/stripe', stripeRouter);
+
+// Pharmacy Products
+app.use('/pharmacyproducts', PharmacyProductRouter);
+
+// Payment Logs
+app.use('/paymentlogs', PaymentLogRouter);
+
+// Email
+app.use('/email', emailRouter);
+
+// Other dashboard routes
+app.use('/distributor', DistributorRouter);
+app.use('/supplier', SupplierRouter);
+app.use('/manufacturer', ManufacturerRouter);
 
 app.use('/contract', conRouter)
 

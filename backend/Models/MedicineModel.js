@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 const medicineSchema = new mongoose.Schema({
+  _id: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
   MedicineID: {
     type: Number,
     required: true

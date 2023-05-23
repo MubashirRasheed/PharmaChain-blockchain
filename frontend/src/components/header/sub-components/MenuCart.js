@@ -3,20 +3,22 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getDiscountPrice } from "../../../helpers/product";
 import { deleteFromCart } from "../../../store/slices/cart-slice"
+import PayButton from "../../PayButton";
 
 const MenuCart = () => {
   const dispatch = useDispatch();
   const currency = useSelector((state) => state.currency);
   const { cartItems } = useSelector((state) => state.cart);
   let cartTotalPrice = 0;
-
+  let discountedPrice = 0;
+// console.log(cartItems);
   return (
     <div className="shopping-cart-content">
       {cartItems && cartItems.length > 0 ? (
         <Fragment>
           <ul>
             {cartItems.map((item) => {
-              const discountedPrice = getDiscountPrice(
+              discountedPrice = getDiscountPrice(
                 item.price,
                 item.discount
               );
@@ -58,7 +60,7 @@ const MenuCart = () => {
                         : currency.currencySymbol + finalProductPrice}
                     </span>
                     {item.selectedProductColor &&
-                    item.selectedProductSize ? (
+                      item.selectedProductSize ? (
                       <div className="cart-item-variation">
                         <span>Color: {item.selectedProductColor}</span>
                         <span>Size: {item.selectedProductSize}</span>
@@ -88,12 +90,21 @@ const MenuCart = () => {
             <Link className="default-btn" to={process.env.PUBLIC_URL + "/cart"}>
               view cart
             </Link>
-            <Link
+
+
+
+            {/* Payment */}
+            <PayButton
+              cartItems={cartItems} discountedP = { discountedPrice }
+                />
+
+
+            {/* <Link
               className="default-btn"
               to={process.env.PUBLIC_URL + "/checkout"}
             >
               checkout
-            </Link>
+            </Link> */}
           </div>
         </Fragment>
       ) : (

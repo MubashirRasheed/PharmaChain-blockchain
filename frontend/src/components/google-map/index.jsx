@@ -1,5 +1,7 @@
 import PropTypes from "prop-types";
 import GoogleMapReact from 'google-map-react';
+import { useState } from "react";
+
 
 const GoogleMap = ({
     lat,
@@ -7,12 +9,32 @@ const GoogleMap = ({
     zoom,
     options,
 }) => {
+    
+    const [center, setCenter] = useState({ lat: 0, lng: 0 });
+    
+    const handleMapLoaded = ({ map, maps }) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              setCenter({ lat: latitude, lng: longitude });
+            },
+            (error) => {
+              console.error('Error getting the current location:', error);
+            }
+          );
+        } else {
+          console.error('Geolocation is not supported by this browser.');
+        }
+      };
+
     return (
         <div style={{ height: '100%', width: '100%' }}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: "AIzaSyB2D8wrWMY3XZnuHO6C31uq90JiuaFzGws" }}
+                bootstrapURLKeys={{ key: "AIzaSyDlN9nwEuPcue96abGsNsBIx0lEJlk7rZI" }} // GoogleMapAPI AIzaSyDlN9nwEuPcue96abGsNsBIx0lEJlk7rZI
                 defaultCenter={{lat, lng}}
                 defaultZoom={zoom}
+                onGoogleApiLoaded={handleMapLoaded}
             >
                 <Marker
                     lat={lat}

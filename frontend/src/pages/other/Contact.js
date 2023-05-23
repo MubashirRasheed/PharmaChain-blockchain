@@ -25,9 +25,9 @@ const Contact = () => {
         <div className="contact-area pt-100 pb-100">
           <div className="container">
             <div className="contact-map mb-10">
-              <GoogleMap lat={47.444} lng={-122.176} />
+              <GoogleMap lat={33.65006} lng={73.15567} />
             </div>
-            <div className="custom-row-2">
+            <div className="custom-row-2 mt-5">
               <div className="col-12 col-lg-4 col-md-5">
                 <div className="contact-info-wrap">
                   <div className="single-contact-info">
@@ -102,7 +102,7 @@ const Contact = () => {
                   <div className="contact-title mb-30">
                     <h2>Get In Touch</h2>
                   </div>
-                  <form className="contact-form-style">
+                  <form action="http://localhost:9002/email/send-email" method="POST" className="contact-form-style">
                     <div className="row">
                       <div className="col-lg-6">
                         <input name="name" placeholder="Name*" type="text" />

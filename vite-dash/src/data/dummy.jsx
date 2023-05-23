@@ -598,11 +598,11 @@ export const links = [
         icon: <AiOutlineShoppingCart />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
-      // {
-      //   name: 'employees',
-      //   icon: <IoMdContacts />,
-      //   roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
-      // },
+      {
+        name: 'employees',
+        icon: <IoMdContacts />,
+        roles: ['admin'],
+      },
       {
         name: 'customers',
         icon: <RiContactsLine />,
@@ -949,7 +949,6 @@ export const earningData = [
     title: 'Sales',
     iconColor: 'rgb(228, 106, 118)',
     iconBg: '#b6bffa',
-
     pcColor: 'green-600',
   },
   {
@@ -4095,7 +4094,7 @@ export const lineCustomSeries = [
     dataSource: lineChartData[0],
     xName: 'x',
     yName: 'y',
-    name: 'Germany',
+    name: 'Sales',
     width: '2',
     marker: { visible: true, width: 10, height: 10 },
     type: 'Line',
@@ -4105,7 +4104,7 @@ export const lineCustomSeries = [
     dataSource: lineChartData[1],
     xName: 'x',
     yName: 'y',
-    name: 'England',
+    name: 'Stock',
     width: '2',
     marker: { visible: true, width: 10, height: 10 },
     type: 'Line',
@@ -4115,7 +4114,7 @@ export const lineCustomSeries = [
     dataSource: lineChartData[2],
     xName: 'x',
     yName: 'y',
-    name: 'India',
+    name: 'Products',
     width: '2',
     marker: { visible: true, width: 10, height: 10 },
     type: 'Line',

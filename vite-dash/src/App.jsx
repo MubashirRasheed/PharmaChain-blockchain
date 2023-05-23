@@ -10,13 +10,13 @@ import { useSelector } from 'react-redux';
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
 import { Ecommerce, Orders, Calendar, Employees, Stacked, Pyramid, Customers, Kanban, Line, Area, Bar, Pie, Financial, ColorPicker, ColorMapping, Editor, Medicines, Inventory, Contracts } from './pages';
 import LoginPage from './pages/login';
-import SupplierDashbaord from './pages/supplier/SupplierDashbaord.jsx';
-import AdminDashboard from './pages/admin/AdminDashbaord';
+import SupplierDashbaord from './pages/supplier/SupplierDashboard.jsx';
+import AdminDashboard from './pages/admin/AdminDashboard';
 import Chat from './components/chat/Chat.jsx';
 import './App.css';
 
 import { useStateContext } from './contexts/ContextProvider';
-import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminEmployee from './pages/admin/AdminEmployee.jsx';
 import AdminLine from './pages/admin/AdminLine';
 import AdminArea from './pages/admin/AdminArea';
 import AdminBar from './pages/admin/AdminBar';
@@ -43,6 +43,10 @@ import PharmacistDashboard from './pages/pharmacist/PharmacistDashboard';
 import PharmaReceiveMedicine from './pages/pharmacist/PharmaReceiveMedicine';
 import UpdateStatus from './pages/pharmacist/UpdateStatus';
 import AllMedicines from './pages/pharmacist/AllMedicines';
+import PharmacistInventory from './pages/pharmacist/PharmacistInventory';
+import DistributorInventory from './pages/distributor/DistributorInventory';
+import SupplierInventory from './pages/supplier/SupplierInventory';
+import ManufacturerInventory from './pages/manufacturer/ManufacturerInventory';
 import EditProfile from './pages/EditProfile';
 import PostJob from './pages/jobs/PostJob';
 import GetJobs from './pages/jobs/GetJobs';
@@ -169,7 +173,7 @@ const App = () => {
                       <Route path="/suppliercustomers" element={<Customers />} />
                       <Route path="/supplierRawMaterials" element={<RawMaterials />} />
                       <Route path="/supplierCreateRaw" element={<CreateRaw />} />
-                      <Route path="/supplierinventory" element={<Inventory />} />
+                      <Route path="/supplierinventory" element={<SupplierInventory />} />
                       <Route path="/suppliermedicines" element={<Medicines />} />
                       <Route path="/suppliercontracts" element={<Contracts />} />
                       {/* apps  */}
@@ -205,7 +209,7 @@ const App = () => {
                       <Route path="manufacturerRawMaterial" element={<ManufacturerRawMaterial />} />
                       <Route path="manufacturerCreateMedicine" element={<CreateMedicine />} />
                       <Route path="manufacturerNewMedicines" element={<NewMedicines />} />
-                      <Route path="/manufacturerinventory" element={<Inventory />} />
+                      <Route path="/manufacturerinventory" element={<ManufacturerInventory />} />
                       <Route path="/manufacturermedicines" element={<Medicines />} />
                       <Route path="/manufacturercontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
@@ -236,13 +240,13 @@ const App = () => {
                     <>
                       {/* <Route path="/ecommerce" element={<Ecommerce />} /> */}
                       <Route path="/adminDashboard" element={<AdminDashboard />} />
-                      <Route path="/admincustomers" element={<AdminCustomers />} />
+                      <Route path="/adminemployee" element={<AdminEmployee />} />
                       <Route path="/adminManageUsers" element={<AdminManageUsers />} />
 
                       {/* pages  */}
                       <Route path="/adminorders" element={<Orders />} />
                       <Route path="/adminemployees" element={<Employees />} />
-                      <Route path="/admincustomers" element={<Customers />} />
+                      <Route path="/adminemployee" element={<Customers />} />
                       <Route path="/adminmedicines" element={<Medicines />} />
                       <Route path="/admininventory" element={<Inventory />} />
                       <Route path="/admincontracts" element={<Contracts />} />
@@ -281,7 +285,7 @@ const App = () => {
                       <Route path="distributorReceiveMedicine" element={<ReceiveMedicine />} />
                       <Route path="distributorSendMedicine" element={<SendMedicine />} />
                       <Route path="distributorAllSentMedicines" element={<AllSentMedicines />} />
-                      <Route path="distributorinventory" element={<Inventory />} />
+                      <Route path="distributorinventory" element={<DistributorInventory />} />
                       <Route path="/distributormedicines" element={<Medicines />} />
                       <Route path="/distributorcontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
@@ -332,7 +336,7 @@ const App = () => {
                       <Route path="pharmacistPharmaReceiveMedicine" element={<PharmaReceiveMedicine />} />
                       <Route path="pharmacistUpdateStatus" element={<UpdateStatus />} />
                       <Route path="pharmacistAllMedicines" element={<AllMedicines />} />
-                      <Route path="pharmacistinventory" element={<Inventory />} />
+                      <Route path="pharmacistinventory" element={<PharmacistInventory />} />
                       <Route path="/pharmacistmedicines" element={<Medicines />} />
                       <Route path="/pharmacistcontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />

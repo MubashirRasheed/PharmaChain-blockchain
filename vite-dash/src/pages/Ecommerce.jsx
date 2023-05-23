@@ -1,9 +1,13 @@
-import React from 'react';
-import { BsCurrencyDollar } from 'react-icons/bs';
+import React, { useEffect, useState } from 'react';
+import { BsBoxSeam, BsCurrencyDollar } from 'react-icons/bs';
 import { GoPrimitiveDot } from 'react-icons/go';
 import { IoIosMore } from 'react-icons/io';
 import { DropDownListComponent } from '@syncfusion/ej2-react-dropdowns';
 
+import axios from 'axios';
+import { MdOutlineSupervisorAccount } from 'react-icons/md';
+import { HiOutlineRefresh } from 'react-icons/hi';
+import { FiBarChart } from 'react-icons/fi';
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../data/dummy';
 import { useStateContext } from '../contexts/ContextProvider';
@@ -17,6 +21,43 @@ const DropDown = ({ currentMode }) => (
 
 const Ecommerce = () => {
   const { currentColor, currentMode } = useStateContext();
+  const [inventoryData, setInventoryData] = useState([]);
+
+  async function getAllProducts() {
+    try {
+      const response = await axios.get('http://localhost:9002/pharmacyproducts/allPharmacyProducts');
+      setInventoryData(response.data);
+      // console.log(response.data); // data
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    // // fetch inventory data from API
+
+    getAllProducts();
+  }, []);
+
+  const getTotalProducts = () => inventoryData.length;
+
+  const getTotalSales = () => inventoryData.reduce((total, product) => total + product.saleCount, 0);
+
+  const getTotalStock = () => inventoryData.reduce((total, product) => {
+    const stock = product.stock || 0; // Use 0 as the default value if stock is undefined or falsy
+    return total + (Number(stock) || 0); // Convert stock to a number and add it to the total, use 0 if it's NaN or falsy
+  }, 0);
+
+  const getTotalCategories = () => {
+    const allCategories = inventoryData.flatMap((product) => product.category);
+    const uniqueCategories = [...new Set(allCategories)].filter((category) => category !== '');
+    return uniqueCategories.length;
+  };
+
+  const totalProducts = getTotalProducts();
+  const totalSales = getTotalSales();
+  const totalStock = getTotalStock();
+  const totalCategories = getTotalCategories();
 
   return (
     <div className="mt-24">
@@ -45,24 +86,73 @@ const Ecommerce = () => {
           </div>
         </div>
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
-          {earningData.map((item) => (
-            <div key={item.title} className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
-              <button
-                type="button"
-                style={{ color: item.iconColor, backgroundColor: item.iconBg }}
-                className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
-              >
-                {item.icon}
-              </button>
-              <p className="mt-3">
-                <span className="text-lg font-semibold">{item.amount}</span>
-                <span className={`text-sm text-${item.pcColor} ml-2`}>
-                  {item.percentage}
-                </span>
-              </p>
-              <p className="text-sm text-gray-400  mt-1">{item.title}</p>
-            </div>
-          ))}
+
+          {/* Dynamic Data */}
+
+          <div key="Products" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+            <button
+              type="button"
+              style={{ color: 'rgb(255, 244, 229)', backgroundColor: '#904C77' }}
+              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+            >
+              <BsBoxSeam />
+            </button>
+            <p className="mt-3">
+              <span className="text-lg font-semibold">{totalProducts}</span>
+              <span className="text-sm text-green-600 ml-2">
+                {/* {item.percentage} */}
+              </span>
+            </p>
+            <p className="text-sm text-gray-400  mt-1">Products</p>
+          </div>
+          <div key="Sales" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+            <button
+              type="button"
+              style={{ color: 'rgb(228, 106, 118)', backgroundColor: '#b6bffa' }}
+              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+            >
+              <FiBarChart />
+            </button>
+            <p className="mt-3">
+              <span className="text-lg font-semibold">{totalSales}</span>
+              <span className="text-sm text-green-600 ml-2">
+                {/* {item.percentage} */}
+              </span>
+            </p>
+            <p className="text-sm text-gray-400  mt-1">Sales</p>
+          </div>
+          <div key="Total Stock" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+            <button
+              type="button"
+              style={{ color: 'rgb(0, 194, 146)', backgroundColor: '#e8f7ad' }}
+              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+            >
+              <HiOutlineRefresh />
+            </button>
+            <p className="mt-3">
+              <span className="text-lg font-semibold">{totalStock}</span>
+              <span className="text-sm text-red-600 ml-2">
+                {/* {item.percentage} */}
+              </span>
+            </p>
+            <p className="text-sm text-gray-400  mt-1">Total Stock</p>
+          </div>
+          <div key="Categories" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+            <button
+              type="button"
+              style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
+              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+            >
+              <MdOutlineSupervisorAccount />
+            </button>
+            <p className="mt-3">
+              <span className="text-lg font-semibold">{totalCategories}</span>
+              <span className="text-sm text-red-600 ml-2">
+                {/* {item.percentage} */}
+              </span>
+            </p>
+            <p className="text-sm text-gray-400  mt-1">Categories</p>
+          </div>
         </div>
       </div>
 
@@ -137,7 +227,7 @@ const Ecommerce = () => {
               <SparkLine currentColor={currentColor} id="column-sparkLine" height="100px" type="Column" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
             </div>
           </div>
-{/* 
+          {/*
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
             <div>
               <p className="text-2xl font-semibold ">$43,246</p>

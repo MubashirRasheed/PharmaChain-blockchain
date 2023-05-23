@@ -1,68 +1,56 @@
 import mongoose from "mongoose";
 // import validator from "validator";
 
-const productSchema = mongoose.Schema(
-  {
-    id: {
-      type: mongoose.Schema.Types.ObjectId,
-    },
-    ProductID: {
-      type: String,
-      required: true,
-      trim: true,
-    },    
-    ProductName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    CustomerEmail: {
-      type: String,
-      // required: true,
-      trim: true,
-      default:'',
-    },
-    ProductImageUrl: {
-      type: String,
-      // required: true,
-      trim: true,
-    },
-    ProjectName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    Status: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    StatusBg: {
-      type: String,
-      trim: true,
-    },
-    Quantity: {
-      type: String,
-      required: true,
-      trim: true,
-      // default: 0,
-    },
-    Price: {
-      type: String,
-      required: true,
-    },
-    Location: {
-      type: String,
-      // required: true,
-      // default: "",
-    },
-  },{
-    timestamps: true
+const productSchema = mongoose.Schema({
+  id: {
+    type : Number
+  },
+  sku: {
+    type: String
+  },
+  name: {
+    type: String
+  },
+  price: {
+    type: Number
+  },
+  discount: {
+    type: Number
+  },
+  offerEnd: {
+    type: String
+  },
+  new: {
+    type: Boolean
+  },
+  rating: {
+    type: Number
+  },
+  saleCount: {
+    type: Number
+  },
+  stock: {
+    type: Number
+  },
+  category: {
+    type: Array
+  },
+  tag: {
+    type: Array
+  },
+  image: {
+    type: Array
+  },
+  shortDescription: {
+    type: String
+  },
+  fullDescription: {
+    type: String
   }
-);
+});
 
 
-const Product = mongoose.model("products", productSchema);
+const ProductModel = mongoose.model("products", productSchema);
 
 // module.exports = Product;
-export default Product;
+export default ProductModel;
