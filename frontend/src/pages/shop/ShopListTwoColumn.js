@@ -54,7 +54,7 @@ const ShopListTwoColumn = ({ location }) => {
     <Fragment>
       <SEO
         titleTemplate="Shop Page"
-        description="Shop page of flone react minimalist eCommerce template."
+        description="Shop Page of Minimalist E-commerce Pharmacy"
       />
 
       <LayoutOne headerTop="visible">

@@ -3413,8 +3413,7 @@
     "q" "^1.1.2"
 
 "cogo-toast@https://github.com/hasanm95/cogo-toast":
-  "integrity" "sha512-hZtFTE+DMrv966OfoN1+OTqaHCmOE5BRqOoET8Cy8scutN92DjfGfZ3Aqxx8P+nDR16ovjuu4e2rQF+CSo9jXA=="
-  "resolved" "git+ssh://git@github.com/hasanm95/cogo-toast.git"
+  "resolved" "git+ssh://git@github.com/hasanm95/cogo-toast.git#e407242c1218397f610ab565958074f6c2e95b7a"
   "version" "4.2.4"
 
 "collect-v8-coverage@^1.0.0":

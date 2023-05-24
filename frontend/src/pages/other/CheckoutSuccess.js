@@ -10,6 +10,9 @@ const CheckoutSuccess = () => {
   const url = 'http://localhost:9002/paymentlogs/addNewPaymentLog'
   const dispatch = useDispatch();
   const [cartData, setCartData] = useState();
+  const [totalPrice, setTotalPrice] = useState();
+  const [totalQuantity, setTotalQuantity] = useState();
+  const [quantityByProduct, setQuantityByProduct] = useState();
 
   useEffect(() => {
     // You can call your desired function here
@@ -17,72 +20,58 @@ const CheckoutSuccess = () => {
       const urlSearchParams = new URLSearchParams(window.location.search);
       const params = Object.fromEntries(urlSearchParams.entries());
 
-      console.log(JSON.parse(params.cart), "json");
-      setCartData(JSON.parse(params.cart));
+      setTotalPrice(JSON.parse(params.totalPrice));
+      console.log("Total Price: ", JSON.parse(params.totalPrice));
+      setTotalQuantity(JSON.parse(params.totalQuantity));
+      console.log("Total Quantity: ", JSON.parse(params.totalQuantity));
+      setQuantityByProduct(JSON.parse(params.quantityByPrice));
+      console.log("Quantity By Price: ", JSON.parse(params.quantityByPrice));
+      // setQuantityByProduct(Object.entries(quantityByProduct).map(([name, quantity]) => ({ name, quantity })));
       // console.log(JSON.parse(params.cart));
 
-      if (JSON.parse(params.cart)) {
-        // CREATE A PAYMENT RECORD
+      // if (JSON.parse(params.cart)) {
+      //   // CREATE A PAYMENT RECORD
 
-      }
+      // }
     };
     paymentSuccess();
     // dispatch(deleteAllFromCart()); 
   }, []);
 
-
-  async function postData(url, data) {
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-    
-      if (!response.ok) {
-        throw new Error('Network response was not OK');
-      }
-    
-      const responseData = await response.json();
-      console.log('Response:', responseData);
-      // Handle the response data
-    
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle errors
-    }
-  }
-
-  // Calculate total amount of price
-  const totalPrice = cartData.reduce((total, item) => {
-    const discountedPrice = item.price * (item.discount / 100);
-    const amount = discountedPrice * item.quantity;
-    return total + amount;
-  }, 0);
-
-  // Calculate total number of quantity sold
-  const totalQuantity = cartData.reduce((total, item) => total + item.quantity, 0);
-
-  // Calculate number of quantity sold for each product with its name
-  const quantityByProduct = cartData.reduce((result, item) => {
-    if (result[item.name]) {
-      result[item.name] += item.quantity;
-    } else {
-      result[item.name] = item.quantity;
-    }
-    return result;
-  }, {});
-
-  const paymentData = {
+  const paymentLog = {
     TotalAmount : totalPrice,
     TotalProducts: totalQuantity,
     QuantityByProduct: quantityByProduct,
   }
+  console.log("PaymentLog: ",paymentLog);
 
-  postData(url, paymentData);
+  // const formattedQuantityByProduct = Object.keys(quantityByProduct).map((name) => ({
+  //   name,
+  //   quantity: quantityByProduct[name],
+  // }));
+  
+  
+    // const formattedPaymentLogData = {
+    //   ...paymentLog,
+    //   QuantityByProduct: formattedQuantityByProduct,
+    // };
 
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(paymentLog)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Payment logs saved successfully:', data);
+      })
+      .catch(error => {
+        console.error('Error saving payment logs:', error);
+      });
+
+  // postData(url, paymentData);
 
   return (
     <>
