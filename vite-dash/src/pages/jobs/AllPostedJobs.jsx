@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import DoneIcon from '@mui/icons-material/Done';
+import JSZip from 'jszip';
+import streamSaver from 'streamsaver';
 import SkeletonLoading from '../../components/SkeletonLoading';
 
 const AllPostedJobs = () => {
@@ -189,18 +191,87 @@ const AllPostedJobs = () => {
     console.log('🚀 ~ file: AllPostedJobs.jsx:188 ~ getProposal ~ selectedBidd:', selectedBidd);
 
     if (selectedBidd) {
-      const { proposal } = selectedBidd;
+      const { proposal, uploadedUrls } = selectedBidd;
       const bidderName = selectedBidd.bidder && selectedBidd.bidder.fullname;
-      return { proposal };
+      return { proposal, uploadedUrls };
     }
     return { bidderName: '', price: '', deliveryTime: '' };
   };
   const SelectedtoApply = getBidderInfo(selectedJobBid, selectedBid);
   const SelectedForProposal = getProposal(selectedJobBid, selectedBid);
-  console.log('🚀 ~ file: AllPostedJobs.jsx:201 ~ AllPostedJobs ~ SelectedForProposal:', SelectedForProposal?.proposal);
+  console.log('🚀 ~ file: AllPostedJobs.jsx:201 ~ AllPostedJobs ~ SelectedForProposal:', SelectedForProposal.uploadedUrls);
 
   const handleViewProposal = () => {
     setOpenDialog(!openDialog);
+  };
+
+  const downloadFilesAsZip = async (files) => {
+    try {
+      const zip = new JSZip();
+
+      // Fetch each file and add it to the zip
+      const fetchFiles = files.map(async (fileUrl) => {
+        const response = await fetch(fileUrl);
+        const blob = await response.blob();
+        const fileName = getFileNameFromUrl(fileUrl);
+        zip.file(fileName, blob);
+      });
+
+      await Promise.all(fetchFiles);
+
+      // Generate the zip file
+      const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+      // Create a writable stream
+      const fileStream = streamSaver.createWriteStream('files.zip');
+
+      // Create a writable stream writer
+      const writer = fileStream.getWriter();
+
+      // Write the zip blob to the writable stream
+      await writer.write(zipBlob);
+
+      // Close the writable stream
+      await writer.close();
+
+      console.log('File download completed');
+    } catch (error) {
+      // Handle any errors that occurred during the process
+      console.error('Error downloading files:', error);
+    }
+  };
+
+  // Utility function to extract file name from URL
+  const getFileNameFromUrl = (url) => {
+    const urlParts = url.split('/');
+    return urlParts[urlParts.length - 1];
+  };
+
+  const handleDownload = async () => {
+    if (SelectedForProposal.uploadedUrls.length === 0) {
+      return;
+    }
+
+    const zip = new JSZip();
+
+    const downloadPromises = SelectedForProposal.uploadedUrls.map(async (fileUrl) => {
+      const response = await fetch(fileUrl);
+      const fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+      const fileData = await response.blob();
+      zip.file(fileName, fileData);
+    });
+
+    await Promise.all(downloadPromises);
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(content);
+      link.download = 'files.zip';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
   };
   return (
     <Box>
@@ -273,6 +344,19 @@ const AllPostedJobs = () => {
                                         <h3 className="text-xl leading-6 font-bold text-gray-900 dark:text-gray-200 mb-2">Proposal</h3>
                                         <div className="bg-gray-100 rounded-lg p-4 mt-4 dark:bg-gray-900">
                                           <p className="text-sm text-gray-500 dark:text-gray-400">{SelectedForProposal.proposal}</p>
+                                        </div>
+                                        <div className="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                          {/* Download Button */}
+                                          {SelectedForProposal.uploadedUrls.length != 0 ? (
+                                            <button
+                                              onClick={handleDownload}
+                                              className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                            >
+                                              Download File
+                                            </button>
+                                          ) : (
+                                            <p className="mt-3 text-sm text-gray-500 dark:text-gray-400">No file to download</p>
+                                          )}
                                         </div>
                                       </div>
                                     </div>

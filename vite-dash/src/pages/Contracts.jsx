@@ -314,6 +314,7 @@ const Contracts = () => {
               // Hide columns status and traderName, the other columns will remain visible
                 contractCreatedFor: false,
                 contractCreatedBy: false,
+
               },
             },
           }}

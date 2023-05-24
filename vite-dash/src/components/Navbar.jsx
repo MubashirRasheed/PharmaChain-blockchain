@@ -93,7 +93,7 @@ const Navbar = () => {
 
         <NavButton title="Chat" dotColor="#03C9D7" customFunc={handleChat} color={currentColor} icon={<BsChatLeft />} />
         {/* customFunc={() => handleClick('chat')}  */}
-        <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={currentColor} icon={<RiNotification3Line />} customFunc={() => handleClick('notification')} />
+        {/* <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={currentColor} icon={<RiNotification3Line />} customFunc={() => handleClick('notification')} /> */}
         {/* customFunc={() => handleClick('notification')} */}
         <TooltipComponent content="Profile" position="BottomCenter">
           <div
@@ -118,7 +118,7 @@ const Navbar = () => {
 
         {isClicked.cart && (<Cart />)}
         {isClicked.chat && (<Chat />)}
-        {isClicked.notification && (<Notification />)}
+        {/* {isClicked.notification && (<Notification />)} */}
         {isClicked.userProfile && (<UserProfile />)}
         {/* {console.log('isClicked', isClicked, isClicked.userProfile)} */}
       </div>

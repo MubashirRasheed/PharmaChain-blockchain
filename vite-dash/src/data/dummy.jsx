@@ -14,7 +14,12 @@ import {
   FiCreditCard,
   FiStar,
   FiShoppingCart,
+  FiPocket,
+  FiArrowDownCircle,
+  FiSend,
+  FiExternalLink,
 } from 'react-icons/fi';
+import { CiCircleCheck, CiCircleList, CiMedicalCross, CiMedicalMask, CiPill } from 'react-icons/ci';
 import {
   BsKanban,
   BsBarChart,
@@ -22,11 +27,12 @@ import {
   BsCurrencyDollar,
   BsShield,
   BsChatLeft,
+  BsPersonLinesFill,
 } from 'react-icons/bs';
 import { BiColorFill } from 'react-icons/bi';
 import { IoMdContacts } from 'react-icons/io';
-import { RiContactsLine, RiStockLine } from 'react-icons/ri';
-import { MdOutlineSupervisorAccount } from 'react-icons/md';
+import { RiContactsLine, RiMailSendLine, RiStockLine } from 'react-icons/ri';
+import { MdLocalPostOffice, MdOutlineInventory, MdOutlineSupervisorAccount, MdRequestPage } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { TiTick } from 'react-icons/ti';
 import { GiLouvrePyramid } from 'react-icons/gi';
@@ -615,73 +621,73 @@ export const links = [
       },
       {
         name: 'RawMaterials',
-        icon: <IoMdContacts />,
+        icon: <CiMedicalMask />,
         roles: ['rawMaterialSupplier'],
       },
       {
         name: 'CreateRaw',
-        icon: <IoMdContacts />,
+        icon: <CiMedicalCross />,
         roles: ['rawMaterialSupplier'],
       },
       {
         name: 'RawMaterial',
-        icon: <IoMdContacts />,
+        icon: <CiMedicalMask />,
         roles: ['manufacturer'],
       },
       {
         name: 'CreateMedicine',
-        icon: <IoMdContacts />,
+        icon: <CiMedicalCross />,
         roles: ['manufacturer'],
       },
       {
         name: 'NewMedicines',
-        icon: <IoMdContacts />,
+        icon: <CiCircleList />,
         roles: ['manufacturer'],
       },
 
       {
         name: 'ReceiveMedicine',
-        icon: <IoMdContacts />,
+        icon: <FiArrowDownCircle />,
         roles: ['distributor'],
       },
       {
         name: 'SendMedicine',
-        icon: <IoMdContacts />,
+        icon: <FiSend />,
         roles: ['distributor'],
       },
       {
         name: 'AllSentMedicines',
-        icon: <IoMdContacts />,
+        icon: <FiExternalLink />,
         roles: ['distributor'],
       },
       {
         name: 'PharmaReceiveMedicine',
-        icon: <IoMdContacts />,
+        icon: <FiArrowDownCircle />,
         roles: ['pharmacist'],
       },
       {
         name: 'UpdateStatus',
-        icon: <IoMdContacts />,
+        icon: <CiCircleCheck />,
         roles: ['pharmacist'],
       },
       {
         name: 'AllMedicines',
-        icon: <IoMdContacts />,
+        icon: <CiCircleList />,
         roles: ['pharmacist'],
       },
       {
         name: 'medicines',
-        icon: <IoMdContacts />,
+        icon: <CiPill />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
       {
         name: 'inventory',
-        icon: <AiOutlineShoppingCart />,
+        icon: <MdOutlineInventory />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
       {
         name: 'contracts',
-        icon: <AiOutlineShoppingCart />,
+        icon: <MdRequestPage />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
     ],
@@ -692,17 +698,17 @@ export const links = [
 
       {
         name: 'PostJob',
-        icon: <IoMdContacts />,
+        icon: <RiMailSendLine />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
       {
         name: 'GetJobs',
-        icon: <IoMdContacts />,
+        icon: <MdLocalPostOffice />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
       {
         name: 'PostedJobs',
-        icon: <IoMdContacts />,
+        icon: <BsPersonLinesFill />,
         roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
       },
     ],
@@ -1112,13 +1118,7 @@ export const themeColors = [
 ];
 
 export const userProfileData = [
-  {
-    icon: <BsCurrencyDollar />,
-    title: 'My Profile',
-    desc: 'Account Settings',
-    iconColor: '#03C9D7',
-    iconBg: '#E5FAFB',
-  },
+
   {
     icon: <BsShield />,
     title: 'My Inbox',
@@ -1126,13 +1126,7 @@ export const userProfileData = [
     iconColor: 'rgb(0, 194, 146)',
     iconBg: 'rgb(235, 250, 242)',
   },
-  {
-    icon: <FiCreditCard />,
-    title: 'My Tasks',
-    desc: 'To-do and Daily Tasks',
-    iconColor: 'rgb(255, 244, 229)',
-    iconBg: 'rgb(254, 201, 15)',
-  },
+
 ];
 
 export const ordersGrid = [
