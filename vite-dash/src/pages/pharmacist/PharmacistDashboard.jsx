@@ -8,6 +8,7 @@ import axios from 'axios';
 import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { FiBarChart } from 'react-icons/fi';
+import { useSelector } from 'react-redux';
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
@@ -22,6 +23,10 @@ const DropDown = ({ currentMode }) => (
 const PharmacistDashboard = () => {
   const { currentColor, currentMode } = useStateContext();
   const [inventoryData, setInventoryData] = useState([]);
+  const [contractData, setContractData] = useState([]);
+  const [paymentLogData, setPaymentLogData] = useState([]);
+
+  const token = useSelector((state) => state.token);
 
   async function getAllProducts() {
     try {
@@ -33,11 +38,74 @@ const PharmacistDashboard = () => {
     }
   }
 
-  useEffect(() => {
-    // // fetch inventory data from API
+  async function getAllPaymentLog() {
+    try {
+      const response = await axios
+        .get('http://localhost:9002/paymentlogs/allPaymentLogs');
+      console.log('paymentlog', response.data);
+      setPaymentLogData(response.data);
+      // console.log(response.data); // data
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
+  // Function to calculate the sum of total amounts
+  function calculateTotalAmountSum(paymentLogs) {
+    return paymentLogs.reduce((total, paymentLog) => total + paymentLog.TotalAmount, 0);
+  }
+
+  // Function to update the saleCount of products in the other database
+  async function updateSaleCount(quantityByProduct, data) {
+    try {
+      const updatedProducts = data.map((product) => {
+        const { name, saleCount } = product;
+        const quantity = quantityByProduct[name] || 0;
+        return {
+          ...product,
+          saleCount: saleCount + quantity,
+        };
+      });
+
+      await axios.put('http://localhost:9002/pharmacyproducts/updatePharmacyProduct/:id', updatedProducts);
+      console.log('Sale counts updated successfully.');
+    } catch (error) {
+      console.error('Error updating sale counts:', error);
+    }
+  }
+
+  // Calculate the sum of total amounts
+  const totalAmountSum = calculateTotalAmountSum(paymentLogData);
+  console.log('Sum of total amounts:', totalAmountSum);
+
+  // Update the saleCount of products
+  updateSaleCount(paymentLogData.quantityByProduct, inventoryData);
+
+  useEffect(() => {
     getAllProducts();
+
+    const fetchData = async () => {
+      // Initialize Web3 instance
+
+      const result = await axios.get('http://localhost:9002/contract/getContract', {
+        headers: { 'x-auth-token': token },
+      });
+      console.log('contract: ', result.data);
+      setContractData(result.data);
+    };
+    fetchData();
+
+    getAllPaymentLog();
   }, []);
+
+  // Filter contracts based on payment status
+  // console.log(contractData);
+  const paidContracts = contractData.filter((contract) => contract.paymentStatus === 'Paid');
+  const pendingContracts = contractData.filter((contract) => contract.paymentStatus === 'pending');
+
+  // Get the total number of paid contracts and pending contracts
+  const totalPaidContracts = paidContracts.length;
+  const totalPendingContracts = pendingContracts.length;
 
   const getTotalProducts = () => inventoryData.length;
 
@@ -66,7 +134,7 @@ const PharmacistDashboard = () => {
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-400">Earnings</p>
-              <p className="text-2xl">$63,448.78</p>
+              <p className="text-2xl">{totalAmountSum}</p>
             </div>
             <button
               type="button"
@@ -88,6 +156,38 @@ const PharmacistDashboard = () => {
         <div className="flex m-3 flex-wrap justify-center gap-1 items-center">
           {/* Dynamic Data */}
 
+          <div key="Total Paid Contracts" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+            <button
+              type="button"
+              style={{ color: 'rgb(228, 106, 118)', backgroundColor: '#b6bffa' }}
+              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+            >
+              <FiBarChart />
+            </button>
+            <p className="mt-3">
+              <span className="text-lg font-semibold">{totalPaidContracts}</span>
+              <span className="text-sm text-green-600 ml-2">
+                {/* {item.percentage} */}
+              </span>
+            </p>
+            <p className="text-sm text-gray-400  mt-1">Total Paid Contracts</p>
+          </div>
+          <div key="Total Pending Contracts" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
+            <button
+              type="button"
+              style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
+              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
+            >
+              <MdOutlineSupervisorAccount />
+            </button>
+            <p className="mt-3">
+              <span className="text-lg font-semibold">{totalPendingContracts}</span>
+              <span className="text-sm text-red-600 ml-2">
+                {/* {item.percentage} */}
+              </span>
+            </p>
+            <p className="text-sm text-gray-400  mt-1">Total Pending Contracts</p>
+          </div>
           <div key="Products" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
             <button
               type="button"
@@ -104,22 +204,6 @@ const PharmacistDashboard = () => {
             </p>
             <p className="text-sm text-gray-400  mt-1">Products</p>
           </div>
-          <div key="Sales" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
-            <button
-              type="button"
-              style={{ color: 'rgb(228, 106, 118)', backgroundColor: '#b6bffa' }}
-              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
-            >
-              <FiBarChart />
-            </button>
-            <p className="mt-3">
-              <span className="text-lg font-semibold">{totalSales}</span>
-              <span className="text-sm text-green-600 ml-2">
-                {/* {item.percentage} */}
-              </span>
-            </p>
-            <p className="text-sm text-gray-400  mt-1">Sales</p>
-          </div>
           <div key="Total Stock" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
             <button
               type="button"
@@ -135,22 +219,6 @@ const PharmacistDashboard = () => {
               </span>
             </p>
             <p className="text-sm text-gray-400  mt-1">Total Stock</p>
-          </div>
-          <div key="Categories" className="bg-white h-44 dark:text-gray-200 dark:bg-secondary-dark-bg md:w-56  p-4 pt-9 rounded-2xl ">
-            <button
-              type="button"
-              style={{ color: '#03C9D7', backgroundColor: '#E5FAFB' }}
-              className="text-2xl opacity-0.9 rounded-full  p-4 hover:drop-shadow-xl"
-            >
-              <MdOutlineSupervisorAccount />
-            </button>
-            <p className="mt-3">
-              <span className="text-lg font-semibold">{totalCategories}</span>
-              <span className="text-sm text-red-600 ml-2">
-                {/* {item.percentage} */}
-              </span>
-            </p>
-            <p className="text-sm text-gray-400  mt-1">Categories</p>
           </div>
         </div>
       </div>

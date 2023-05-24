@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inject, Edit, Toolbar, Sort, Filter, row } from '@syncfusion/ej2-react-grids';
 import axios from 'axios';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-// import product2 from '../data/product2.jpg';
-// import { inventoryData, inventoryGrid } from '../data/dummy';
-import { Header, Button } from '../components';
+import { Header } from '../components';
 import { useStateContext } from '../contexts/ContextProvider';
 
-const Inventory = () => {
+const ProductInventory = () => {
   // Latest Changings
   const apiUrl = 'http://localhost:9002/product/allProducts';
-  const [inventoryData, setInventoryData] = useState([]);
+  const [InventoryData, setInventoryData] = useState([]);
   const themeMode = localStorage.getItem('themeMode');
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
   const { currentColor, currentMode } = useStateContext();
@@ -27,7 +24,7 @@ const Inventory = () => {
 
   const [newItem, setNewItem] = useState({
     name: '',
-    productID: '',
+    id: '',
     sku: '',
     price: '',
     stock: '',
@@ -48,11 +45,13 @@ const Inventory = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name);
+    console.log(value);
     setNewItem({ ...newItem, [name]: value });
   };
 
   const handleAddItem = () => {
-    // add new item to inventory
+    // add new item to ProductInventory
     console.log('additem ', newItem);
     axios
       .post('http://localhost:9002/product/addNewProduct', newItem, {
@@ -62,10 +61,10 @@ const Inventory = () => {
       })
       .then((response) => {
         const { data } = response;
-        setInventoryData([...inventoryData, data]);
+        setInventoryData([...InventoryData, data]);
         setNewItem({
           name: '',
-          productID: '',
+          id: '',
           sku: '',
           price: '',
           stock: '',
@@ -79,9 +78,9 @@ const Inventory = () => {
   };
 
   const handleUpdateItem = () => {
-    // update existing item in inventory
+    // update existing item in ProductInventory
     console.log('update item', newItem);
-    fetch(`http://localhost:9002/product/updateProduct/${newItem.productID}`, {
+    fetch(`http://localhost:9002/product/updateProduct/${newItem.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -90,11 +89,11 @@ const Inventory = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const updatedInventory = inventoryData.map((item) => (item.id === data.id ? data : item));
-        setInventoryData(updatedInventory);
+        const updatedProductInventory = InventoryData.map((item) => (item.id === data.id ? data : item));
+        setInventoryData(updatedProductInventory);
         setNewItem({
           name: '',
-          productID: '',
+          id: '',
           sku: '',
           price: '',
           stock: '',
@@ -106,17 +105,17 @@ const Inventory = () => {
   };
 
   const handleDeleteItem = () => {
-    // delete item from inventory
-    fetch(`http://localhost:9002/product/deteleProduct/${newItem.productID}`, {
+    // delete item from ProductInventory
+    fetch(`http://localhost:9002/product/deteleProduct/${newItem.id}`, {
       method: 'DELETE',
     })
       .then((response) => {
         if (response.ok) {
-          const updatedInventory = inventoryData.filter((item) => item.id !== newItem.productID);
-          setInventoryData(updatedInventory);
+          const updatedProductInventory = InventoryData.filter((item) => item.id !== newItem.id);
+          setInventoryData(updatedProductInventory);
           setNewItem({
             name: '',
-            productID: '',
+            id: '',
             sku: '',
             price: '',
             stock: '',
@@ -132,7 +131,7 @@ const Inventory = () => {
   const columns = [
     {
       field: 'id',
-      headerName: 'Product  ID',
+      headerName: 'ProductID',
       width: 80,
       // renderCell: (params) => (setRowID(params.row.id)),
     },
@@ -150,11 +149,11 @@ const Inventory = () => {
     },
   ];
 
-  console.log(inventoryData);
+  console.log(InventoryData);
 
-  const rows = inventoryData.map((user, index) => ({
+  const rows = InventoryData.map((user, index) => ({
+
     id: user.id,
-    _id: user._id,
     name: user.name,
     sku: user.sku,
     price: user.price,
@@ -169,7 +168,7 @@ const Inventory = () => {
     <div>
 
       <div className="flex flex-col items-center">
-        <h1 className="text-3xl font-bold mb-5">Inventory Management</h1>
+        <h1 className="text-3xl font-bold mb-5">Product Inventory Management</h1>
 
         <h2 className="mt-4 text-xl">Add New Item</h2>
         <form className="flex flex-row mt-5 items-stretch space-x-10">
@@ -178,8 +177,8 @@ const Inventory = () => {
             <input
               className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
               type="number"
-              name="productID"
-              value={newItem.productID}
+              name="id"
+              value={newItem.id}
               onChange={handleInputChange}
             />
           </label>
@@ -262,7 +261,7 @@ const Inventory = () => {
             className="rounded-md"
             color="white"
             style={{ backgroundColor: currentColor, padding: '18px', color: 'white', marginTop: '10px', borderRadius: '10px' }}
-            onClick={() => { handleDeleteItem(newItem.productID); }}
+            onClick={() => { handleDeleteItem(newItem.id); }}
           >Remove Product
           </button>
           <button
@@ -279,7 +278,7 @@ const Inventory = () => {
       </div>
 
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-        <Header title="Inventory Items" />
+        <Header title="Product Inventory Items" />
 
         {/* MUI Data Grid */}
         <div style={{ height: '100vh' }}>
@@ -353,5 +352,4 @@ const Inventory = () => {
   );
 };
 
-export default Inventory;
-
+export default ProductInventory;

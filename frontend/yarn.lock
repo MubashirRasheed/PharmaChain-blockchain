@@ -3413,8 +3413,8 @@ coa@^2.0.2:
     q "^1.1.2"
 
 "cogo-toast@https://github.com/hasanm95/cogo-toast":
-  version "4.2.4"
-  resolved "git+ssh://git@github.com/hasanm95/cogo-toast.git#e407242c1218397f610ab565958074f6c2e95b7a"
+  "resolved" "git+ssh://git@github.com/hasanm95/cogo-toast.git#e407242c1218397f610ab565958074f6c2e95b7a"
+  "version" "4.2.4"
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"

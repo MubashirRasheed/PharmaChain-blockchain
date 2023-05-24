@@ -27,23 +27,28 @@ export const GetAllPaymentLogs = async (req, res, next) => {
 };
 
 // Async function to add a new PaymentLog
-export const AddNewPaymentLog = async (req, res) => {
-    try {
-        const newPaymentLog = new PaymentLog({
-
-            id: req.body.id,
-            TotalAmount: req.body.TotalAmount,
-            TotalProducts: req.body.TotalProducts,
-            QuantityByProduct: req.body.QuantityByProduct,
-        });
-
-        const savedPaymentLog = await newPaymentLog.save(); // Save the new PaymentLog to the database
-
-        res.status(201).json(savedPaymentLog); // Return the saved PaymentLog as a response
-    } catch (error) {
-        res.status(400).json({ message: error.message }); // Handle any errors that occur
-    }
-};
+export const AddNewPaymentLog = (req, res) => {
+    const { TotalAmount, TotalProducts, QuantityByProduct } = req.body;
+  
+    const paymentLog = new PaymentLog({
+      TotalAmount,
+      TotalProducts,
+      QuantityByProduct: Object.entries(QuantityByProduct).map(([name, quantity]) => ({
+        name,
+        quantity
+      })),
+    });
+  
+    paymentLog.save()
+      .then(savedLog => {
+        console.log('Payment log saved:', savedLog);
+        res.status(200).json({ success: true, message: 'Payment log saved successfully' });
+      })
+      .catch(error => {
+        console.error('Error saving payment log:', error);
+        res.status(500).json({ success: false, message: 'Failed to save payment log' });
+      });
+  };
 
 // Async function to update a PaymentLog by its PaymentLogID
 export const UpdatePaymentLog = async (req, res) => {

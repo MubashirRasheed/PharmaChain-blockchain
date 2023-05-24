@@ -15,12 +15,36 @@ const stripeRouter = express.Router();
 stripeRouter.post('/create-checkout-session', async (req, res) => {
 
 
-  const cart = req.body.cartItems.map((item) => 
-(
-  {name : item.name, id: item.id, price: item.price, quantity: item.quantity, discount: item.discount}
-));
+//   const cart = req.body.cartItems.map((item) => 
+// (
+//   {name : item.name, id: item.id, price: item.price, quantity: item.quantity, discount: item.discount}
+// ));
 
-const stringCart = JSON.stringify(cart);
+
+
+// Calculate total amount of price
+const totalPrice = req.body.cartItems.reduce((total, item) => {
+  const discountedPrice = item.price * (item.discount / 100);
+  const amount = discountedPrice * item.quantity;
+  return total + amount;
+}, 0);
+
+// Calculate total number of quantity sold
+  const totalQuantity = req.body.cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  // Calculate number of quantity sold for each product with its name
+  const quantityByProduct = req.body.cartItems.reduce((result, item) => {
+    if (result[item.name]) {
+      result[item.name] += item.quantity;
+    } else {
+      result[item.name] = item.quantity;
+    }
+    return result;
+  }, {});
+  
+  const tP = JSON.stringify(totalPrice);
+  const tQ = JSON.stringify(totalQuantity);
+  const qBP = JSON.stringify(quantityByProduct);
 
   const stringified = JSON.stringify(req.body.cartItems);
   console.log(req.body.cartItems);
@@ -94,7 +118,7 @@ const stringCart = JSON.stringify(cart);
       },
     line_items,
     mode: 'payment',
-    success_url: `${process.env.CLIENT_URL}/checkout-success?name=ismaeel&cart=${stringCart}`, //&cart=${stringified}
+    success_url: `${process.env.CLIENT_URL}/checkout-success?totalPrice=${tP}&totalQuantity=${tQ}&quantityByPrice=${qBP}`, //&cart=${stringified}
     cancel_url: `${process.env.CLIENT_URL}/cart`,
   });
 
