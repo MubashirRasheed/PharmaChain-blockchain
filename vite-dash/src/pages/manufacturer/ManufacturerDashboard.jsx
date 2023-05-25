@@ -280,20 +280,6 @@ const ManufacturerDashboard = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
-            <div>
-              <p className="text-2xl font-semibold ">{`$${sumPendingAmounts}`}</p>
-              <p className="text-gray-400">Pending Revenue</p>
-            </div>
-            <div className="w-40">
-              <Pie
-                id="pie-chart"
-                data={piedata}
-                legendVisiblity={false}
-                height="160px"
-              />
-            </div>
-          </div>
         </div>
       </div>
 
@@ -303,65 +289,8 @@ const ManufacturerDashboard = () => {
             <p className="text-xl font-semibold">Recent Contracts</p>
             <DropDown currentMode={currentMode} />
           </div>
-          <div className="mt-10 w-72 md:w-400">
-            <div key={contractDetails.jobTitle} className="flex justify-between mt-4">
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  style={{
-                    color: '#03C9D7',
-                    backgroundColor: '#E5FAFB',
-                  }}
-                  className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                >
-                  <BsCurrencyDollar />
-                </button>
-                <div>
-                  <p className="text-md font-semibold">{contractDetails.jobTitle}</p>
-                  <p className="text-sm text-gray-400">{contractDetails.jobTitle}</p>
-                </div>
-              </div>
-              <p className="text-green-600">{`$${contractDetails.amount}`}</p>
-            </div>
-            <div key={contractDetails.jobTitle} className="flex justify-between mt-4">
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  style={{
-                    color: 'rgb(0, 194, 146)',
-                    backgroundColor: 'rgb(235, 250, 242)',
-                  }}
-                  className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                >
-                  <BsShield />
-                </button>
-                <div>
-                  <p className="text-md font-semibold">{contractDetails.jobTitle}</p>
-                  <p className="text-sm text-gray-400">{contractDetails.jobTitle}</p>
-                </div>
-              </div>
-              <p className="text-red-600">{`$${contractDetails.amount}`}</p>
-            </div>
-            <div key={contractDetails.jobTitle} className="flex justify-between mt-4">
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  style={{
-                    color: 'rgb(255, 244, 229)',
-                    backgroundColor: 'rgb(254, 201, 15)',
-                  }}
-                  className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                >
-                  <FiCreditCard />
-                </button>
-                <div>
-                  <p className="text-md font-semibold">{contractDetails.jobTitle}</p>
-                  <p className="text-sm text-gray-400">{contractDetails.jobTitle}</p>
-                </div>
-              </div>
-              <p className="text-green-600">{`$${contractDetails.amount}`}</p>
-            </div>
-            <div key={contractDetails.jobTitle} className="flex justify-between mt-4">
+          {mostRecentContracts.map((contract) => (
+            <div key={contract.jobTitle} className="flex justify-between mt-4">
               <div className="flex gap-4">
                 <button
                   type="button"
@@ -374,32 +303,14 @@ const ManufacturerDashboard = () => {
                   <TiTick />
                 </button>
                 <div>
-                  <p className="text-md font-semibold">{contractDetails.jobTitle}</p>
-                  <p className="text-sm text-gray-400">{contractDetails.jobTitle}</p>
+                  <p className="text-md font-semibold">{contract.jobTitle}</p>
+                  <p className="text-sm text-gray-400">{contract.jobTitle}</p>
                 </div>
               </div>
-              <p className="text-green-600">{`$${contractDetails.amount}`}</p>
+              <p className="text-green-600">{`$${contract.amount}`}</p>
             </div>
-            <div key={contractDetails.jobTitle} className="flex justify-between mt-4">
-              <div className="flex gap-4">
-                <button
-                  type="button"
-                  style={{
-                    color: '#03C9D7',
-                    backgroundColor: '#E5FAFB',
-                  }}
-                  className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                >
-                  <BsCurrencyDollar />
-                </button>
-                <div>
-                  <p className="text-md font-semibold">{contractDetails.jobTitle}</p>
-                  <p className="text-sm text-gray-400">{contractDetails.jobTitle}</p>
-                </div>
-              </div>
-              <p className="text-red-600">{`$${contractDetails.amount}`}</p>
-            </div>
-          </div>
+          ))}
+
           <div className="flex justify-between items-center mt-5 border-t-1 border-color" />
         </div>
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
