@@ -35,7 +35,7 @@ const CheckoutSuccess = () => {
       // }
     };
     paymentSuccess();
-    // dispatch(deleteAllFromCart()); 
+    dispatch(deleteAllFromCart()); 
   }, []);
 
   const paymentLog = {

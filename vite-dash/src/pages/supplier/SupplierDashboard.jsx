@@ -9,6 +9,7 @@ import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { FiBarChart } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+import { TiTick } from 'react-icons/ti';
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
@@ -281,11 +282,11 @@ const SupplierDashbaord = () => {
                 id="column-sparkLine"
                 height="100px"
                 type="Column"
-                data={[{ x: 1, yval: contractData[0].amount },
-                  { x: 2, yval: contractData[1].amount },
-                  { x: 3, yval: contractData[2].amount },
-                  { x: 4, yval: contractData[3].amount },
-                  { x: 5, yval: contractData[4].amount }]}
+                data={[{ x: 1, yval: contractData[0]?.amount },
+                  { x: 2, yval: contractData[1]?.amount },
+                  { x: 3, yval: contractData[2]?.amount },
+                  { x: 4, yval: contractData[3]?.amount },
+                  { x: 5, yval: contractData[4]?.amount }]}
                 width="320"
                 color="rgb(242, 252, 253)"
               />
@@ -315,29 +316,27 @@ const SupplierDashbaord = () => {
             <p className="text-xl font-semibold">Recent Transactions</p>
             <DropDown currentMode={currentMode} />
           </div>
-          <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4">
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    style={{
-                      color: item.iconColor,
-                      backgroundColor: item.iconBg,
-                    }}
-                    className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                  >
-                    {item.icon}
-                  </button>
-                  <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
-                  </div>
+          {mostRecentContracts.map((contract) => (
+            <div key={contract.jobTitle} className="flex justify-between mt-4">
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  style={{
+                    color: 'rgb(228, 106, 118)',
+                    backgroundColor: 'rgb(255, 244, 229)',
+                  }}
+                  className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
+                >
+                  <TiTick />
+                </button>
+                <div>
+                  <p className="text-md font-semibold">{contract.jobTitle}</p>
+                  <p className="text-sm text-gray-400">{contract.jobTitle}</p>
                 </div>
-                <p className={`text-${item.pcColor}`}>{item.amount}</p>
               </div>
-            ))}
-          </div>
+              <p className="text-green-600">{`$${contract.amount}`}</p>
+            </div>
+          ))}
           <div className="flex justify-between items-center mt-5 border-t-1 border-color">
             <div className="mt-3">
               <Button

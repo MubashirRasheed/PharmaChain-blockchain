@@ -107,6 +107,37 @@ const PharmacistDashboard = () => {
   const totalPaidContracts = paidContracts.length;
   const totalPendingContracts = pendingContracts.length;
 
+  const sumPaidAmounts = contractData
+    .filter((contract) => contract.paymentStatus === 'Paid')
+    .reduce((sum, contract) => sum + contract.revenue, 0);
+
+  // Calculate the sum of amounts for contracts with paymentStatus: "pending"
+  const sumPendingAmounts = contractData
+    .filter((contract) => contract.paymentStatus === 'pending')
+    .reduce((sum, contract) => sum + contract.amount, 0);
+
+  // Calculate the sum of paid and pending amounts
+  const sumTotalAmounts = sumPaidAmounts + sumPendingAmounts;
+
+  const piedata = contractData.map((item) => ({
+    ...item,
+    amount: item.amount / sumTotalAmounts,
+  }));
+
+  // Sort the contractData array by createdAt property in descending order
+  const sortedContracts = contractData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  console.log('sorted', sortedContracts);
+  // Get the most recent contracts
+  const mostRecentContracts = sortedContracts.slice(0, 5); // Assuming you want to retrieve the 5 most recent contracts
+
+  // Extract the desired properties from each contract
+  const contractDetails = mostRecentContracts.map((contract) => ({
+    amount: contract.amount || 0,
+    jobTitle: contract.jobTitle,
+    status: contract.paymentStatus,
+    createdAt: contract.createdAt,
+  }));
+
   const getTotalProducts = () => inventoryData.length;
 
   const getTotalSales = () => inventoryData.reduce((total, product) => total + product.saleCount, 0);
@@ -285,8 +316,8 @@ const PharmacistDashboard = () => {
               <p className="font-semibold text-white text-2xl">Earnings</p>
 
               <div>
-                <p className="text-2xl text-white font-semibold mt-8">$63,448.78</p>
-                <p className="text-gray-200">Monthly revenue</p>
+                <p className="text-2xl text-white font-semibold mt-8">{`$${sumTotalAmounts}`}</p>
+                <p className="text-gray-200">Total Revenue</p>
               </div>
             </div>
 
@@ -309,47 +340,6 @@ const PharmacistDashboard = () => {
       </div>
 
       <div className="flex gap-10 m-4 flex-wrap justify-center">
-        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
-          <div className="flex justify-between items-center gap-2">
-            <p className="text-xl font-semibold">Recent Transactions</p>
-            <DropDown currentMode={currentMode} />
-          </div>
-          <div className="mt-10 w-72 md:w-400">
-            {recentTransactions.map((item) => (
-              <div key={item.title} className="flex justify-between mt-4">
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    style={{
-                      color: item.iconColor,
-                      backgroundColor: item.iconBg,
-                    }}
-                    className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
-                  >
-                    {item.icon}
-                  </button>
-                  <div>
-                    <p className="text-md font-semibold">{item.title}</p>
-                    <p className="text-sm text-gray-400">{item.desc}</p>
-                  </div>
-                </div>
-                <p className={`text-${item.pcColor}`}>{item.amount}</p>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-            <div className="mt-3">
-              <Button
-                color="white"
-                bgColor={currentColor}
-                text="Add"
-                borderRadius="10px"
-              />
-            </div>
-
-            <p className="text-gray-400 text-sm">36 Recent Transactions</p>
-          </div>
-        </div>
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
           <div className="flex justify-between items-center gap-2 mb-10">
             <p className="text-xl font-semibold">Sales Overview</p>
@@ -396,61 +386,7 @@ const PharmacistDashboard = () => {
           </div>
 
         </div>
-        <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
-          <div className="flex justify-between">
-            <p className="text-xl font-semibold">MedicalPro Branding</p>
-            <button type="button" className="text-xl font-semibold text-gray-400">
-              <IoIosMore />
-            </button>
-          </div>
-          <p className="text-xs cursor-pointer hover:drop-shadow-xl font-semibold rounded-lg w-24 bg-orange-400 py-0.5 px-2 text-gray-200 mt-10">
-            16 APR, 2021
-          </p>
 
-          <div className="flex gap-4 border-b-1 border-color mt-6">
-            {medicalproBranding.data.map((item) => (
-              <div key={item.title} className="border-r-1 border-color pr-4 pb-2">
-                <p className="text-xs text-gray-400">{item.title}</p>
-                <p className="text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="border-b-1 border-color pb-4 mt-2">
-            <p className="text-md font-semibold mb-2">Teams</p>
-
-            <div className="flex gap-4">
-              {medicalproBranding.teams.map((item) => (
-                <p
-                  key={item.name}
-                  style={{ background: item.color }}
-                  className="cursor-pointer hover:drop-shadow-xl text-white py-0.5 px-3 rounded-lg text-xs"
-                >
-                  {item.name}
-                </p>
-              ))}
-            </div>
-          </div>
-          <div className="mt-2">
-            <p className="text-md font-semibold mb-2">Leaders</p>
-            <div className="flex gap-4">
-              {medicalproBranding.leaders.map((item, index) => (
-                <img key={index} className="rounded-full w-8 h-8" src={item.image} alt="" />
-              ))}
-            </div>
-          </div>
-          <div className="flex justify-between items-center mt-5 border-t-1 border-color">
-            <div className="mt-3">
-              <Button
-                color="white"
-                bgColor={currentColor}
-                text="Add"
-                borderRadius="10px"
-              />
-            </div>
-
-            <p className="text-gray-400 text-sm">36 Recent Transactions</p>
-          </div>
-        </div>
         <div className="w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
           <div className="flex justify-between">
             <p className="text-xl font-semibold">Daily Activities</p>

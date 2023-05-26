@@ -29,6 +29,7 @@ const AllSentMedicines = () => {
   const textColor = themeMode === 'Dark' ? 'white' : 'black';
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
 
+  console.log('alls esetn medic', allManuMedicineInfo);
   const location = useLocation();
 
   const checkIfWalletIsConnected = async () => {
@@ -272,7 +273,7 @@ Supplier:             ${medicine.rawmaterialSupplier}
 
                 <Typography variant="h5" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', textTransform: 'capitalize' }}>{medicine.description}</Typography>
                 <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#718096' : 'black' }}>{medicine.rawmaterialDescription}</Typography>
-                <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#718096' : 'black' }}>{shortenAddress(medicine.medicineAddress)}</Typography>
+                <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#718096' : 'black' }}>{shortenAddress(medicine.distAddress)}</Typography>
 
               </Box>
               <Modal
@@ -302,6 +303,24 @@ Supplier:             ${medicine.rawmaterialSupplier}
                   <Typography variant="h4" textAlign="center" margin="5px" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black' }}>Medicine Details</Typography>
 
                   <br />
+                  <Box className="flex flex-row" marginBottom="2px">
+                    <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', display: 'flex' }}>
+                      <Box component="h6" fontWeight="bold" marginBottom="3px" marginRight="10px">Contract Address: </Box>
+                      {medicine.distAddress}
+                    </Typography>
+                    <Tooltip title="Copy" placement="top" arrow>
+                      <IconButton
+                        onClick={() => {
+                          navigator.clipboard.writeText(medicine.distAddress);
+                          setCopySnack(true);
+                          // You can also set a state variable or show a toast message to indicate successful copy
+                        }}
+                      >
+                        <ContentCopyIcon sx={{ color: themeMode === 'Dark' ? 'white' : 'black', padding: '0px', marginLeft: '5px' }} />
+                      </IconButton>
+                    </Tooltip>
+
+                  </Box>
                   <Box className="flex flex-row" marginBottom="2px">
                     <Typography variant="subtitle1" sx={{ color: themeMode === 'Dark' ? '#E5E7EB' : 'black', display: 'flex' }}>
                       <Box component="h6" fontWeight="bold" marginBottom="3px" marginRight="10px">Medicine Address: </Box>
