@@ -4,7 +4,7 @@ const authMiddleware = (req, res, next) => {
   const token = req.header("x-auth-token");
   console.log(token);
 
-  // Check if token exists
+  // Check if token existss
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied" });
   }
