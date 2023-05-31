@@ -1,19 +1,32 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema;
-
-const PaymentLogSchema = new Schema({
+const PaymentLogSchema = new mongoose.Schema({
     PaymentLogID: {
-        type: Number,
+      type: Number,
     },
     TotalAmount: {
-        type: Number,
+      type: Number,
     },
     TotalProducts: {
-        type: String,
+      type: String,
     },
-    QuantityByProduct: {
-        type: String,
+    QuantityByProduct:
+      {
+        name: {
+          type: String,
+        },
+        quantity: {
+          type: Number,
+        },
+      },
+    createdAt: {
+      type: Date,
+    },
+    updatedAt: {
+      type: Date,
+    },
+    __v: {
+      type: Number,
     },
 
 }, { timestamps: true });
@@ -21,4 +34,3 @@ const PaymentLogSchema = new Schema({
 const PaymentLog = mongoose.model('paymentlog', PaymentLogSchema);
 
 export default PaymentLog;
-
