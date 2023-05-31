@@ -72,7 +72,7 @@ const Payment = ({ contractId }) => {
         //   { headers: { 'x-auth-token': token } },
         // );
         const { data } = await axios.post(
-          `http://localhost:9002/contract/payment/${contractId}`,
+          `${import.meta.env.VITE_BASE_URL}/contract/payment/${contractId}`,
 
           { headers: { 'x-auth-token': token } },
         );

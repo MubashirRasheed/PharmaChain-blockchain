@@ -165,7 +165,7 @@ const forms = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('preset', preset);
-      const result = await axios.post('http://localhost:9002/upload/img', formData);
+      const result = await axios.post(`${import.meta.env.VITE_BASE_URL}/upload/img`, formData);
       console.log(result);
 
       // const result = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, file, {
@@ -289,7 +289,7 @@ const forms = () => {
     //   fullname, location, ethAddress, email, password, role,
     // };
     const response = await axios.post(
-      'http://localhost:9002/auth/register',
+      `${import.meta.env.VITE_BASE_URL}/auth/register`,
       JSON.stringify(user),
       {
         headers: {
@@ -314,7 +314,7 @@ const forms = () => {
     const { email, password } = values;
     console.log(email, password);
     const response = await axios.post(
-      'http://localhost:9002/auth/login',
+      `${import.meta.env.VITE_BASE_URL}/auth/login`,
       JSON.stringify({ email, password }),
       {
         headers: {

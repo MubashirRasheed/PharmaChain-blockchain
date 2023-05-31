@@ -180,7 +180,7 @@ const Cart = () => {
                                     </button>
                                   </div>
                                   <br />
-                                  <label style={{ color: "red" }}>{'Amount left ' + cartItemStock(cartItem)}</label>
+                                  <label style={{ color: "red" }}>{'Amount left ' + (cartItemStock(cartItem) - cartItem.quantity)  }</label>
                                   
                                   {/* <label style={{color: "red"}}>{(cartItemStock(cartItem)<= 1) ? 'Out of Stock' : " "}</label> */}
 

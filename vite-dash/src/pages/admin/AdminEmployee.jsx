@@ -12,7 +12,7 @@ const AdminCustomers = () => {
 
   // Latest Changings
   const toolbarOptions = ['Delete', 'Edit', 'Update', 'Print'];
-  const apiUrl = 'http://localhost:9002/customer/allCustomers';
+  const apiUrl = `${import.meta.env.VITE_BASE_URL}/customer/allCustomers`;
   const [customerData, setCustomerData] = useState([]);
 
   const { currentColor, currentMode } = useStateContext();
@@ -55,7 +55,7 @@ const AdminCustomers = () => {
   const handleAddItem = () => {
     // add new item to customer
     console.log('additem ', newItem);
-    fetch('http://localhost:9002/customer/addNewCustomer', {
+    fetch(`${import.meta.env.VITE_BASE_URL}/customer/addNewCustomer`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ const AdminCustomers = () => {
 
   const handleUpdateItem = (updatedItem) => {
     // update existing item in customer
-    fetch(`http://localhost:9002/customer/updateCustomer/${updatedItem.id}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/customer/updateCustomer/${updatedItem.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const AdminCustomers = () => {
 
   const handleDeleteItem = (itemId) => {
     // delete item from Customer
-    fetch(`http://localhost:9002/customer/deteleCustomer/${itemId}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/customer/deteleCustomer/${itemId}`, {
       method: 'DELETE',
     })
       .then((response) => {

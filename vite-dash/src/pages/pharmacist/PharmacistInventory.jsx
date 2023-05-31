@@ -6,7 +6,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const PharmacistInventory = () => {
   // Latest Changings
-  const apiUrl = 'http://localhost:9002/pharmacyproducts/allPharmacyProducts';
+  const apiUrl = `${import.meta.env.VITE_BASE_URL}/pharmacyproducts/allPharmacyProducts`;
   const [pharmacistInventoryData, setPharmacistInventoryData] = useState([]);
   const themeMode = localStorage.getItem('themeMode');
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
@@ -52,7 +52,7 @@ const PharmacistInventory = () => {
     // add new item to PharmacistInventory
     console.log('additem ', newItem);
     axios
-      .post('http://localhost:9002/pharmacyproducts/addNewPharmacyProduct', newItem, {
+      .post(`${import.meta.env.VITE_BASE_URL}/pharmacyproducts/addNewPharmacyProduct`, newItem, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -78,7 +78,7 @@ const PharmacistInventory = () => {
   const handleUpdateItem = () => {
     // update existing item in PharmacistInventory
     console.log('update item', newItem);
-    fetch(`http://localhost:9002/pharmacyproducts/updatePharmacyProduct/${newItem.productID}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/pharmacyproducts/updatePharmacyProduct/${newItem.productID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ const PharmacistInventory = () => {
 
   const handleDeleteItem = () => {
     // delete item from PharmacistInventory
-    fetch(`http://localhost:9002/pharmacyproducts/detelePharmacyProduct/${newItem.productID}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/pharmacyproducts/detelePharmacyProduct/${newItem.productID}`, {
       method: 'DELETE',
     })
       .then((response) => {

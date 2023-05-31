@@ -21,11 +21,11 @@ const AllPostedJobs = () => {
     const fetchData = async () => {
       let url;
       if (userRole === 'manufacturer') {
-        url = 'http://localhost:9002/job-post/getManu';
+        url = `${import.meta.env.VITE_BASE_URL}/job-post/getMan`;
       } else if (userRole === 'distributor') {
-        url = 'http://localhost:9002/job-post/getDist';
+        url = `${import.meta.env.VITE_BASE_URL}/job-post/getDist`;
       } else if (userRole === 'pharmacist') {
-        url = 'http://localhost:9002/job-post/getPharma';
+        url = `${import.meta.env.VITE_BASE_URL}/job-post/getPharma`;
       }
       const result = await axios.get(url, {
         headers: {
@@ -45,7 +45,7 @@ const AllPostedJobs = () => {
     setLoading(true);
     console.log('bid._id', selectedBid);
     console.log('job._id', selectedJobBid);
-    const response = await axios.post('http://localhost:9002/bids/accept', { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/bids/accept`, { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
     console.log(response);
     const Chatdata = {
       title: response.data.job.title,
@@ -132,7 +132,7 @@ const AllPostedJobs = () => {
       },
     });
 
-    const contractResponse = await axios.post('http://localhost:9002/contract/post', { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
+    const contractResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/contract/post`, { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
     console.log(contractResponse);
 
     navigate('/chat');

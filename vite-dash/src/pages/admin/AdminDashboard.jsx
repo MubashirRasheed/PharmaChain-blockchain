@@ -30,7 +30,7 @@ const AdminDashboard = () => {
 
   async function getAllProducts() {
     try {
-      const response = await axios.get('http://localhost:9002/product/allProducts');
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/product/allProducts`);
       setInventoryData(response.data);
       console.log(response.data);
       // console.log(response.data); // data

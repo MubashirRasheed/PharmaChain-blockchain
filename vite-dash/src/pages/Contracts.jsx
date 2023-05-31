@@ -39,7 +39,7 @@ const Contracts = () => {
     const fetchData = async () => {
       // Initialize Web3 instance
 
-      const result = await axios.get('http://localhost:9002/contract/getContract', {
+      const result = await axios.get(`${import.meta.env.VITE_BASE_URL}/contract/getContract`, {
         headers: { 'x-auth-token': token },
       });
       setContractData(result.data);
@@ -72,7 +72,7 @@ const Contracts = () => {
           console.log('Payment succeeded!');
           const { amount } = contractData.find((contract) => contract._id === localStorage.getItem('selectContractId'));
           console.log('revenue', amount);
-          const update = await axios.put('http://localhost:9002/contract/update', {
+          const update = await axios.put(`${import.meta.env.VITE_BASE_URL}/contract/update`, {
             contractId: localStorage.getItem('selectContractId'),
             paymentStatus: 'Paid',
             revenue: amount,
@@ -91,7 +91,7 @@ const Contracts = () => {
           break;
         case 'processing':
           console.log('Your payment is processing.');
-          const update2 = await axios.put('http://localhost:9002/contract/update', {
+          const update2 = await axios.put(`${import.meta.env.VITE_BASE_URL}/contract/update`, {
             contractId: localStorage.getItem('selectContractId'),
             paymentStatus: 'Processing',
           }, {
@@ -100,7 +100,7 @@ const Contracts = () => {
           break;
         case 'requires_payment_method':
           console.log('Your payment was not successful, please try again.');
-          const update3 = await axios.put('http://localhost:9002/contract/update', {
+          const update3 = await axios.put(`${import.meta.env.VITE_BASE_URL}/contract/update`, {
             contractId: localStorage.getItem('selectContractId'),
             paymentStatus: 'Failed',
           }, {
@@ -138,7 +138,7 @@ const Contracts = () => {
   const getPaymentId = async (params) => {
     const { paymentId } = params.row;
     // console.log('Payment ID in get payment id:', d);
-    const receipt = await axios.post(`http://localhost:9002/contract/receipt/${paymentId}`, {
+    const receipt = await axios.post(`${import.meta.env.VITE_BASE_URL}/contract/receipt/${paymentId}`, {
       headers: { 'x-auth-token': token },
     });
 
@@ -147,7 +147,7 @@ const Contracts = () => {
 
   const handlepaymentid = async (paymentId) => {
     setSelectedPaymentId(paymentId.row.paymentId);
-    const receipt = await axios.post(`http://localhost:9002/contract/receipt/${paymentId.row.paymentId}`, {
+    const receipt = await axios.post(`${import.meta.env.VITE_BASE_URL}/contract/receipt/${paymentId.row.paymentId}`, {
       headers: { 'x-auth-token': token },
     });
 

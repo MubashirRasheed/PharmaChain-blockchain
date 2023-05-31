@@ -9,7 +9,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 const Inventory = () => {
   // Latest Changings
-  const apiUrl = 'http://localhost:9002/product/allProducts';
+  const apiUrl = `${import.meta.env.VITE_BASE_URL}/product/allProducts`;
   const [inventoryData, setInventoryData] = useState([]);
   const themeMode = localStorage.getItem('themeMode');
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
@@ -55,7 +55,7 @@ const Inventory = () => {
     // add new item to inventory
     console.log('additem ', newItem);
     axios
-      .post('http://localhost:9002/product/addNewProduct', newItem, {
+      .post(`${import.meta.env.VITE_BASE_URL}/product/addNewProduct`, newItem, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -81,7 +81,7 @@ const Inventory = () => {
   const handleUpdateItem = () => {
     // update existing item in inventory
     console.log('update item', newItem);
-    fetch(`http://localhost:9002/product/updateProduct/${newItem.productID}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/product/updateProduct/${newItem.productID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const Inventory = () => {
 
   const handleDeleteItem = () => {
     // delete item from inventory
-    fetch(`http://localhost:9002/product/deteleProduct/${newItem.productID}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/product/deteleProduct/${newItem.productID}`, {
       method: 'DELETE',
     })
       .then((response) => {

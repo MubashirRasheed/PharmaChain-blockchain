@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const api = createApi({
   // baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_CHAT_HOST }),
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:9002' }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${import.meta.env.VITE_BASE_URL}` }),
   reducerPath: 'main',
   tagTypes: [],
   endpoints: (build) => ({
@@ -15,14 +15,14 @@ export const api = createApi({
     }),
     postLogin: build.mutation({
       query: (payload) => ({
-        url: 'http://localhost:9002/chat/login',
+        url: `${import.meta.env.VITE_BASE_URL}/chat/login`,
         method: 'POST',
         body: payload,
       }),
     }),
     postSignUp: build.mutation({
       query: (payload) => ({
-        url: 'http://localhost:9002/chat/signup',
+        url: `${import.meta.env.VITE_BASE_URL}/chat/signup`,
         method: 'POST',
         body: payload,
       }),
