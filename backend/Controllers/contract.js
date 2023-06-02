@@ -1,6 +1,6 @@
-import ContractSchema from '../Models/ContractSchema.js';
-import {User} from '../Models/UserModel.js';
-import {Job} from '../Models/UserModel.js';
+import ContractSchema from '../models/ContractSchema.js';
+import {User} from '../models/UserModel.js';
+import {Job} from '../models/UserModel.js';
 import Stripe from 'stripe';
 import axios from 'axios';
 

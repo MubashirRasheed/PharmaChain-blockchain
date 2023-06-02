@@ -1,6 +1,6 @@
 import express from 'express';
-import {jobPost , jobGet, getAllJobsManu, getAllJobsDist, getAllJobsPharma} from '../Controllers/jobPostController.js'
-import authMiddleware from '../Middlewares/AuthMiddleware.js';
+import {jobPost , jobGet, getAllJobsManu, getAllJobsDist, getAllJobsPharma} from '../controllers/jobPostController.js'
+import authMiddleware from '../middlewares/AuthMiddleware.js';
 
 const jobPostRouter = express.Router();
 

@@ -1,4 +1,4 @@
-import OrderModel from "../Models/OrderModel.js";
+import OrderModel from "../models/OrderModel.js";
 
 // Crud Operations
 export const GetOrder = async (req, res, next) => {

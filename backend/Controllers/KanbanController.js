@@ -1,4 +1,4 @@
-import KanbanModel from "../Models/KanbanModel.js";
+import KanbanModel from "../models/KanbanModel.js";
 
 // Async function to get a task by its Id
 export const GetTask = async (req, res, next) => {

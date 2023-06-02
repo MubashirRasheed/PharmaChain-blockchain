@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import DistributorModel from '../Models/DistributorSchema.js'
+import DistributorModel from '../models/DistributorSchema.js'
 
 // Crud Operations
 export const GetDistributor = async (req, res, next) => {

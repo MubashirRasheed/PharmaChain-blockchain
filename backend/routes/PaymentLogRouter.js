@@ -1,7 +1,7 @@
 import express from "express";
 
 import { AddNewPaymentLog, GetAllPaymentLogs, DeletePaymentLog
-    , UpdatePaymentLog } from "../Controllers/PaymentLogController.js";
+    , UpdatePaymentLog } from "../controllers/PaymentLogController.js";
 
 let PaymentLogRouter = express.Router();
 

@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewDistributor, GetAllDistributors, DeleteDistributor
-, UpdateDistributor } from "../Controllers/DistributorController.js";
+, UpdateDistributor } from "../controllers/DistributorController.js";
 
 let DistributorRouter = express.Router();
 

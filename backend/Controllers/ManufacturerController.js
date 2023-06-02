@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import ManufacturerModel from "../Models/ManufacturerModel.js";
+import ManufacturerModel from "../models/ManufacturerModel.js";
 
 // Crud Operations
 export const GetManufacturer = async (req, res, next) => {

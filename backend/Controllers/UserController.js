@@ -1,4 +1,4 @@
-// const UserModel = require("../Models/UserModel");
+// const UserModel = require("../models/UserModel");
 
 // // Crud Operations
 // const GetUser = async (req, res, next) => {
@@ -107,7 +107,7 @@
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {User, Job} from '../Models/UserModel.js';
+import {User, Job} from '../models/UserModel.js';
 
 // REGISTER USER
 
