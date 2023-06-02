@@ -19,21 +19,21 @@ export default defineConfig({
   plugins: [react(),
   
     {
-        name: 'load-js-files-as-jsx',
+        name: "load-js-files-as-jsx",
         async load(id) {
             if (!id.match(/src\/.*\.js$/)) {
                 return
             }
 
             const file = fs.readFileSync(id, { encoding: "utf-8" });
-            return esbuild.transformSync(file, { loader: 'jsx' })
+            return esbuild.transformSync(file, { loader: "jsx" })
         }
     }
 ],
 esbuild: {
     // add this configuration object for the jsx loader
     loader: {
-      '.js': 'jsx'
+      ".js": "jsx"
     }
   }
 })
