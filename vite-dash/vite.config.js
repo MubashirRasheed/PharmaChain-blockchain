@@ -71,11 +71,23 @@ import react from '@vitejs/plugin-react-swc';
 import fs from 'fs';
 import { transformSync } from 'esbuild';
 import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
+import requireTransform from 'vite-plugin-require-transform';
 
 export default defineConfig({
   plugins: [
     viteCommonjs(),
     react(),
+    requireTransform({
+      transforms: [
+        {
+          test: /src\/.*\.(js|jsx)$/,
+          transform: (code) =>
+            // Modify the code here if needed
+            code
+          ,
+        },
+      ],
+    }),
     {
       name: 'load-js-files-as-jsx',
       async load(id) {
@@ -99,3 +111,4 @@ export default defineConfig({
     },
   },
 });
+
