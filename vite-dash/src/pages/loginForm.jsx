@@ -335,7 +335,7 @@ const forms = () => {
     console.log('User chat ID AT REGISTERX', loggedInUser.user.chatId);
     const { fullname } = loggedInUser.user;
     const { chatId } = loggedInUser.user;
-    // chat login disabled temporarily subscribition expired
+
     const chk = await triggerLogin({ fullname, chatId });
     // console.log('chk', chk.data.response.id);
     console.log('chk', chk.data.response);
@@ -344,7 +344,7 @@ const forms = () => {
     onSubmitProps.resetForm();
     if (loggedInUser) {
       dispatch(setLogin({ user: loggedInUser.user, token: loggedInUser.token }));
-      // dispatch(setChatID({ chatID: chk.data.response }));
+      dispatch(setChatID({ chatID: chk.data.response }));
 
       // navigate('/home');
 
