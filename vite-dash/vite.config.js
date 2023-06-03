@@ -70,9 +70,11 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import fs from 'fs';
 import { transformSync } from 'esbuild';
+import { viteCommonjs, esbuildCommonjs } from '@originjs/vite-plugin-commonjs';
 
 export default defineConfig({
   plugins: [
+    viteCommonjs(),
     react(),
     {
       name: 'load-js-files-as-jsx',
@@ -91,4 +93,9 @@ export default defineConfig({
       },
     },
   ],
+  optimizeDeps: {
+    esbuildOptions: {
+      plugins: [esbuildCommonjs(['react-s3'])],
+    },
+  },
 });
