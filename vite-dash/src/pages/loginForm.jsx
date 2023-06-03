@@ -760,7 +760,7 @@ const forms = () => {
                    variant="contained"
                    type="submit"
                    sx={{ m: '2rem 0', p: '1rem', width: '50%' }}
-                   disabled={isSubmitting}
+                  //  disabled={isSubmitting}
                   //  onClick={isLogin ? () => {} : handlefunc}
                   //  onClick={handleFormSubmit}
                  >
