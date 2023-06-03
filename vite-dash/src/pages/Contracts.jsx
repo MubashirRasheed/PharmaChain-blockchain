@@ -210,7 +210,7 @@ const Contracts = () => {
     {
       field: 'Pay Contract',
       headerName: matchedUser ? '' : 'Pay Contract',
-      width: matchedUser ? 0 : 150,
+      width: 150,
       disableExport: true,
       renderCell: renderGetContractIdButton,
     },
@@ -314,6 +314,7 @@ const Contracts = () => {
               // Hide columns status and traderName, the other columns will remain visible
                 contractCreatedFor: false,
                 contractCreatedBy: false,
+                paymentId: false,
 
               },
             },
