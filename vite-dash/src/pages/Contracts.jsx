@@ -209,7 +209,7 @@ const Contracts = () => {
     },
     {
       field: 'Pay Contract',
-      headerName: matchedUser ? '' : 'Pay Contract',
+      headerName: 'Pay Contract',
       width: 150,
       disableExport: true,
       renderCell: renderGetContractIdButton,
