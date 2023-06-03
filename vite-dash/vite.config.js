@@ -32,9 +32,10 @@ export default defineConfig({
   ],
   esbuild: {
     // add this configuration object for the jsx loader
-    loader: {
-      '.js': 'jsx',
-    },
+    loader: 'jsx',
+    // loader: {
+    //   '.js': 'jsx',
+    // },
   },
 });
 
