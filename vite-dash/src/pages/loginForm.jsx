@@ -349,6 +349,14 @@ const forms = () => {
       },
     );
 
+    // const chatEngineResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/chat/login`, JSON.stringify({ fullname, chatId }), {
+    //   headers: {
+    //     'Project-ID': import.meta.env.VITE_CHAT_PROJECT_ID,
+    //     'User-Name': fullname,
+    //     'User-Secret': chatId,
+    //   },
+    // });
+
     console.log('logChat', chatEngineResponse);
 
     // const chk = await triggerLogin({ fullname, chatId });
