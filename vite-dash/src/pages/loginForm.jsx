@@ -338,15 +338,28 @@ const forms = () => {
     const { fullname } = loggedInUser.user;
     const { chatId } = loggedInUser.user;
 
-    const chk = await triggerLogin({ fullname, chatId });
-    // console.log('chk', chk.data.response.id);
-    console.log('chk', chk.data.response);
+    const chatEngineResponse = await axios.get(
+      'https://api.chatengine.io/users/me',
+      {
+        headers: {
+          'Project-ID': import.meta.env.VITE_CHAT_PROJECT_ID,
+          'User-Name': fullname,
+          'User-Secret': chatId,
+        },
+      },
+    );
+
+    console.log('logChat', chatEngineResponse);
+
+    // const chk = await triggerLogin({ fullname, chatId });
+    console.log('chk', chatEngineResponse.data.id);
+    // console.log('chk', chk.data.response);
     // triggerLogin(loggedInUser);
 
     onSubmitProps.resetForm();
     if (loggedInUser) {
       dispatch(setLogin({ user: loggedInUser.user, token: loggedInUser.token }));
-      dispatch(setChatID({ chatID: chk.data.response }));
+      dispatch(setChatID({ chatID: chatEngineResponse.data.id }));
 
       // navigate('/home');
 
