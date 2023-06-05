@@ -105,29 +105,26 @@ const AllPostedJobs = () => {
 
     const chatMessage = {
       text: `
-      ╔══════════════════════════════════════════════════════════════════════╗ 
-      ║ 📝 Job Details:                                                     
-      ╠══════════════════════════════════════════════════════════════════════╣
-      ║ 💬 Title: *${response.data.job.title}*                     ║
-      ║ 📋 Description: ${response.data.job.description} ║
-      ║ 💵 Price: $${response.data.job.price}                              ║
-      ║ 📅 Delivery Time: ${response.data.job.deliveryTime} days        ║
-      ║ 📑 Status: ${response.data.job.status}                               ║
-      ║ 👤 Posted By: ${response.data.job.postedBy}                ║
-      ║                                   ║
-      ╠═══════════════════════════════╣
-      ║ 📑 Bid Details:                 ║
-      ╠═══════════════════════════════╣
-      ║ 💰 Bid Price: $${response.data.bidPrice}                            ║
-      ║ 📚 Bid Delivery Time: ${response.data.bidDeliveryTime} days   ║
-      ║ 📑 Bid Status: ${response.data.status}                            ║
-      ║ 👤 Bid Posted By: ${response.data.bidder.fullname}        ║
-      ║                                   ║
-      ╠═══════════════════════════════╣
-      ║ 👥 Bid Accepted By: ${user.fullname}                    ║
-      ║ 👛 Bid Accepted On: ${response.data.acceptedOn}             ║
-      ╚═══════════════════════════════╝
-      `,
+      ===================JOb Details===================
+        Title: *${response.data.job.title}*       
+        Description: ${response.data.job.description} 
+        Price: $${response.data.job.price}             
+        Delivery Time: ${response.data.job.deliveryTime} days        
+        Status: ${response.data.job.status}        
+        Posted By: ${response.data.job.postedBy}                
+      
+      
+     ===================Bid Details===================                 
+    
+        Bid Price: $${response.data.bidPrice}                 
+        Bid Delivery Time: ${response.data.bidDeliveryTime} days
+        Bid Status: ${response.data.status}                 
+        Bid Posted By: ${response.data.bidder.fullname}
+                                
+      
+        Accepted By: ${user.fullname}      
+        Bid Accepted On: ${response.data.acceptedOn}  
+    `,
     };
 
     const newMessage = await axios.post(`https://api.chatengine.io/chats/${chatRoom_id}/messages/`, chatMessage, {

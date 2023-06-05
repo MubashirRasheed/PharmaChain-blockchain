@@ -51,6 +51,7 @@ const alchemyApiKey = 'https://polygon-mumbai.g.alchemy.com/v2/o4W0OrYL_J08IqiUC
 const mnemonic = 'actor squirrel addict cart absurd satoshi number fancy combine feature rhythm hurry'; // 12 word mnemonic
 
 module.exports = {
+
   contracts_directory: './src/contracts/',
   contracts_build_directory: './src/abis/',
   /**
@@ -102,21 +103,24 @@ module.exports = {
     // Note: It's important to wrap the provider as a function to ensure truffle uses a new provider every time.
 
     matic: {
-      provider() {
-        return new HDWalletProvider({
-          mnemonic: {
-            phrase: mnemonic,
-          },
-          providerOrUrl: alchemyApiKey,
-        });
-      },
+      provider: () => new HDWalletProvider(mnemonic, alchemyApiKey),
+      // provider() {
+      //   return new HDWalletProvider({
+      //     mnemonic: {
+      //       phrase: mnemonic,
+      //     },
+      //     providerOrUrl: alchemyApiKey,
+      //   });
+      // },
       network_id: '80001', // Polygon network ID
       // gas: 200583997644, // Adjust the gas limit as per your contract requirements
       // gasPrice: 1000000000, // Adjust the gas price as per your requirements
       // gasPrice: 20e9,
-      gas: 20000000,
+      // gas: 20000000,
+      gas: 1531526,
+      confirmations: 2,
       timeoutBlocks: 200,
-      skipDryRun: false,
+      skipDryRun: true,
     },
   },
   contracts_directoryy: './src/contracts/',
@@ -124,11 +128,11 @@ module.exports = {
   compilers: {
     solc: {
       version: '0.8.5',
-      optimizer: {
-        enabled: true,
-        runs: 200,
-      },
-      evmVersion: 'petersburg',
+      // optimizer: {
+      //   enabled: true,
+      //   runs: 200,
+      // },
+      // evmVersion: 'petersburg',
     },
     // goerli: {
     //   provider: () => new HDWalletProvider(MNEMONIC, `https://goerli.infura.io/v3/${PROJECT_ID}`),

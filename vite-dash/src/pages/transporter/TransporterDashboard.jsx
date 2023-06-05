@@ -67,10 +67,10 @@ const TransporterDashboard = () => {
 
       const networkId = await web3.eth.net.getId();
       const TransporterData = await Transporter.networks[networkId];
-      if (TransporterData) {
+      if (networkId) {
         const transporter = await new web3.eth.Contract(
           Transporter.abi,
-          TransporterData.address,
+          '0x84B678531FFb8B6a70618AE8A8Db7c3c6aFbfe00',
         );
         let { batchId, distributorId } = values;
         // eslint-disable-next-line eqeqeq

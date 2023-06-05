@@ -81,7 +81,7 @@ const SendMedicine = () => {
       if (MedCycleData) {
         const medCycle = await new web3.eth.Contract(
           MedCycle.abi,
-          MedCycleData.address,
+          '0x4B730a1257122014Aa1cF93079020c1f4EB124CC',
         );
         const packageCount = await medCycle.methods
           .getBatchesCountDistributorToRetailer(currentAccount)
@@ -155,10 +155,10 @@ const SendMedicine = () => {
       const accounts = await web3.eth.getAccounts();
       const networdId = await web3.eth.net.getId();
       const MedCycleData = MedCycle.networks[networdId];
-      if (MedCycleData) {
+      if (networdId) {
         const medCycle = await new web3.eth.Contract(
           MedCycle.abi,
-          MedCycleData.address,
+          '0x4B730a1257122014Aa1cF93079020c1f4EB124CC',
         );
         await medCycle.methods
           .transferMedicineDistributorToRetailer(values.batchId, values.shipper, values.retailer)

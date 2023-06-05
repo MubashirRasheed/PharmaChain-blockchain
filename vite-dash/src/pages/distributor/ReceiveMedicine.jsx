@@ -153,7 +153,7 @@ const ReceiveMedicine = () => {
                     fullWidth
                     id="batchId"
                     name="batchId"
-                    label="Batch ID"
+                    label="Medicine Address"
                     value={values.batchId}
                     onChange={handleChange}
                     error={touched.batchId && Boolean(errors.batchId)}
@@ -173,7 +173,7 @@ const ReceiveMedicine = () => {
                     fullWidth
                     id="retailer"
                     name="retailer"
-                    label="Pharmacist"
+                    label="Pharmacist Address"
                     value={values.retailer}
                     onChange={handleChange}
                     error={touched.retailer && Boolean(errors.retailer)}

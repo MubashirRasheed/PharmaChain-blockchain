@@ -73,13 +73,14 @@ const RawMaterials = () => {
       const web3 = new Web3(window.ethereum);
 
       const networkId = await web3.eth.net.getId();
-      const SupplierData = await Supplier.networks[networkId];
-      console.log('supplierdata.adress', SupplierData.address);
+      // const SupplierData = await Supplier.networks[networkId];
+      const SupplierData = '0xfF94e7aAd82A54144bf300dd33AA217677bCD7f1';
+      console.log('supplierdata.adress', SupplierData);
 
       if (SupplierData) {
         const supplier = await new web3.eth.Contract(
           Supplier.abi,
-          SupplierData.address,
+          '0xfF94e7aAd82A54144bf300dd33AA217677bCD7f1',
         );
 
         const packageCount = await supplier.methods

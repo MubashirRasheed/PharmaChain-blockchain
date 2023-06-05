@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import LoginIcon from '@mui/icons-material/Login';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +29,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PersonIcon from '@mui/icons-material/Person';
 // import { v2 as cloudinary } from 'cloudinary';
 import { positions } from '@mui/system';
+import { LoadingButton } from '@mui/lab';
 import { usePostLoginMutation, usePostSignUpMutation } from '../state/api';
 import { setLogin, setChatID } from '../state/index';
 import Admin from '../abis/Admin.json';
@@ -756,7 +758,7 @@ const forms = () => {
 
                {/* BUTTONS */}
                <Box>
-                 <Button
+                 {/* <Button
                    variant="contained"
                    type="submit"
                    sx={{ m: '2rem 0', p: '1rem', width: '50%' }}
@@ -765,7 +767,17 @@ const forms = () => {
                   //  onClick={handleFormSubmit}
                  >
                    {isLogin ? 'LOGIN' : 'REGISTER'}
-                 </Button>
+                 </Button> */}
+                 <LoadingButton
+                   type="submit"
+                   loading={isSubmitting}
+                   loadingPosition="end"
+                   startIcon={<LoginIcon />}
+                   variant="contained"
+                   sx={{ m: '2rem 0', p: '1rem', width: '50%' }}
+                 >
+                   <span>{isLogin ? 'LOGIN' : 'REGISTER'}</span>
+                 </LoadingButton>
                  <Typography
                    onClick={() => {
                      setPageType(isLogin ? 'register' : 'login');

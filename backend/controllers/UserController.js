@@ -115,7 +115,7 @@ export const register = async (req, res) => {
   try {
 
     const { fullname, location, license, ethAddress, email, password,chatId, picturePath, role } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (user) {
       return res.status(400).json({ msg: 'User already exists' });
     }
@@ -128,7 +128,7 @@ export const register = async (req, res) => {
       location,
       license,
       ethAddress,
-      email,
+      email: email.toLowerCase(),
       password: passwordHash,
       chatId,
       picturePath,
@@ -146,7 +146,7 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(400).json({ msg: 'User does not exist'});
     }

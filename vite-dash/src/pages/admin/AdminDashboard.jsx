@@ -29,6 +29,7 @@ const AdminDashboard = () => {
   const [contractData, setContractData] = useState([]);
 
   // const [totalSales, setTotalSales] = useState();
+  const AdminAddress = import.meta.env.VITE_ADMIN_CONTRACT_ADDRESS;
 
   async function getAllProducts() {
     try {
@@ -47,8 +48,8 @@ const AdminDashboard = () => {
       const web3 = new Web3(window.ethereum);
       const networkId = await web3.eth.net.getId();
       const AdminData = await Admin.networks[networkId];
-      if (AdminData) {
-        const admin = await new web3.eth.Contract(Admin.abi, AdminData.address);
+      if (AdminAddress) {
+        const admin = await new web3.eth.Contract(Admin.abi, AdminAddress);
         const userCount = await admin.methods.getUsersCount().call();
         console.log(userCount);
         setusersNumber(userCount);
@@ -68,7 +69,7 @@ const AdminDashboard = () => {
     fetchData();
     getAllProducts();
   }, []);
-  const AdminAddress = import.meta.env.VITE_ADMIN_CONTRACT_ADDRESS;
+  // const AdminAddress = import.meta.env.VITE_ADMIN_CONTRACT_ADDRESS;
   console.log(AdminAddress);
 
   // Filter contracts based on payment status

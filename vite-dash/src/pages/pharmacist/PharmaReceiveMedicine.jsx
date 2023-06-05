@@ -56,10 +56,10 @@ const PharmaReceiveMedicine = () => {
       const web3 = new Web3(window.ethereum);
       const networkId = await web3.eth.net.getId();
       const medCycleData = await MedCycle.networks[networkId];
-      if (medCycleData) {
+      if (networkId) {
         const medCycle = await new web3.eth.Contract(
           MedCycle.abi,
-          medCycleData.address,
+          '0x4B730a1257122014Aa1cF93079020c1f4EB124CC',
         );
         await medCycle.methods
           .medicineReceivedAtRetailer(values.batchId, values.retailer)
