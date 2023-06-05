@@ -787,7 +787,7 @@ const forms = () => {
                    loadingPosition="end"
                    startIcon={<LoginIcon />}
                    variant="contained"
-                   sx={{ m: '2rem 0', p: '1rem', width: '50%' }}
+                   sx={{ m: '2rem 0', p: '1rem', width: '50%', borderRadius: '2rem' }}
                  >
                    <span>{isLogin ? 'LOGIN' : 'REGISTER'}</span>
                  </LoadingButton>
