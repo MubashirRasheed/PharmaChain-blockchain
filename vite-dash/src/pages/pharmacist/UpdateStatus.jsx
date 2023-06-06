@@ -57,8 +57,8 @@ const UpdateStatus = () => {
       const web3 = new Web3(window.ethereum);
       const networkId = await web3.eth.net.getId();
       const MedCycleData = await MedCycle.networks[networkId];
-      if (MedCycleData) {
-        const medCycle = await new web3.eth.Contract(MedCycle.abi, MedCycleData.address);
+      if (networkId) {
+        const medCycle = await new web3.eth.Contract(MedCycle.abi, '0x4B730a1257122014Aa1cF93079020c1f4EB124CC');
         await medCycle.methods.updateSaleStatus(batchId, status).send({ from: currentAccount });
         console.log('Status Updated Successfully!!!!!');
       } else {

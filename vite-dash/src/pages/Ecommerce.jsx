@@ -25,7 +25,7 @@ const Ecommerce = () => {
 
   async function getAllProducts() {
     try {
-      const response = await axios.get('http://localhost:9002/pharmacyproducts/allPharmacyProducts');
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/pharmacyproducts/allPharmacyProducts`);
       setInventoryData(response.data);
       // console.log(response.data); // data
     } catch (error) {

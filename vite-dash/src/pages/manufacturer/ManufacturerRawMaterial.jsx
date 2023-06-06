@@ -89,10 +89,10 @@ const ManufacturerRawMaterial = () => {
       // const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const MedCycleData = await MedCycle.networks[networkId];
-      if (MedCycleData) {
+      if (networkId) {
         const medCycle = await new web3.eth.Contract(
           MedCycle.abi,
-          MedCycleData.address,
+          '0x4B730a1257122014Aa1cF93079020c1f4EB124CC',
         );
         const packageCount = await medCycle.methods.getPackagesCountManufacturer(currentAccount).call();
         console.log('packageCount', packageCount);
@@ -180,10 +180,10 @@ const ManufacturerRawMaterial = () => {
       // const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const MedCycleData = await MedCycle.networks[networkId];
-      if (MedCycleData) {
+      if (networkId) {
         const medCycle = await new web3.eth.Contract(
           MedCycle.abi,
-          MedCycleData.address,
+          '0x4B730a1257122014Aa1cF93079020c1f4EB124CC',
         );
         await medCycle.methods
           .rawPackageReceived(values.rawMaterialAdress)

@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import LoginIcon from '@mui/icons-material/Login';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
@@ -28,6 +29,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import PersonIcon from '@mui/icons-material/Person';
 // import { v2 as cloudinary } from 'cloudinary';
 import { positions } from '@mui/system';
+import { LoadingButton } from '@mui/lab';
 import { usePostLoginMutation, usePostSignUpMutation } from '../state/api';
 import { setLogin, setChatID } from '../state/index';
 import Admin from '../abis/Admin.json';
@@ -165,7 +167,7 @@ const forms = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('preset', preset);
-      const result = await axios.post('http://localhost:9002/upload/img', formData);
+      const result = await axios.post(`${import.meta.env.VITE_BASE_URL}/upload/img`, formData);
       console.log(result);
 
       // const result = await axios.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, file, {
@@ -289,7 +291,7 @@ const forms = () => {
     //   fullname, location, ethAddress, email, password, role,
     // };
     const response = await axios.post(
-      'http://localhost:9002/auth/register',
+      `${import.meta.env.VITE_BASE_URL}/auth/register`,
       JSON.stringify(user),
       {
         headers: {
@@ -314,7 +316,7 @@ const forms = () => {
     const { email, password } = values;
     console.log(email, password);
     const response = await axios.post(
-      'http://localhost:9002/auth/login',
+      `${import.meta.env.VITE_BASE_URL}/auth/login`,
       JSON.stringify({ email, password }),
       {
         headers: {
@@ -335,16 +337,37 @@ const forms = () => {
     console.log('User chat ID AT REGISTERX', loggedInUser.user.chatId);
     const { fullname } = loggedInUser.user;
     const { chatId } = loggedInUser.user;
-    // chat login disabled temporarily subscribition expired
-    const chk = await triggerLogin({ fullname, chatId });
-    // console.log('chk', chk.data.response.id);
-    console.log('chk', chk.data.response);
+
+    const chatEngineResponse = await axios.get(
+      'https://api.chatengine.io/users/me',
+      {
+        headers: {
+          'Project-ID': import.meta.env.VITE_CHAT_PROJECT_ID,
+          'User-Name': fullname,
+          'User-Secret': chatId,
+        },
+      },
+    );
+
+    // const chatEngineResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/chat/login`, JSON.stringify({ fullname, chatId }), {
+    //   headers: {
+    //     'Project-ID': import.meta.env.VITE_CHAT_PROJECT_ID,
+    //     'User-Name': fullname,
+    //     'User-Secret': chatId,
+    //   },
+    // });
+
+    console.log('logChat', chatEngineResponse);
+
+    // const chk = await triggerLogin({ fullname, chatId });
+    console.log('chk', chatEngineResponse.data.id);
+    // console.log('chk', chk.data.response);
     // triggerLogin(loggedInUser);
 
     onSubmitProps.resetForm();
     if (loggedInUser) {
       dispatch(setLogin({ user: loggedInUser.user, token: loggedInUser.token }));
-      // dispatch(setChatID({ chatID: chk.data.response }));
+      dispatch(setChatID({ chatID: chatEngineResponse.data.id }));
 
       // navigate('/home');
 
@@ -756,16 +779,26 @@ const forms = () => {
 
                {/* BUTTONS */}
                <Box>
-                 <Button
+                 {/* <Button
                    variant="contained"
                    type="submit"
                    sx={{ m: '2rem 0', p: '1rem', width: '50%' }}
-                   disabled={isSubmitting}
+                  //  disabled={isSubmitting}
                   //  onClick={isLogin ? () => {} : handlefunc}
                   //  onClick={handleFormSubmit}
                  >
                    {isLogin ? 'LOGIN' : 'REGISTER'}
-                 </Button>
+                 </Button> */}
+                 <LoadingButton
+                   type="submit"
+                   loading={isSubmitting}
+                   loadingPosition="end"
+                   startIcon={<LoginIcon />}
+                   variant="contained"
+                   sx={{ m: '2rem 0', p: '1rem', width: '50%', borderRadius: '2rem' }}
+                 >
+                   <span>{isLogin ? 'LOGIN' : 'REGISTER'}</span>
+                 </LoadingButton>
                  <Typography
                    onClick={() => {
                      setPageType(isLogin ? 'register' : 'login');

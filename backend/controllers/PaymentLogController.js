@@ -1,4 +1,4 @@
-import PaymentLog from "../Models/PaymentLogSchema.js"
+import PaymentLog from "../models/PaymentLogSchema.js"
 
 // Async function to get a PaymentLog by its PaymentLogID
 export const GetPaymentLog = async (req, res, next) => {

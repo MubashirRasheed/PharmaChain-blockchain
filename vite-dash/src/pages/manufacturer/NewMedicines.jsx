@@ -5,7 +5,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 
-import { Alert, Backdrop, Badge, Box, Button, IconButton, Modal, Snackbar, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Alert, Backdrop, Badge, Box, Button, IconButton, Modal, Skeleton, Snackbar, TextField, Tooltip, Typography, useMediaQuery, useTheme } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Web3 from 'web3';
 import { useLocation } from 'react-router-dom';
@@ -81,7 +81,7 @@ const NewMedicines = () => {
       //   const accounts = await web3.eth.getAccounts();
       const networkId = await web3.eth.net.getId();
       const MedCycleData = await MedCycle.networks[networkId];
-      const medCycle = await new web3.eth.Contract(MedCycle.abi, MedCycleData.address);
+      const medCycle = await new web3.eth.Contract(MedCycle.abi, '0x4B730a1257122014Aa1cF93079020c1f4EB124CC');
       const packageCount = await medCycle.methods.getManufacturedMedicineCountManufacturer(currentAccount).call();
       const allManuMedicine = await Promise.all(
         // eslint-disable-next-line radix
@@ -389,7 +389,35 @@ Supplier:             ${medicine.rawmaterialSupplier}
           );
         })
       ) : (
-        <Typography variant="h5">No Medicine Found</Typography>
+
+        <Box
+
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            // justifyContent: 'space-between',
+            // alignItems: 'center',
+            margin: 2,
+            p: 2,
+            borderRadius: '20px',
+            border: 1,
+            borderColor: themeMode === 'Dark' ? '#515054' : '#cac9cf',
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: themeMode === 'Dark' ? '#2d3940' : '#f1f1f1',
+            },
+            background: themeMode === 'Dark' ? '#1c2d38' : '#FFFFFF',
+            width: '90%',
+          }}
+        >
+          <Typography variant="h4" textAlign="center" margin="5px">
+            <Skeleton variant="text" width="40%" />
+          </Typography>
+          <Skeleton variant="text" width="80%" />
+          <Skeleton variant="text" width="70%" />
+          <Skeleton variant="text" width="90%" />
+        </Box>
+
       )}
     </>
   );

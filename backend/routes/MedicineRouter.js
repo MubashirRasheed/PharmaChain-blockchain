@@ -1,6 +1,6 @@
 import express from "express";
 
-import MedicineController from "../Controllers/MedicineController.js";
+import MedicineController from "../controllers/MedicineController.js";
 
 let router = express.Router();
 

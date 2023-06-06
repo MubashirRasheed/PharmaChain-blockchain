@@ -71,7 +71,7 @@ const EditProfile = () => {
     const userChatID = chatID.chatID.id;
 
     try {
-      const response = await axios.post(`http://localhost:9002/auth/updateProfile/${id}`, data);
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/updateProfile/${id}`, data);
       console.log('update response', response);
       // dispatch(user(response.data));
       // dispatch(setUpdateUser({ user: response.data }));

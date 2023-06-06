@@ -1,5 +1,5 @@
-import {User} from '../Models/UserModel.js';
-import {Job} from '../Models/UserModel.js';
+import {User} from '../models/UserModel.js';
+import {Job} from '../models/UserModel.js';
 
 
 export const bidPost = async (req, res) => {

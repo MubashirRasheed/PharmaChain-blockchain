@@ -6,7 +6,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const ManufacturerInventory = () => {
   // Latest Changings
-  const apiUrl = 'http://localhost:9002/manufacturer/allManufacturers';
+  const apiUrl = `${import.meta.env.VITE_BASE_URL}/manufacturer/allManufacturers`;
   const [manufacturerInventoryData, setManufacturerInventoryData] = useState([]);
   const themeMode = localStorage.getItem('themeMode');
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
@@ -54,7 +54,7 @@ const ManufacturerInventory = () => {
     // add new item to ManufacturerInventory
     console.log('additem ', newItem);
     axios
-      .post('http://localhost:9002/manufacturer/addNewManufacturer', newItem, {
+      .post(`${import.meta.env.VITE_BASE_URL}/manufacturer/addNewManufacturer`, newItem, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,7 +80,7 @@ const ManufacturerInventory = () => {
   const handleUpdateItem = () => {
     // update existing item in ManufacturerInventory
     console.log('update item', newItem);
-    fetch(`http://localhost:9002/manufacturer/updateManufacturer/${newItem.id}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/manufacturer/updateManufacturer/${newItem.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ const ManufacturerInventory = () => {
 
   const handleDeleteItem = () => {
     // delete item from ManufacturerInventory
-    fetch(`http://localhost:9002/manufacturer/deteleManufacturer/${newItem.id}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/manufacturer/deteleManufacturer/${newItem.id}`, {
       method: 'DELETE',
     })
       .then((response) => {

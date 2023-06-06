@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const CheckoutSuccess = () => {
 
-  const url = 'http://localhost:9002/paymentlogs/addNewPaymentLog'
+  const url = `${import.meta.env.VITE_BASE_URL}/paymentlogs/addNewPaymentLog`
   const dispatch = useDispatch();
   const [cartData, setCartData] = useState();
   const [totalPrice, setTotalPrice] = useState();

@@ -1,7 +1,7 @@
 import express from 'express';
-// import {bidPost, bidAccept } from '../Controllers/bidController.js'
-import {conPost, conGet, makePayment, updateContract, retrieveReceipt} from '../Controllers/contract.js'
-import authMiddleware from '../Middlewares/AuthMiddleware.js';
+// import {bidPost, bidAccept } from '../controllers/bidController.js'
+import {conPost, conGet, makePayment, updateContract, retrieveReceipt} from '../controllers/contract.js'
+import authMiddleware from '../middlewares/AuthMiddleware.js';
 
 const conRouter = express.Router();
 

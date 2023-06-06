@@ -1,4 +1,4 @@
-import MedicineModel from "../Models/MedicineModel.js";
+import MedicineModel from "../models/MedicineModel.js";
 
 // Crud Operations
 const GetMedicine = async (req, res, next) => {

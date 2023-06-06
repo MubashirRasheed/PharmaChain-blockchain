@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewPharmacyProduct, GetAllPharmacyProducts, DeletePharmacyProduct
-, UpdatePharmacyProduct } from "../Controllers/PharmacyProductController.js";
+, UpdatePharmacyProduct } from "../controllers/PharmacyProductController.js";
 
 let PharmacyProductRouter = express.Router();
 

@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewManufacturer, GetAllManufacturers, DeleteManufacturer
-, UpdateManufacturer } from "../Controllers/ManufacturerController.js";
+, UpdateManufacturer } from "../controllers/ManufacturerController.js";
 
 let ManufacturerRouter = express.Router();
 

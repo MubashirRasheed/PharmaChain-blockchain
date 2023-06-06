@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewTask, GetAllTasks, DeleteTask
-, UpdateTask } from "../Controllers/KanbanController.js";
+, UpdateTask } from "../controllers/KanbanController.js";
 
 let KanbanRouter = express.Router();
 

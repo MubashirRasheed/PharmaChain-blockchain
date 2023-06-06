@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewEmployee, GetAllEmployees, DeleteEmployee
-, UpdateEmployee } from "../Controllers/EmployeeController.js";
+, UpdateEmployee } from "../controllers/EmployeeController.js";
 
 let EmployeeRouter = express.Router();
 

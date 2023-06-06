@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewSupplier, GetAllSuppliers, DeleteSupplier
-, UpdateSupplier } from "../Controllers/SupplierController.js";
+, UpdateSupplier } from "../controllers/SupplierController.js";
 
 let SupplierRouter = express.Router();
 

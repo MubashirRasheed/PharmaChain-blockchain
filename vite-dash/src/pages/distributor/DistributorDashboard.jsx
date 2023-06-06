@@ -31,7 +31,7 @@ const DistributorDashboard = () => {
 
   async function getAllProducts() {
     try {
-      const response = await axios.get('http://localhost:9002/distributor/allDistributors');
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/distributor/allDistributors`);
       setInventoryData(response.data);
       // console.log(response.data); // data
     } catch (error) {

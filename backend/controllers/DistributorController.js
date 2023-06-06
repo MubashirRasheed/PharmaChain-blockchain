@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import ManufacturerModel from "../Models/ManufacturerModel.js";
+import DistributorModel from '../models/DistributorSchema.js'
 
 // Crud Operations
-export const GetManufacturer = async (req, res, next) => {
+export const GetDistributor = async (req, res, next) => {
   try {
-    ManufacturerModel.find({ _id: req.params.id }).exec(function (error, data) {
+    DistributorModel.find({ _id: req.params.id }).exec(function (error, data) {
       if (error) {
         return next(error);
       }
@@ -16,9 +16,9 @@ export const GetManufacturer = async (req, res, next) => {
   }
 };
 
-export const GetAllManufacturers = async (req, res, next) => {
+export const GetAllDistributors = async (req, res, next) => {
   console.log(req.body);
-  ManufacturerModel.find({}).exec(function (error, data) {
+  DistributorModel.find({}).exec(function (error, data) {
     // console.log("abc");
     if (error) {
       return next(error);
@@ -27,25 +27,25 @@ export const GetAllManufacturers = async (req, res, next) => {
   });
 };
 
-// export const GetAllManufacturers = async (req, res) => {
+// export const GetAllDistributors = async (req, res) => {
 //   try {
-//     const Manufacturers = await ManufacturerModel.find({});
-//     console.log(Manufacturers);
-//     res.status(200).json(Manufacturers);
+//     const Distributors = await DistributorModel.find({});
+//     console.log(Distributors);
+//     res.status(200).json(Distributors);
 //   } catch (error) {
 //     res.status(500).json({ error: error.message });
 //   }
 // };
 
 
-// Async function to add a new Manufacturer to the Manufacturers collection
-export const AddNewManufacturer = async (req, res) => {
+// Async function to add a new Distributor to the Distributors collection
+export const AddNewDistributor = async (req, res) => {
   try {
-    const newManufacturer = new ManufacturerModel({
+    const newDistributor = new DistributorModel({
 
-      id: req.body.id,
+      id : req.body.id,
       sku: req.body.sku,
-      name: req.body.name,
+      name : req.body.name,
       price: req.body.price,
       discount: req.body.discount,
       offerEnd: req.body.offerEnd,
@@ -60,20 +60,20 @@ export const AddNewManufacturer = async (req, res) => {
       fullDescription: req.body.fullDescription,
 
     });
-    console.log(newManufacturer);
-    const savedManufacturer = await newManufacturer.save(); // Save the new Manufacturer to the database
 
-    res.status(201).json(savedManufacturer); // Return the saved Manufacturer as a response
+    const savedDistributor = await newDistributor.save(); // Save the new Distributor to the database
+
+    res.status(201).json(savedDistributor); // Return the saved Distributor as a response
   } catch (error) {
     res.status(400).json({ message: error.message }); // Handle any errors that occur
   }
 };
 
 
-export const UpdateManufacturer = async (req, res) => {
+export const UpdateDistributor = async (req, res) => {
   try {
     const { id } = req.params;
-    // const { ManufacturerID, ManufacturerName, CustomerEmail, ManufacturerImageUrl, ProjectName, Status, StatusBg, Quantity, Price, Location } = req.body;
+    // const { DistributorID, DistributorName, CustomerEmail, DistributorImageUrl, ProjectName, Status, StatusBg, Quantity, Price, Location } = req.body;
 
 
     // if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -82,10 +82,10 @@ export const UpdateManufacturer = async (req, res) => {
     // }
 
     console.log(id, 'mongooseID');
-    const manufacturer = await ManufacturerModel.findOneAndUpdate({ id: id }, {
-      id: req.body.id,
+    const distributor = await DistributorModel.findOneAndUpdate({id:id}, {
+      id : req.body.id,
       sku: req.body.sku,
-      name: req.body.name,
+      name : req.body.name,
       price: req.body.price,
       discount: req.body.discount,
       offerEnd: req.body.offerEnd,
@@ -100,11 +100,11 @@ export const UpdateManufacturer = async (req, res) => {
       fullDescription: req.body.fullDescription,
     }, { new: true });
 
-    if (!manufacturer) {
-      return res.status(404).send({ message: "Manufacturer not found" });
+    if (!distributor) {
+      return res.status(404).send({ message: "Distributor not found" });
     }
 
-    res.status(200).send({ manufacturer });
+    res.status(200).send({ distributor });
   } catch (error) {
     console.log(error);
     res.status(500).send({ message: "Internal server error" });
@@ -112,15 +112,15 @@ export const UpdateManufacturer = async (req, res) => {
 };
 
 
-// Async function to delete a Manufacturer by its ManufacturerID
-export const DeleteManufacturer = async (req, res) => {
+// Async function to delete a Distributor by its DistributorID
+export const DeleteDistributor = async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedManufacturer = await ManufacturerModel.findOneAndDelete({ id });
-    if (!deletedManufacturer) {
-      return res.status(404).send({ message: 'Manufacturer not found' });
+    const deletedDistributor = await DistributorModel.findOneAndDelete({ id });
+    if (!deletedDistributor) {
+      return res.status(404).send({ message: 'Distributor not found' });
     }
-    return res.status(200).send({ message: 'Manufacturer deleted successfully' });
+    return res.status(200).send({ message: 'Distributor deleted successfully' });
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: 'Internal server error' });

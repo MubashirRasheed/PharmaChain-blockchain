@@ -28,7 +28,7 @@ const GetJobs = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:9002/job-post/get', {
+      const result = await axios.get(`${import.meta.env.VITE_BASE_URL}/job-post/get`, {
         headers: {
           'x-auth-token': token,
         },
@@ -66,7 +66,7 @@ const GetJobs = () => {
     // if (hasSubmittedBid) {
     //   alert('You have already submitted a bid for this job.');
     // } else {
-    const response = await axios.post('http://localhost:9002/bids/post', data, {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/bids/post`, data, {
       headers: { 'x-auth-token': token },
     });
     console.log(response.data);

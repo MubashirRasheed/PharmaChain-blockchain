@@ -27,11 +27,11 @@ const AllPostedJobs = () => {
     const fetchData = async () => {
       let url;
       if (userRole === 'manufacturer') {
-        url = 'http://localhost:9002/job-post/getManu';
+        url = `${import.meta.env.VITE_BASE_URL}/job-post/getManu`;
       } else if (userRole === 'distributor') {
-        url = 'http://localhost:9002/job-post/getDist';
+        url = `${import.meta.env.VITE_BASE_URL}/job-post/getDist`;
       } else if (userRole === 'pharmacist') {
-        url = 'http://localhost:9002/job-post/getPharma';
+        url = `${import.meta.env.VITE_BASE_URL}/job-post/getPharma`;
       }
       const result = await axios.get(url, {
         headers: {
@@ -51,7 +51,7 @@ const AllPostedJobs = () => {
     setLoading(true);
     console.log('bid._id', selectedBid);
     console.log('job._id', selectedJobBid);
-    const response = await axios.post('http://localhost:9002/bids/accept', { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/bids/accept`, { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
     console.log(response);
     const Chatdata = {
       title: response.data.job.title,
@@ -105,29 +105,26 @@ const AllPostedJobs = () => {
 
     const chatMessage = {
       text: `
-      ╔══════════════════════════════════════════════════════════════════════╗ 
-      ║ 📝 Job Details:                                                     
-      ╠══════════════════════════════════════════════════════════════════════╣
-      ║ 💬 Title: *${response.data.job.title}*                     ║
-      ║ 📋 Description: ${response.data.job.description} ║
-      ║ 💵 Price: $${response.data.job.price}                              ║
-      ║ 📅 Delivery Time: ${response.data.job.deliveryTime} days        ║
-      ║ 📑 Status: ${response.data.job.status}                               ║
-      ║ 👤 Posted By: ${response.data.job.postedBy}                ║
-      ║                                   ║
-      ╠═══════════════════════════════╣
-      ║ 📑 Bid Details:                 ║
-      ╠═══════════════════════════════╣
-      ║ 💰 Bid Price: $${response.data.bidPrice}                            ║
-      ║ 📚 Bid Delivery Time: ${response.data.bidDeliveryTime} days   ║
-      ║ 📑 Bid Status: ${response.data.status}                            ║
-      ║ 👤 Bid Posted By: ${response.data.bidder.fullname}        ║
-      ║                                   ║
-      ╠═══════════════════════════════╣
-      ║ 👥 Bid Accepted By: ${user.fullname}                    ║
-      ║ 👛 Bid Accepted On: ${response.data.acceptedOn}             ║
-      ╚═══════════════════════════════╝
-      `,
+      ===================JOb Details===================
+        Title: *${response.data.job.title}*       
+        Description: ${response.data.job.description} 
+        Price: $${response.data.job.price}             
+        Delivery Time: ${response.data.job.deliveryTime} days        
+        Status: ${response.data.job.status}        
+        Posted By: ${response.data.job.postedBy}                
+      
+      
+     ===================Bid Details===================                 
+    
+        Bid Price: $${response.data.bidPrice}                 
+        Bid Delivery Time: ${response.data.bidDeliveryTime} days
+        Bid Status: ${response.data.status}                 
+        Bid Posted By: ${response.data.bidder.fullname}
+                                
+      
+        Accepted By: ${user.fullname}      
+        Bid Accepted On: ${response.data.acceptedOn}  
+    `,
     };
 
     const newMessage = await axios.post(`https://api.chatengine.io/chats/${chatRoom_id}/messages/`, chatMessage, {
@@ -138,7 +135,7 @@ const AllPostedJobs = () => {
       },
     });
 
-    const contractResponse = await axios.post('http://localhost:9002/contract/post', { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
+    const contractResponse = await axios.post(`${import.meta.env.VITE_BASE_URL}/contract/post`, { bidId: selectedBid, jobId: selectedJobBid }, { headers: { 'x-auth-token': token } });
     console.log(contractResponse);
 
     navigate('/chat');

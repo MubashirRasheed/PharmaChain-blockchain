@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { AddNewCustomer, GetAllCustomers, DeleteCustomer
-, UpdateCustomer } from "../Controllers/CustomerController.js";
+, UpdateCustomer } from "../controllers/CustomerController.js";
 
 let CustomerRouter = express.Router();
 

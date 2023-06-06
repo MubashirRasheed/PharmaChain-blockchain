@@ -12,7 +12,7 @@ const Customers = () => {
 
   // Latest Changings
   const toolbarOptions = ['Delete', 'Edit', 'Update', 'Print'];
-  const apiUrl = 'http://localhost:9002/customer/allCustomers';
+  const apiUrl = `${import.meta.env.VITE_BASE_URL}/customer/allCustomers`;
   const [customersData, setCustomersData] = useState([]);
 
   async function getAllProducts() {

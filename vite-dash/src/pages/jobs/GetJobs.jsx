@@ -37,7 +37,7 @@ const GetJobs = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:9002/job-post/get', {
+      const result = await axios.get(`${import.meta.env.VITE_BASE_URL}/job-post/get`, {
         headers: {
           'x-auth-token': token,
         },
@@ -76,26 +76,27 @@ const GetJobs = () => {
     const selectedJob = jobs.find((job) => job._id === selectedJobId);
     const hasSubmittedBid = selectedJob.bids.some((bid) => bid.bidder === userId);
 
-    // if (hasSubmittedBid) {
-    //   alert('You have already submitted a bid for this job.');
-    // } else {
-    try {
-      const response = await axios.post('http://localhost:9002/bids/post', data, {
-        headers: { 'x-auth-token': token },
-      });
-      console.log(response.data);
-      setOpen(false);
-      setBidSucessSnack(true);
-    // }
-    // const response = await axios.post('http://localhost:9002/bids/post', data, {
-    //   headers: { 'x-auth-token': token },
-    // });
-    // console.log(response.data);
-    // setOpen(false);
-    } catch (error) {
-      console.log(error);
-      setOpen(false);
-      setBidFailedSnack(true);
+    if (hasSubmittedBid) {
+      alert('You have already submitted a bid for this job.');
+    } else {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/bids/post`, data, {
+          headers: { 'x-auth-token': token },
+        });
+        console.log(response.data);
+        setOpen(false);
+        setBidSucessSnack(true);
+        // }
+        // const response = await axios.post('http://localhost:9002/bids/post', data, {
+        //   headers: { 'x-auth-token': token },
+        // });
+        // console.log(response.data);
+        // setOpen(false);
+      } catch (error) {
+        console.log(error);
+        setOpen(false);
+        setBidFailedSnack(true);
+      }
     }
   };
   const handleDateChange = (newValue) => {

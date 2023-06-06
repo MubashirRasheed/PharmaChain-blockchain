@@ -56,7 +56,7 @@ const PostJob = () => {
       const { title, description, price, deliveryTime } = values;
       console.log(data);
 
-      const response = await axios.post('http://localhost:9002/job-post/Post', data, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/job-post/Post`, data, {
         headers: {
           'x-auth-token': token,
         },

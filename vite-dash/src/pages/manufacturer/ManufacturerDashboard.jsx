@@ -29,7 +29,7 @@ const ManufacturerDashboard = () => {
 
   async function getAllProducts() {
     try {
-      const response = await axios.get('http://localhost:9002/manufacturer/allManufacturers');
+      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/manufacturer/allManufacturers`);
       setInventoryData(response.data);
       // console.log(response.data); // data
     } catch (error) {

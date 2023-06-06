@@ -1,10 +1,10 @@
 // const express = require("express");
 import express from "express";
-// const AdminModel = require("../Models/UserModel");
-// imoprt AdminModel from "../Models/AdminModel";
-// const UserController = require("../Controllers/UserController");
-// import UserController from "../Controllers/UserController";
-import {register, login, updateProfile} from "../Controllers/UserController.js";
+// const AdminModel = require("../models/UserModel");
+// imoprt AdminModel from "../models/AdminModel";
+// const UserController = require("../controllers/UserController");
+// import UserController from "../controllers/UserController";
+import {register, login, updateProfile} from "../controllers/UserController.js";
 
 
 let UserRouter = express.Router();

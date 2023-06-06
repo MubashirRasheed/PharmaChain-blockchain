@@ -6,7 +6,7 @@ import { useStateContext } from '../../contexts/ContextProvider';
 
 const DistributorInventory = () => {
   // Latest Changings
-  const apiUrl = 'http://localhost:9002/distributor/allDistributors';
+  const apiUrl = `${import.meta.env.VITE_BASE_URL}/distributor/allDistributors`;
   const [distributorInventoryData, setDistributorInventoryData] = useState([]);
   const themeMode = localStorage.getItem('themeMode');
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
@@ -54,7 +54,7 @@ const DistributorInventory = () => {
     // add new item to distributorInventory
     console.log('additem ', newItem);
     axios
-      .post('http://localhost:9002/distributor/addNewDistributor', newItem, {
+      .post(`${import.meta.env.VITE_BASE_URL}/distributor/addNewDistributor`, newItem, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -80,7 +80,7 @@ const DistributorInventory = () => {
   const handleUpdateItem = () => {
     // update existing item in DistributorInventory
     console.log('update item', newItem);
-    fetch(`http://localhost:9002/distributor/updateDistributor/${newItem.id}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/distributor/updateDistributor/${newItem.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ const DistributorInventory = () => {
 
   const handleDeleteItem = () => {
     // delete item from DistributorInventory
-    fetch(`http://localhost:9002/distributor/deteleDistributor/${newItem.id}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/distributor/deteleDistributor/${newItem.id}`, {
       method: 'DELETE',
     })
       .then((response) => {

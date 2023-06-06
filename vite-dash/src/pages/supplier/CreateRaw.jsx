@@ -70,25 +70,28 @@ const CreateRaw = () => {
     try {
       const web3 = new Web3(window.ethereum);
       const networkId = await web3.eth.net.getId();
+      console.log(networkId);
       const SupplierData = await Supplier.networks[networkId];
-      if (SupplierData) {
-        const supplier = await new web3.eth.Contract(
-          Supplier.abi,
-          SupplierData.address,
-        );
-        await supplier.methods
-          .createRawPackage(
-            values.description,
-            values.ownerName,
-            values.location,
-            values.quantity,
-            values.shipper,
-            values.manufacturer,
-          )
-          .send({ from: currentAccount });
-        console.log('Successfully created a new package!!');
-        setRawSuccessSnack(true);
-      }
+      console.log(SupplierData);
+      // if (SupplierData) {
+      const supplier = await new web3.eth.Contract(
+        Supplier.abi,
+        // SupplierData.address,
+        '0xfF94e7aAd82A54144bf300dd33AA217677bCD7f1',
+      );
+      await supplier.methods
+        .createRawPackage(
+          values.description,
+          values.ownerName,
+          values.location,
+          values.quantity,
+          values.shipper,
+          values.manufacturer,
+        )
+        .send({ from: currentAccount });
+      console.log('Successfully created a new package!!');
+      setRawSuccessSnack(true);
+      // }
     } catch (err) {
       setErrors({ errorMessage: err.message });
       setRawFailSnack(true);
