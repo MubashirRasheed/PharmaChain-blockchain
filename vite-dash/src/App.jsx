@@ -174,7 +174,7 @@ const App = () => {
                       <Route path="/supplierRawMaterials" element={<RawMaterials />} />
                       <Route path="/supplierCreateRaw" element={<CreateRaw />} />
                       <Route path="/supplierinventory" element={<SupplierInventory />} />
-                      <Route path="/suppliermedicines" element={<Medicines />} />
+                      {/* <Route path="/suppliermedicines" element={<Medicines />} /> */}
                       <Route path="/suppliercontracts" element={<Contracts />} />
                       {/* apps  */}
                       <Route path="/supplierkanban" element={<Kanban />} />
@@ -210,7 +210,7 @@ const App = () => {
                       <Route path="manufacturerCreateMedicine" element={<CreateMedicine />} />
                       <Route path="manufacturerNewMedicines" element={<NewMedicines />} />
                       <Route path="/manufacturerinventory" element={<ManufacturerInventory />} />
-                      <Route path="/manufacturermedicines" element={<Medicines />} />
+                      {/* <Route path="/manufacturermedicines" element={<Medicines />} /> */}
                       <Route path="/manufacturercontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
                       <Route path="/manufacturerPostJob" element={<PostJob />} />
@@ -247,7 +247,7 @@ const App = () => {
                       <Route path="/adminorders" element={<Orders />} />
                       <Route path="/adminemployees" element={<Employees />} />
                       <Route path="/adminemployee" element={<Customers />} />
-                      <Route path="/adminmedicines" element={<Medicines />} />
+                      {/* <Route path="/adminmedicines" element={<Medicines />} /> */}
                       <Route path="/admininventory" element={<Inventory />} />
                       <Route path="/admincontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
@@ -286,7 +286,7 @@ const App = () => {
                       <Route path="distributorSendMedicine" element={<SendMedicine />} />
                       <Route path="distributorAllSentMedicines" element={<AllSentMedicines />} />
                       <Route path="distributorinventory" element={<DistributorInventory />} />
-                      <Route path="/distributormedicines" element={<Medicines />} />
+                      {/* <Route path="/distributormedicines" element={<Medicines />} /> */}
                       <Route path="/distributorcontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
                       <Route path="/distributorPostJob" element={<PostJob />} />
@@ -337,7 +337,7 @@ const App = () => {
                       <Route path="pharmacistUpdateStatus" element={<UpdateStatus />} />
                       <Route path="pharmacistAllMedicines" element={<AllMedicines />} />
                       <Route path="pharmacistinventory" element={<PharmacistInventory />} />
-                      <Route path="/pharmacistmedicines" element={<Medicines />} />
+                      {/* <Route path="/pharmacistmedicines" element={<Medicines />} /> */}
                       <Route path="/pharmacistcontracts" element={<Contracts />} />
                       <Route path="/EditProfile" element={<EditProfile />} />
                       <Route path="/pharmacistPostJob" element={<PostJob />} />

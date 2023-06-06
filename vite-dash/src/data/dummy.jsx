@@ -675,11 +675,11 @@ export const links = [
         icon: <CiCircleList />,
         roles: ['pharmacist'],
       },
-      {
-        name: 'medicines',
-        icon: <CiPill />,
-        roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
-      },
+      // {
+      //   name: 'medicines',
+      //   icon: <CiPill />,
+      //   roles: ['admin,rawMaterialSupplier,manufacturer,disributor,pharmacist'],
+      // },
       {
         name: 'inventory',
         icon: <MdOutlineInventory />,
