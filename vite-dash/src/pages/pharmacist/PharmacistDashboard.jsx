@@ -42,7 +42,7 @@ const PharmacistDashboard = () => {
   async function getAllPaymentLog() {
     try {
       const response = await axios
-        .get('http://localhost:9002/paymentlogs/allPaymentLogs');
+        .get(`${import.meta.env.VITE_BASE_URL}/paymentlogs/allPaymentLogs`);
       console.log('paymentlog', response.data);
       setPaymentLogData(response.data);
       // console.log(response.data); // data
@@ -68,7 +68,7 @@ const PharmacistDashboard = () => {
         };
       });
 
-      await axios.put('http://localhost:9002/pharmacyproducts/updatePharmacyProduct/:id', updatedProducts);
+      await axios.put(`${import.meta.env.VITE_BASE_URL}/pharmacyproducts/updatePharmacyProduct/:id`, updatedProducts);
       console.log('Sale counts updated successfully.');
     } catch (error) {
       console.error('Error updating sale counts:', error);

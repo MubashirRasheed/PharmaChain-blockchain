@@ -41,7 +41,7 @@ const ManufacturerDashboard = () => {
     const fetchData = async () => {
       // Initialize Web3 instance
 
-      const result = await axios.get('http://localhost:9002/contract/getContract', {
+      const result = await axios.get(`${import.meta.env.VITE_BASE_URL}/contract/getContract`, {
         headers: { 'x-auth-token': token },
       });
       console.log(result.data);

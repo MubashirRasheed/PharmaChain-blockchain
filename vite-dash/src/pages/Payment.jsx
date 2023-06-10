@@ -29,7 +29,7 @@ const PaymentForm = ({ clientSecret }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://localhost:5173/${user.role}contracts`,
+        return_url: `https://pharmasupplychain.vercel.app/${user.role}contracts`,
 
       },
     });
