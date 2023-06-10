@@ -9,6 +9,7 @@ import { MdOutlineSupervisorAccount } from 'react-icons/md';
 import { HiOutlineRefresh } from 'react-icons/hi';
 import { FiBarChart } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
+import { TiTick } from 'react-icons/ti';
 import { Stacked, Pie, Button, LineChart, SparkLine } from '../../components';
 import { earningData, medicalproBranding, recentTransactions, weeklyStats, dropdownData, SparklineAreaData, ecomPieChartData } from '../../data/dummy';
 import { useStateContext } from '../../contexts/ContextProvider';
@@ -165,7 +166,7 @@ const PharmacistDashboard = () => {
           <div className="flex justify-between items-center">
             <div>
               <p className="font-bold text-gray-400">Earnings</p>
-              <p className="text-2xl">{totalAmountSum}</p>
+              <p className="text-2xl">{`$${sumPaidAmounts}`}</p>
             </div>
             <button
               type="button"
@@ -277,17 +278,17 @@ const PharmacistDashboard = () => {
             <div className=" border-r-1 border-color m-4 pr-10">
               <div>
                 <p>
-                  <span className="text-3xl font-semibold">$93,438</span>
-                  <span className="p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-400 ml-3 text-xs">
+                  <span className="text-3xl font-semibold">{`$${sumTotalAmounts}`}</span>
+                  {/* <span className="p-1.5 hover:drop-shadow-xl cursor-pointer rounded-full text-white bg-green-400 ml-3 text-xs">
                     23%
-                  </span>
+                  </span> */}
                 </p>
-                <p className="text-gray-500 mt-1">Budget</p>
+                <p className="text-gray-500 mt-1">Total Revenue</p>
               </div>
               <div className="mt-8">
-                <p className="text-3xl font-semibold">$48,487</p>
+                <p className="text-3xl font-semibold">{`$${sumPendingAmounts}`}</p>
 
-                <p className="text-gray-500 mt-1">Expense</p>
+                <p className="text-gray-500 mt-1">Pending</p>
               </div>
 
               <div className="mt-5">
@@ -322,24 +323,79 @@ const PharmacistDashboard = () => {
             </div>
 
             <div className="mt-4">
-              <SparkLine currentColor={currentColor} id="column-sparkLine" height="100px" type="Column" data={SparklineAreaData} width="320" color="rgb(242, 252, 253)" />
+              <SparkLine
+                currentColor={currentColor}
+                id="column-sparkLine"
+                height="100px"
+                type="Column"
+                data={[{ x: 1, yval: contractData[0]?.amount },
+                  { x: 2, yval: contractData[1]?.amount },
+                  { x: 3, yval: contractData[2]?.amount },
+                  { x: 4, yval: contractData[3]?.amount },
+                  { x: 5, yval: contractData[4]?.amount }]}
+                width="320"
+                color="rgb(242, 252, 253)"
+              />
             </div>
           </div>
 
           <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl md:w-400 p-8 m-3 flex justify-center items-center gap-10">
             <div>
-              <p className="text-2xl font-semibold ">$43,246</p>
-              <p className="text-gray-400">Yearly sales</p>
+              <p className="text-2xl font-semibold ">{`$${sumPendingAmounts}`}</p>
+              <p className="text-gray-400">Pending Revenue</p>
             </div>
-
             <div className="w-40">
-              <Pie id="pie-chart" data={ecomPieChartData} legendVisiblity={false} height="160px" />
+              <Pie
+                id="pie-chart"
+                data={piedata}
+                legendVisiblity={false}
+                height="160px"
+              />
             </div>
           </div>
         </div>
       </div>
 
       <div className="flex gap-10 m-4 flex-wrap justify-center">
+        <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl">
+          <div className="flex justify-between items-center gap-2">
+            <p className="text-xl font-semibold">Recent Transactions</p>
+            <DropDown currentMode={currentMode} />
+          </div>
+          {mostRecentContracts.map((contract) => (
+            <div key={contract.jobTitle} className="flex justify-between mt-4">
+              <div className="flex gap-4">
+                <button
+                  type="button"
+                  style={{
+                    color: 'rgb(228, 106, 118)',
+                    backgroundColor: 'rgb(255, 244, 229)',
+                  }}
+                  className="text-2xl rounded-lg p-4 hover:drop-shadow-xl"
+                >
+                  <TiTick />
+                </button>
+                <div>
+                  <p className="text-md font-semibold">{contract.jobTitle}</p>
+                  <p className="text-sm text-gray-400">{contract.jobTitle}</p>
+                </div>
+              </div>
+              <p className="text-green-600">{`$${contract.amount}`}</p>
+            </div>
+          ))}
+          <div className="flex justify-between items-center mt-5 border-t-1 border-color">
+            <div className="mt-3">
+              <Button
+                color="white"
+                bgColor={currentColor}
+                text="Add"
+                borderRadius="10px"
+              />
+            </div>
+
+            <p className="text-gray-400 text-sm">36 Recent Transactions</p>
+          </div>
+        </div>
         <div className="bg-white dark:text-gray-200 dark:bg-secondary-dark-bg p-6 rounded-2xl w-96 md:w-760">
           <div className="flex justify-between items-center gap-2 mb-10">
             <p className="text-xl font-semibold">Sales Overview</p>
@@ -351,7 +407,7 @@ const PharmacistDashboard = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center">
+      {/* <div className="flex flex-wrap justify-center">
         <div className="md:w-400 bg-white dark:text-gray-200 dark:bg-secondary-dark-bg rounded-2xl p-6 m-3">
           <div className="flex justify-between">
             <p className="text-xl font-semibold">Weekly Stats</p>
@@ -418,7 +474,7 @@ const PharmacistDashboard = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

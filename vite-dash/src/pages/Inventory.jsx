@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { Avatar, Box, Typography } from '@mui/material';
+import { useDropzone } from 'react-dropzone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import PersonIcon from '@mui/icons-material/Person';
+import { Formik } from 'formik';
 import { Header } from '../components';
 import { useStateContext } from '../contexts/ContextProvider';
 
 const ProductInventory = () => {
   // Latest Changings
   const apiUrl = `${import.meta.env.VITE_BASE_URL}/product/allProducts`;
-  const [inventoryData, setInventoryData] = useState([]);
+  const [InventoryData, setInventoryData] = useState([]);
   const themeMode = localStorage.getItem('themeMode');
   const backgroundColor = themeMode === 'Dark' ? '#1c2d38' : 'white';
   const { currentColor, currentMode } = useStateContext();
   const Pencolor = themeMode === 'Dark' ? '#1c2d38' : 'white';
+  const [profileImage, setProfileImage] = useState(null);
+  const [fileUrl, setFileUrl] = useState('');
   async function getAllProducts() {
     try {
       const response = await axios.get(apiUrl);
@@ -43,11 +50,12 @@ const ProductInventory = () => {
     //     .catch(error => console.error(error));
   }, []);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    console.log(name);
-    console.log(value);
-    setNewItem({ ...newItem, [name]: value });
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewItem((prevItem) => ({
+      ...prevItem,
+      [name]: value || prevItem[name], // Retain the previous value if the new value is empty
+    }));
   };
 
   const handleAddItem = () => {
@@ -106,7 +114,7 @@ const ProductInventory = () => {
 
   const handleDeleteItem = () => {
     // delete item from inventory
-    fetch(`${import.meta.env.VITE_BASE_URL}/product/deteleProduct/${newItem.productID}`, {
+    fetch(`${import.meta.env.VITE_BASE_URL}/product/deteleProduct/${newItem.id}`, {
       method: 'DELETE',
     })
       .then((response) => {
@@ -130,6 +138,14 @@ const ProductInventory = () => {
 
   const columns = [
     {
+      field: 'image',
+      headerName: 'Image',
+      width: 80,
+      renderCell: (params) => (
+        <img src={params.row.image} alt="Product" style={{ width: '100%', height: 'auto' }} />
+      ),
+    },
+    {
       field: 'id',
       headerName: 'ProductID',
       width: 80,
@@ -152,7 +168,7 @@ const ProductInventory = () => {
   console.log(InventoryData);
 
   const rows = InventoryData.map((user, index) => ({
-
+    image: user.image[0],
     id: user.id,
     name: user.name,
     sku: user.sku,
@@ -164,6 +180,50 @@ const ProductInventory = () => {
 
   }));
 
+  const Dropzone = ({ setFieldValue }) => {
+    const onDrop = React.useCallback(async (acceptedFiles) => {
+      // Do something with the files
+      console.log(acceptedFiles[0]);
+      // eslint-disable-next-line no-use-before-define
+      // const uploadedImage = await uploadToCloudinary(acceptedFiles[0]);
+      const preset = 'm9lzn6nw';
+      const formData = new FormData();
+      formData.append('file', acceptedFiles[0]);
+      formData.append('preset', 'm9lzn6nw');
+      const results = await axios.post('https://api.cloudinary.com/v1_1/daz0bajhs/image/upload', formData, {
+        params: {
+          upload_preset: 'm9lzn6nw',
+        },
+      });
+
+      console.log(results);
+      console.log(results.data.secure_url);
+      setProfileImage(results.data.secure_url);
+
+      // setFieldValue('file', results.data.secure_url);
+      // setFileUrl(URL.createObjectURL(results.data.secure_url));
+      const uploadedFileArea = document.getElementById('uploadedFileArea');
+
+      // Create an <img> element and set its source to the uploaded file URL
+      const imgElement = document.createElement('img');
+      imgElement.src = results.data.secure_url;
+
+      // Append the <img> element to the uploaded file area
+      uploadedFileArea.appendChild(imgElement);
+    }, [setFieldValue]);
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+    return (
+      <div {...getRootProps()} sx={{ gridColumn: 'span 1', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <input {...getInputProps()} />
+        <Avatar id="uploadedFileArea" sx={{ width: '100px', height: '100px', justifyContent: 'center', alignItems: 'center', borderWidth: '1px', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', marginTop: '3em', marginBottom: '-2em', cursor: 'pointer' }}>
+          <img src={fileUrl} />
+        </Avatar>
+      </div>
+    );
+  };
+
   return (
     <div>
 
@@ -171,38 +231,52 @@ const ProductInventory = () => {
         <h1 className="text-3xl font-bold mb-5">Product Inventory Management</h1>
 
         <h2 className="mt-4 text-xl">Add New Item</h2>
-        <form className="flex flex-row mt-5 items-stretch space-x-10">
-          <label className="flex flex-col mb-4">
-            ProductID:
-            <input
-              className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
-              type="number"
-              name="id"
-              value={newItem.id}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label className="flex flex-col mb-4">
-            Name:
-            <input
-              className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
-              type="text"
-              name="name"
-              value={newItem.name}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label className="flex flex-col mb-4">
-            SKU:
-            <input
-              className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
-              type="text"
-              name="sku"
-              value={newItem.sku}
-              onChange={handleInputChange}
-            />
-          </label>
-        </form>
+
+        <Formik>
+          {
+       ({ values, errors, touched, handleChange, handleBlur, isSubmitting, setFieldValue, resetForm }) => (
+
+         <form className="flex flex-row mt-5 items-stretch space-x-10">
+
+           <Box sx={{ mb: 2, marginRight: '20px', marginTop: '-20px' }}>
+             <Dropzone setFieldValue={setFieldValue} />
+
+           </Box>
+
+           <label className="flex flex-col mb-4">
+             ProductID:
+             <input
+               className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
+               type="number"
+               name="id"
+               value={newItem.id}
+               onChange={handleInputChange}
+             />
+           </label>
+           <label className="flex flex-col mb-4">
+             Name:
+             <input
+               className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
+               type="text"
+               name="name"
+               value={newItem.name}
+               onChange={handleInputChange}
+             />
+           </label>
+           <label className="flex flex-col mb-4">
+             SKU:
+             <input
+               className="p-1 text-base rounded-md border-1 border-solid border-[#ccc] mt-2"
+               type="text"
+               name="sku"
+               value={newItem.sku}
+               onChange={handleInputChange}
+             />
+           </label>
+         </form>
+       )
+}
+        </Formik>
         <form className="flex flex-row mt-5 items-stretch space-x-10">
           {/* {"\n"} */}
           <label className="flex flex-col mb-4">
@@ -261,7 +335,7 @@ const ProductInventory = () => {
             className="rounded-md"
             color="white"
             style={{ backgroundColor: currentColor, padding: '18px', color: 'white', marginTop: '10px', borderRadius: '10px' }}
-            onClick={() => { handleDeleteItem(newItem.id); }}
+            onClick={() => { handleDeleteItem(); }}
           >Remove Product
           </button>
           <button
