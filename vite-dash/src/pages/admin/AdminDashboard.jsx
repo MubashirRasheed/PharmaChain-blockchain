@@ -114,7 +114,17 @@ const AdminDashboard = () => {
 
   const getTotalProducts = () => inventoryData.length;
 
-  const getTotalSales = () => inventoryData.reduce((total, product) => total + product.saleCount, 0);
+  const getTotalSales = () => {
+    if (inventoryData && inventoryData.length > 0) {
+      return inventoryData.reduce((total, product) => {
+        if (product.saleCount && typeof product.saleCount === 'number') {
+          return total + product.saleCount;
+        }
+        return total;
+      }, 0);
+    }
+    return 0;
+  };
 
   const getTotalStock = () => inventoryData.reduce((total, product) => {
     const stock = product.stock || 0; // Use 0 as the default value if stock is undefined or falsy

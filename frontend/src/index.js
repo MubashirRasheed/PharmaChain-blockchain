@@ -18,7 +18,7 @@ import axios from "axios";
 
 let products;
 
-axios.get(`${import.meta.env.VITE_BASE_URL}/pharmacyproducts/allPharmacyProducts`)
+axios.get(`http://localhost:9002/pharmacyproducts/allPharmacyProducts`)
   .then(response => {
     // Process the retrieved data
     products = response.data;

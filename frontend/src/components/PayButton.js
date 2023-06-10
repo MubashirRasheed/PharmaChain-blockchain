@@ -13,7 +13,7 @@ const PayButton = ({ cartItems, discountedP }) => {
     const handleCheckout = () => {
 
         axios
-            .post(`${import.meta.env.VITE_BASE_URL}/stripe/create-checkout-session`, {
+            .post(`http://localhost:9002/stripe/create-checkout-session`, {
                 cartItems,
                 discountedP,
                 // usreId: user._id,

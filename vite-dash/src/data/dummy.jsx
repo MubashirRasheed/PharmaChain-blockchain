@@ -616,7 +616,7 @@ export const links = [
       },
       {
         name: 'ManageUsers',
-        icon: <IoMdContacts />,
+        icon: <BsPersonLinesFill />,
         roles: ['admin'],
       },
       {
@@ -1023,8 +1023,8 @@ export const weeklyStats = [
   {
     icon: <FiShoppingCart />,
     amount: '-$560',
-    title: 'Top Sales',
-    desc: 'Johnathan Doe',
+    title: 'Top Saler',
+    desc: 'Have Most Sales',
     iconBg: '#FB9678',
     pcColor: 'red-600',
   },
