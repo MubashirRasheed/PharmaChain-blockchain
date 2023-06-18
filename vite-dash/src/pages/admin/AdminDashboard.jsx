@@ -61,7 +61,7 @@ const AdminDashboard = () => {
     const fetchDataContract = async () => {
       // Initialize Web3 instance
 
-      const result = await axios.get('http://localhost:9002/contract/getContract', {
+      const result = await axios.get(`${import.meta.env.VITE_BASE_URL}/contract/getContract`, {
       });
       console.log(result.data);
       setContractData(result.data);
