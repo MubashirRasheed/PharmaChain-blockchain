@@ -43,15 +43,6 @@ contract MedCycle{
         RawPackagesAtManufacturer[msg.sender].push(rawmaterialAddress);
     }
 
-//     event PackageReceived(
-//     address indexed RawMaterialAddress,
-//     address indexed Manufacturer
-// );
-
-// function rawPackageReceived(address rawmaterialAddress) public {
-//     require(roles(Admin(admin).getRole(msg.sender)) == roles.manufacturer, "Only manufacturer can receive the packages");
-//     RawPackagesAtManufacturer[msg.sender].push(rawmaterialAddress);
-//     emit PackageReceived(rawmaterialAddress, msg.sender);
 // }
 
     function getPackagesCountManufacturer(address _manufacturer) public view returns(uint){

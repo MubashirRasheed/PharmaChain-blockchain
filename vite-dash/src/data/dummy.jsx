@@ -258,7 +258,7 @@ export const areaCustomSeries = [
     dataSource: areaChartData[0],
     xName: 'x',
     yName: 'y',
-    name: 'USA',
+    name: 'Stocks',
     opacity: '0.8',
     type: 'SplineArea',
     width: '2',
@@ -267,7 +267,7 @@ export const areaCustomSeries = [
     dataSource: areaChartData[1],
     xName: 'x',
     yName: 'y',
-    name: 'France',
+    name: 'Sales',
     opacity: '0.8',
     type: 'SplineArea',
     width: '2',
@@ -276,7 +276,7 @@ export const areaCustomSeries = [
     dataSource: areaChartData[2],
     xName: 'x',
     yName: 'y',
-    name: 'Germany',
+    name: 'Products',
     opacity: '0.8',
     type: 'SplineArea',
     width: '2',
@@ -285,19 +285,19 @@ export const areaCustomSeries = [
 
 export const barChartData = [
   [
-    { x: 'USA', y: 46 },
-    { x: 'GBR', y: 27 },
-    { x: 'CHN', y: 26 },
+    { x: '2021', y: 46 },
+    { x: '2022', y: 27 },
+    { x: '2023', y: 26 },
   ],
   [
-    { x: 'USA', y: 37 },
-    { x: 'GBR', y: 23 },
-    { x: 'CHN', y: 18 },
+    { x: '2021', y: 37 },
+    { x: '2022', y: 23 },
+    { x: '2023', y: 18 },
   ],
   [
-    { x: 'USA', y: 38 },
-    { x: 'GBR', y: 17 },
-    { x: 'CHN', y: 26 },
+    { x: '2021', y: 38 },
+    { x: '2022', y: 17 },
+    { x: '2023', y: 26 },
   ],
 ];
 
@@ -306,7 +306,7 @@ export const barCustomSeries = [
     dataSource: barChartData[0],
     xName: 'x',
     yName: 'y',
-    name: 'Gold',
+    name: 'Stocks',
     type: 'Column',
     marker: {
       dataLabel: {
@@ -320,7 +320,7 @@ export const barCustomSeries = [
     dataSource: barChartData[1],
     xName: 'x',
     yName: 'y',
-    name: 'Silver',
+    name: 'Products',
     type: 'Column',
     marker: {
       dataLabel: {
@@ -334,7 +334,7 @@ export const barCustomSeries = [
     dataSource: barChartData[2],
     xName: 'x',
     yName: 'y',
-    name: 'Bronze',
+    name: 'Sales',
     type: 'Column',
     marker: {
       dataLabel: {
