@@ -181,36 +181,70 @@ const stripe = new Stripe('sk_test_51N8RKnDCzgmS78jlJ4i3BgvQs3yebMnTajwncCbkmAzf
     console.log("CHARGE",charge.latest_charge)
     const chargeId = charge.latest_charge;
 
-    const config = {
-          method: 'get',
-          maxBodyLength: Infinity,
-          url: `https://dashboard.stripe.com/ajax/emails/get_customer_receipt_link?include_only[]=last_sent_time,path,url&charge=${chargeId}`,
-          headers: { 
-            'x-requested-with': 'XMLHttpRequest', 
-            'x-stripe-csrf-token': 'Dol-_n1FTMKENtldqVZ56dDWTGvA_gxckc-cBAcQTbM_uy3cCZNcnzK_XH-jxw5DbyBcsTVOmw_HTciJJxtKTzw-AYTZVJxtC3NzjlsMs9gm3yps0GIOzTw9ZE1th_90cj-ItIJ3nw==', 
-            'x-stripe-manage-client-revision': '9b8c5d2768c0f3bf684ffb4583d044c6fbfa44c6', 
-            'accept': 'application/json', 
-            'accept-language': 'en-US,en-US,en', 
-            'content-type': 'application/x-www-form-urlencoded', 
-            'dnt': '1', 
-            'referer': `https://dashboard.stripe.com/test/payments/${paymentId}`, 
-            'sec-ch-ua': '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"', 
-            'sec-ch-ua-mobile': '?1', 
-            'sec-ch-ua-platform': '"Android"', 
-            'sec-gpc': '1', 
-            'stripe-account': 'acct_1N8RKnDCzgmS78jl', 
-            'stripe-livemode': 'false', 
-            'stripe-version': '2022-08-01', 
-            'Cookie': '__stripe_orig_props=%7B%22referrer%22%3A%22https%3A%2F%2Fdashboard.stripe.com%2Ftest%2Fpayments%2Fpi_3N9n2UDCzgmS78jl0ddI9kvh%22%2C%22landing%22%3A%22https%3A%2F%2Fdashboard.stripe.com%2Fajax%2Femails%2Fget_customer_receipt_link%3Finclude_only%5B%5D%3Dlast_sent_time%2Cpath%2Curl%5Cu0026charge%3Dch_3N9n2UDCzgmS78jl0IOGLny3%22%7D; cid=ce4215d3-c74e-4d19-a4ac-0e652c7b78f7; machine_identifier=oZ795tL2zCzdLrYQ5owPMSLBRV8rnBbNAwSbQntNFPFwZOzGpOuYRe1%2BH52uyFXVTu0%3D; private_machine_identifier=PVP3jkitnCHXVjy7ReTqH5I3R6wQUId8KKVxxeH85qnZSjqeYedryOWvykBXTKiREDY%3D; site-auth=1; stripe.csrf=OFDuPCjIkas9fRJjjVNI0MuwYaWdCzVWq9DnR4pIb96TCf98VX3SLQXVlmnTamq4jOAhaKf8mnavEzWU8M8oszw-AYTZVJxak1norfojr0FHViNs_EXhMP9l4uLSE-b0e-joswjYig%3D%3D; __Host-session=snc_dash_1NuFqcsizFmjT4MO6QxVpQhDrPtbZTj4rz4qhmeV8Jf4gRH00r-3GQVkodsmqGYbYoOb1YETLZEOvf-wcuvud-CAZncE; __stripe_mid=5dbd2eab-c4ac-4ce4-86b5-0710aef8120879b083; __stripe_sid=ee72c756-c431-449b-b614-08fdb03c27e46ee14e; user=usr_NuFqcsizFmjT4M'
-          }
-        };
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `https://dashboard.stripe.com/ajax/emails/get_customer_receipt_link?include_only[]=last_sent_time,path,url&charge=${chargeId}`,
+      headers: { 
+        'x-requested-with': 'XMLHttpRequest', 
+        'x-stripe-csrf-token': 'Dol-_n1FTMKENtldqVZ56dDWTGvA_gxckc-cBAcQTbM_uy3cCZNcnzK_XH-jxw5DbyBcsTVOmw_HTciJJxtKTzw-AYTZVJxtC3NzjlsMs9gm3yps0GIOzTw9ZE1th_90cj-ItIJ3nw==', 
+        'x-stripe-manage-client-revision': '9b8c5d2768c0f3bf684ffb4583d044c6fbfa44c6', 
+        'accept': 'application/json', 
+        'accept-language': 'en-US,en-US,en', 
+        'content-type': 'application/x-www-form-urlencoded', 
+        'dnt': '1', 
+        'referer': `https://dashboard.stripe.com/test/payments/${paymentId}`, 
+        'sec-ch-ua': '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"', 
+        'sec-ch-ua-mobile': '?1', 
+        'sec-ch-ua-platform': '"Android"', 
+        'sec-gpc': '1', 
+        'stripe-account': 'acct_1N8RKnDCzgmS78jl', 
+        'stripe-livemode': 'false', 
+        'stripe-version': '2022-08-01', 
+        'Cookie': '__stripe_orig_props=%7B%22referrer%22%3A%22https%3A%2F%2Fdashboard.stripe.com%2Ftest%2Fpayments%2Fpi_3N9n2UDCzgmS78jl0ddI9kvh%22%2C%22landing%22%3A%22https%3A%2F%2Fdashboard.stripe.com%2Fajax%2Femails%2Fget_customer_receipt_link%3Finclude_only%5B%5D%3Dlast_sent_time%2Cpath%2Curl%5Cu0026charge%3Dch_3N9n2UDCzgmS78jl0IOGLny3%22%7D; cid=ce4215d3-c74e-4d19-a4ac-0e652c7b78f7; machine_identifier=oZ795tL2zCzdLrYQ5owPMSLBRV8rnBbNAwSbQntNFPFwZOzGpOuYRe1%2BH52uyFXVTu0%3D; private_machine_identifier=PVP3jkitnCHXVjy7ReTqH5I3R6wQUId8KKVxxeH85qnZSjqeYedryOWvykBXTKiREDY%3D; site-auth=1; stripe.csrf=Uj31o-0im9DpA3k4X5Nds3kfXDOcy9SumC7WCKWlb_Th2yolDiR7h6bNelOBZ1fOpQtmPr3U7Z6JAK5zJv1Z3Tw-AYTZVJxS8Twad_T8Fp3V3cdvDubyN1hVBtzJ6olzx7od53HfKA%3D%3D; __Host-auth_token=keyinfo_live_0950FT0FP0bP25c0smbk188Ddlr4OM1bO8ns4Pl6wx6lI1AN0Gw5Fs5RX73W0cO1ed7GG6lw7Oe7yb7Gx88S7hM5BG58C1Jugzr9vSboR2gF7GC6lx5L03yF3O87WG4WY3OD5nFggKgfu3gQ8ki3pj4RrahO2q8dKc8p0fDNgr9eFp2iX9nC1Bvh1G8DXaTL6Ub12kdK1aKy55K39Iehk1aR4Fr44A7I65o705; __Host-session=snc_dash_1NuFqcsizFmjT4MOVv5BJuY2o1JNrnzcOt79sOLtiYuU8Rr008pcz5CYY-lhD7cLGK1zJZEocYfAmX5aNCVB1q6szMDw; __stripe_mid=5dbd2eab-c4ac-4ce4-86b5-0710aef8120879b083; __stripe_sid=cac416e2-87a3-4c03-9396-83c8312d7eed8c6119; user=usr_NuFqcsizFmjT4M'
+      }
+    };
+    
+    const response = await axios(config);
+    console.log(response.data);
 
-        const response = await axios(config);
-        console.log(response.data);
+    res.json(response.data);
 
-        res.json(response.data);
+}catch(error){
+  console.log(error)
+}
+}
 
-    }catch(error){
-      console.log(error)
-    }
-  }
+  //   const config = {
+  //         method: 'get',
+  //         maxBodyLength: Infinity,
+  //         url: `https://dashboard.stripe.com/ajax/emails/get_customer_receipt_link?include_only[]=last_sent_time,path,url&charge=${chargeId}`,
+  //         headers: { 
+  //           'x-requested-with': 'XMLHttpRequest', 
+  //           'x-stripe-csrf-token': 'Dol-_n1FTMKENtldqVZ56dDWTGvA_gxckc-cBAcQTbM_uy3cCZNcnzK_XH-jxw5DbyBcsTVOmw_HTciJJxtKTzw-AYTZVJxtC3NzjlsMs9gm3yps0GIOzTw9ZE1th_90cj-ItIJ3nw==', 
+  //           'x-stripe-manage-client-revision': '9b8c5d2768c0f3bf684ffb4583d044c6fbfa44c6', 
+  //           'accept': 'application/json', 
+  //           'accept-language': 'en-US,en-US,en', 
+  //           'content-type': 'application/x-www-form-urlencoded', 
+  //           'dnt': '1', 
+  //           'referer': `https://dashboard.stripe.com/test/payments/${paymentId}`, 
+  //           'sec-ch-ua': '"Microsoft Edge";v="113", "Chromium";v="113", "Not-A.Brand";v="24"', 
+  //           'sec-ch-ua-mobile': '?1', 
+  //           'sec-ch-ua-platform': '"Android"', 
+  //           'sec-gpc': '1', 
+  //           'stripe-account': 'acct_1N8RKnDCzgmS78jl', 
+  //           'stripe-livemode': 'false', 
+  //           'stripe-version': '2022-08-01', 
+  //           'Cookie': '__stripe_orig_props=%7B%22referrer%22%3A%22https%3A%2F%2Fdashboard.stripe.com%2Ftest%2Fpayments%2Fpi_3N9n2UDCzgmS78jl0ddI9kvh%22%2C%22landing%22%3A%22https%3A%2F%2Fdashboard.stripe.com%2Fajax%2Femails%2Fget_customer_receipt_link%3Finclude_only%5B%5D%3Dlast_sent_time%2Cpath%2Curl%5Cu0026charge%3Dch_3N9n2UDCzgmS78jl0IOGLny3%22%7D; cid=ce4215d3-c74e-4d19-a4ac-0e652c7b78f7; machine_identifier=oZ795tL2zCzdLrYQ5owPMSLBRV8rnBbNAwSbQntNFPFwZOzGpOuYRe1%2BH52uyFXVTu0%3D; private_machine_identifier=PVP3jkitnCHXVjy7ReTqH5I3R6wQUId8KKVxxeH85qnZSjqeYedryOWvykBXTKiREDY%3D; site-auth=1; stripe.csrf=OFDuPCjIkas9fRJjjVNI0MuwYaWdCzVWq9DnR4pIb96TCf98VX3SLQXVlmnTamq4jOAhaKf8mnavEzWU8M8oszw-AYTZVJxak1norfojr0FHViNs_EXhMP9l4uLSE-b0e-joswjYig%3D%3D; __Host-session=snc_dash_1NuFqcsizFmjT4MO6QxVpQhDrPtbZTj4rz4qhmeV8Jf4gRH00r-3GQVkodsmqGYbYoOb1YETLZEOvf-wcuvud-CAZncE; __stripe_mid=5dbd2eab-c4ac-4ce4-86b5-0710aef8120879b083; __stripe_sid=ee72c756-c431-449b-b614-08fdb03c27e46ee14e; user=usr_NuFqcsizFmjT4M'
+  //         }
+  //       };
+
+  //       const response = await axios(config);
+  //       console.log(response.data);
+
+  //       res.json(response.data);
+
+  //   }catch(error){
+  //     console.log(error)
+  //   }
+  // }
